@@ -13,5 +13,3 @@ lopputulokseen.
 
 Tämän harjoitustyön tavoitteena on valmistaa verkkosivusto jolla käyttäjät voivat pitää päiväkirjaa parranajokokemuksistaan ja tallettaa 
 siihen arvioita terästä ja/tai höylästä. Näiden arvioiden perusteella käyttäjä voi myös saada vihjeitä myös muiden tuotteiden vastaavuudesta.
-
-XXX
