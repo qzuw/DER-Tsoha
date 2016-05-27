@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+
+        <div class="col-sm-6">
+            <div class="page-header">
+                <h1>Kirjaudu!</h1>
+            </div>
+            <div>
+                <form role="form">
+                    <div class="form-group">
+                        <label for="tunnus">Tunnus:</label>
+                        <input type="text" class="form-control" id="tunnus" placeholder="Tunnuksesi">
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">Salasana:</label>
+                        <input type="password" class="form-control" id="salasana">
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox"> Ethän unohda minua</label>
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="page-header">
+                <h1>Rekisteröidy!</h1>
+            </div>
+            <div>
+                <form role="form">
+                    <div class="form-group">
+                        <label for="nimi">Tunnus:</label>
+                        <input type="text" class="form-control" id="tunnus" placeholder="Kirjoita haluamasi tunnus">
+                    </div>
+                    <div class="form-group">
+                        <label for="nimi">Nimi:</label>
+                        <input type="text" class="form-control" id="nimi" placeholder="Kirjoita nimesi">
+                    </div>
+                    <div class="form-group">
+                        <label for="salasana">Salasana:</label>
+                        <input type="password" class="form-control" id="salasana">
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">Salasana:</label>
+                        <input type="password" class="form-control" id="salasana2">
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox"> Ethän unohda minua</label>
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

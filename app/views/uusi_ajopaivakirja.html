@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col-sm-2"></div>
+<div class="col-sm-8">
+    <div class="page-header">
+        <h1>Uusi merkintä!</h1>
+    </div>
+    <div>
+        <form role="form">
+            <div class="form-group">
+                <label for="pvm">Päiväys:</label>
+                <input type="text" class="form-control" id="pvm" placeholder="Päiväys tähän">
+            </div>
+            <div class="form-group">
+                <label for="saippua">Saippua:</label>
+                <input type="text" class="form-control" id="saippua" placeholder="Käyttämäsi saippua">
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox"> Kommentti on julkinen</label>
+            </div>
+            <div class="form-group">
+                <label for="pvm">Kommentti saippuasta:</label>
+                <input type="text" class="form-control" id="saippuakommentti" placeholder="Kommentoi saippuaa tähän">
+            </div>
+            <div class="form-group">
+                <label for="hoyla">Höylä:</label>
+                <select name="hoylat">
+                    <option value="mr89">Mühle R89</option>
+                    <option value="par24c">Parker 24C</option>
+                </select>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox"> Kommentti on julkinen</label>
+            </div>
+            <div class="form-group">
+                <label for="hoylakommentti">Kommentti höylästä:</label>
+                <input type="text" class="form-control" id="hoylakommentti" placeholder="Kommentoi höylää tähän">
+            </div>
+            <div class="form-group">
+                <label for="hoyla">Terä:</label>
+                <select name="terat">
+                    <option value="derby">Derby</option>
+                    <option value="astrasp">Astra Superior Platinum</option>
+                </select>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox"> Kommentti on julkinen</label>
+            </div>
+            <div class="form-group">
+                <label for="terakommentti">Kommentti terästä:</label>
+                <input type="text" class="form-control" id="terakommentti" placeholder="Kommentoi terää tähän">
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox"> Tämä päiväkirja on julkinen</label>
+            </div>
+            <div class="form-group">
+                <label for="ajopvkirja">Päiväys:</label>
+                <input type="text" class="form-control" id="ajopvkirja" placeholder="Yleiskatsaus päivän ajosta">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+</div>
+<div class="col-sm-2"></div>
+{% endblock %}
