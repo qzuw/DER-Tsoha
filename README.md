@@ -21,5 +21,7 @@ siihen arvioita terästä ja/tai höylästä. Näiden arvioiden perusteella käy
 * [Linkki uuden höylän lisäämiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/uusi_hoyla)
 * [Linkki uuden terä lisäämiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/uusi_tera)
 * [Linkki uuteen ajopäiväkirjamerkintään](https://ttuotila.users.cs.helsinki.fi/tsoha/uusi_ajopaivakirja)
+* [Linkki omiin tietoihin](https://ttuotila.users.cs.helsinki.fi/tsoha/omat_tiedot)
+* [Linkki ](https://ttuotila.users.cs.helsinki.fi/tsoha/)
 * [Linkki ](https://ttuotila.users.cs.helsinki.fi/tsoha/)
 
