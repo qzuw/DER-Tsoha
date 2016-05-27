@@ -13,3 +13,13 @@ lopputulokseen.
 
 Tämän harjoitustyön tavoitteena on valmistaa verkkosivusto jolla käyttäjät voivat pitää päiväkirjaa parranajokokemuksistaan ja tallettaa 
 siihen arvioita terästä ja/tai höylästä. Näiden arvioiden perusteella käyttäjä voi myös saada vihjeitä myös muiden tuotteiden vastaavuudesta.
+
+## Linkit sivuihin
+
+* [Linkki etusivulle](https://ttuotila.users.cs.helsinki.fi/tsoha/etusivu)
+* [Linkki kirjautumiseen/rekisteröitymiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/kirjaudu)
+* [Linkki uuden höylän lisäämiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/uusi_hoyla)
+* [Linkki uuden terä lisäämiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/uusi_tera)
+* [Linkki uuteen ajopäiväkirjamerkintään](https://ttuotila.users.cs.helsinki.fi/tsoha/uusi_ajopaivakirja)
+* [Linkki ](https://ttuotila.users.cs.helsinki.fi/tsoha/)
+
