@@ -31,3 +31,6 @@ siihen arvioita terästä ja/tai höylästä. Näiden arvioiden perusteella käy
 * [Linkki ](https://ttuotila.users.cs.helsinki.fi/tsoha/)
 * [Linkki ](https://ttuotila.users.cs.helsinki.fi/tsoha/)
 
+## Kommentteja
+
+Ylläpitosivuja yms ei ole tehty. Konsultoin keskiviikkona ovatko ne ylipäätään tarpeellisia.
