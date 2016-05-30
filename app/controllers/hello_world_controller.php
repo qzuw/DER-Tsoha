@@ -29,7 +29,12 @@ class HelloWorldController extends BaseController {
 
     public static function ajopaivakirja() {
         // Testaa koodiasi täällä
-        View::make('ajopaivakirja.html');
+        View::make('nayta_pvk.html');
+    }
+
+    public static function listaa_ajot() {
+        // Testaa koodiasi täällä
+        View::make('listaa_pvkirja.html');
     }
 
     public static function lisaa_ajopaivakirja() {
@@ -45,6 +50,16 @@ class HelloWorldController extends BaseController {
     public static function lisaa_hoyla() {
         // Testaa koodiasi täällä
         View::make('lisaa_hoyla.html');
+    }
+
+    public static function nayta_tera() {
+        // Testaa koodiasi täällä
+        View::make('nayta_tera.html');
+    }
+
+    public static function nayta_hoyla() {
+        // Testaa koodiasi täällä
+        View::make('nayta_hoyla.html');
     }
 
 }
