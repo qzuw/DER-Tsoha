@@ -2,15 +2,13 @@
 CREATE TABLE Kayttaja(
   id SERIAL PRIMARY KEY, 
   tunnus varchar(50) NOT NULL, 
-  salasana varchar(50) NOT NULL,
-  yllapito boolean
+  salasana varchar(50) NOT NULL
 );
 
 CREATE TABLE Partahoyla(
   id SERIAL PRIMARY KEY, 
   valmistaja varchar(50) NOT NULL, 
   malli varchar(50) NOT NULL,
-  poistettu BOOLEAN,
   aggressiivisuus REAL,
   viittauksia INTEGER
 );
@@ -25,7 +23,6 @@ CREATE TABLE Tera(
   id SERIAL PRIMARY KEY, 
   valmistaja varchar(50) NOT NULL, 
   malli varchar(50) NOT NULL,
-  poistettu BOOLEAN,
   teravyys REAL,
   pehmeys REAL,
   viittauksia INTEGER
@@ -38,8 +35,7 @@ CREATE TABLE Paivakirja(
   tera_id INTEGER REFERENCES Tera(id),
   pvm TIMESTAMP NOT NULL,
   saippua varchar(50) NOT NULL, 
-  yleiskommentit text NOT NULL,
-  kommentit_terasta text NOT NULL,
-  kommentit_hoylasta text NOT NULL
+  kommentit text NOT NULL,
+  julkisuus boolean DEFAULT FALSE
 );
 
