@@ -11,7 +11,7 @@ class HelloWorldController extends BaseController {
         // Testaa koodiasi täällä
         $tera1 = Tera::find(1);
         $terat = Tera::all();
-        $tera2 = new Tera(array('valmistaja' => 'Bolzano', 'malli' => 'superinox'));
+        $tera2 = new Tera(array('valmistaja' => 'Polsilver', 'malli' => 'super iridium'));
         $tulos = $tera2->add();
         if ($tulos) {
             echo "tulos true";
