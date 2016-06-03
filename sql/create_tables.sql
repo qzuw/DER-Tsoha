@@ -32,9 +32,9 @@ CREATE TABLE Tera(
 
 CREATE TABLE Paivakirja(
   id SERIAL PRIMARY KEY, 
-  kayttaja_id INTEGER REFERENCES Kayttaja(id),
-  partahoyla_id INTEGER REFERENCES Partahoyla(id),
-  tera_id INTEGER REFERENCES Tera(id),
+  kayttaja_id INTEGER NOT NULL REFERENCES Kayttaja(id),
+  partahoyla_id INTEGER NOT NULL REFERENCES Partahoyla(id),
+  tera_id INTEGER NOT NULL REFERENCES Tera(id),
   pvm TIMESTAMP NOT NULL,
   saippua varchar(50) NOT NULL, 
   kommentit text NOT NULL,
