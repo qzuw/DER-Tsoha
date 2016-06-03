@@ -45,4 +45,14 @@ class Tera extends BaseModel {
 	return null;
     }
     
+    public static function add(){
+        $query = DB::connection()->prepare('INSERT INTO Tera (valmistaja, malli) VALUES (:valmistaja, :malli)');
+	$query->execute(array('valmistaja' => $valmistaja, 'malli' => $malli));
+	if (!$query->execute()){
+return false;
+}
+
+return true;
+
+    
 }
