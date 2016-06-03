@@ -8,51 +8,53 @@ class Tera extends BaseModel {
         parent::__construct($attributes);
     }
 
-    public static function all(){
+    public static function all() {
         $query = DB::connection()->prepare('SELECT * FROM Tera');
-	$query->execute();
-	$rows = $query->fetchAll();
-	$hoylat = array();
-	foreach($rows as $row){
-		$terat[] = new Tera(array(
-			'id' => $row['id'],
-			'valmistaja' => $row['valmistaja'],
-			'malli' => $row['malli'],
-			'teravyys' => $row['teravyys'],
-			'pehmeys' => $row['pehmeys'],
-			'viittauksia' => $row['viittauksia']
-		));
-	}
-	return $terat;
+        $query->execute();
+        $rows = $query->fetchAll();
+        $hoylat = array();
+        foreach ($rows as $row) {
+            $terat[] = new Tera(array(
+                'id' => $row['id'],
+                'valmistaja' => $row['valmistaja'],
+                'malli' => $row['malli'],
+                'teravyys' => $row['teravyys'],
+                'pehmeys' => $row['pehmeys'],
+                'viittauksia' => $row['viittauksia']
+            ));
+        }
+        return $terat;
     }
-    
-    public static function find($id){
+
+    public static function find($id) {
         $query = DB::connection()->prepare('SELECT * FROM Tera WHERE id = :id');
-	$query->execute(array('id' => $id));
-	$row = $query->fetch();
+        $query->execute(array('id' => $id));
+        $row = $query->fetch();
 
-	if($row){
-		$tera = new Tera(array(
-			'id' => $row['id'],
-			'valmistaja' => $row['valmistaja'],
-			'malli' => $row['malli'],
-			'teravyys' => $row['teravyys'],
-			'pehmeys' => $row['pehmeys'],
-			'viittauksia' => $row['viittauksia']
-		));
-		return $tera;
-	}
-	return null;
+        if ($row) {
+            $tera = new Tera(array(
+                'id' => $row['id'],
+                'valmistaja' => $row['valmistaja'],
+                'malli' => $row['malli'],
+                'teravyys' => $row['teravyys'],
+                'pehmeys' => $row['pehmeys'],
+                'viittauksia' => $row['viittauksia']
+            ));
+            return $tera;
+        }
+        return null;
     }
-    
-    public static function add(){
+
+    public function add() {
         $query = DB::connection()->prepare('INSERT INTO Tera (valmistaja, malli) VALUES (:valmistaja, :malli)');
-	$query->execute(array('valmistaja' => $valmistaja, 'malli' => $malli));
-	if (!$query->execute()){
-return false;
-}
+        try {
+            $query->execute(array('valmistaja' => $this->valmistaja, 'malli' => $this->malli));
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
 
-return true;
+        return false;
+    }
 
-    
 }

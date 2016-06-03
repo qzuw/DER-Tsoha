@@ -1,8 +1,5 @@
 <?php
 
-require 'app/models/tera.php';
-require 'app/models/partahoyla.php';
-
 class HelloWorldController extends BaseController {
 
     public static function index() {
@@ -12,11 +9,14 @@ class HelloWorldController extends BaseController {
 
     public static function sandbox() {
         // Testaa koodiasi täällä
-	$tera1 = Tera::find(1);
-	$terat = Tera::all();
+        $tera1 = Tera::find(1);
+        $terat = Tera::all();
+        $tera2 = new Tera(array('valmistaja' => 'Bolzano', 'malli' => 'superinox'));
+        $tulos = $tera2->add();
+        echo "tulos $tulos";
 
-	Kint::dump($terat);
-	Kint::dump($tera1);
+        Kint::dump($terat);
+        Kint::dump($tera1);
     }
 
     public static function helloworld() {
