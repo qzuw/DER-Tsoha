@@ -26,11 +26,4 @@ siihen arvioita terästä ja/tai höylästä. Näiden arvioiden perusteella käy
 * [Linkki omiin tietoihin](https://ttuotila.users.cs.helsinki.fi/tsoha/omat_tiedot)
 * [Linkki päiväkirjamerkintälistaukseen](https://ttuotila.users.cs.helsinki.fi/tsoha/listaa_ajot)
 * [Linkki yksittäiseen ajopaivakirjaan](https://ttuotila.users.cs.helsinki.fi/tsoha/ajopaivakirja)
-* [Linkki ](https://ttuotila.users.cs.helsinki.fi/tsoha/)
-* [Linkki ](https://ttuotila.users.cs.helsinki.fi/tsoha/)
-* [Linkki ](https://ttuotila.users.cs.helsinki.fi/tsoha/)
-* [Linkki ](https://ttuotila.users.cs.helsinki.fi/tsoha/)
 
-## Kommentteja
-
-Ylläpitosivuja yms ei ole tehty. Konsultoin keskiviikkona ovatko ne ylipäätään tarpeellisia.
