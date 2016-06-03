@@ -13,7 +13,12 @@ class HelloWorldController extends BaseController {
         $terat = Tera::all();
         $tera2 = new Tera(array('valmistaja' => 'Bolzano', 'malli' => 'superinox'));
         $tulos = $tera2->add();
-        echo "tulos $tulos";
+        if ($tulos) {
+            echo "tulos true";
+        }
+        if (!$tulos) {
+            echo "tulos false";
+        }
 
         Kint::dump($terat);
         Kint::dump($tera1);
