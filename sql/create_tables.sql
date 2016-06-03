@@ -10,7 +10,8 @@ CREATE TABLE Partahoyla(
   valmistaja varchar(50) NOT NULL, 
   malli varchar(50) NOT NULL,
   aggressiivisuus REAL,
-  viittauksia INTEGER
+  viittauksia INTEGER,
+  UNIQUE (valmistaja, malli)
 );
 
 CREATE TABLE KayttajanHoylat(
@@ -25,7 +26,8 @@ CREATE TABLE Tera(
   malli varchar(50) NOT NULL,
   teravyys REAL,
   pehmeys REAL,
-  viittauksia INTEGER
+  viittauksia INTEGER,
+  UNIQUE (valmistaja, malli)
 );
 
 CREATE TABLE Paivakirja(
