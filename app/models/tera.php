@@ -9,10 +9,28 @@ class Tera extends BaseModel {
     }
 
     public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM Tera');
+        $query = DB::connection()->prepare('SELECT * FROM Tera ORDER BY viittauksia');
         $query->execute();
         $rows = $query->fetchAll();
-        $hoylat = array();
+        $terat = array();
+        foreach ($rows as $row) {
+            $terat[] = new Tera(array(
+                'id' => $row['id'],
+                'valmistaja' => $row['valmistaja'],
+                'malli' => $row['malli'],
+                'teravyys' => $row['teravyys'],
+                'pehmeys' => $row['pehmeys'],
+                'viittauksia' => $row['viittauksia']
+            ));
+        }
+        return $terat;
+    }
+
+    public static function getXfrom($limit, $offset) {
+        $query = DB::connection()->prepare('SELECT * FROM Tera LIMIT :limit OFFSET :offset ORDER BY viittauksia');
+        $query->execute(array('limit' => $limit, 'offset' => $offset));
+        $rows = $query->fetchAll();
+        $terat = array();
         foreach ($rows as $row) {
             $terat[] = new Tera(array(
                 'id' => $row['id'],
@@ -51,6 +69,9 @@ class Tera extends BaseModel {
             $query->execute(array('valmistaja' => $this->valmistaja, 'malli' => $this->malli));
             $row = $query->fetch();
             $this->id = $row['id'];
+            $this->viittauksia = 0;
+            $this->teravyys = 0;
+            $this->pehmeys = 0;
             return true;
         } catch (Exception $e) {
             return false;
