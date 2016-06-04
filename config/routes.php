@@ -47,3 +47,7 @@ $routes->get('/uusi_ajopaivakirja', function() {
 $routes->get('/listaa_ajot', function() {
     HelloWorldController::listaa_ajot();
 });
+
+$routes->get('/listaa_terat', function() {
+    HelloWorldController::listaa_terat();
+});
