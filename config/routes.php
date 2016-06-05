@@ -45,6 +45,10 @@ $routes->get('/listaa_terat', function() {
 });
 
 $routes->get('/uusi_tera', function() {
+    TeraController::uusi();
+});
+
+$routes->post('/lisaa_tera', function() {
     TeraController::lisaa();
 });
 
