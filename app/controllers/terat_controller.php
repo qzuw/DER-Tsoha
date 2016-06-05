@@ -25,7 +25,7 @@ class TeraController extends BaseController{
     if ($onnistui) {
       Redirect::to('/nayta_tera/' . $tera->id, array('message' => 'Terä on nyt lisätty tietokantaan'));
     } else {
-      Redirect::to('/lisaa_tera', array('error' => 'Terän lisäminen tietokantaan epäonnistui, tarkista onko se siellä jo ennestään'));
+      Redirect::to('/listaa_terat', array('error' => 'Terän lisääminen tietokantaan epäonnistui, tarkista onko se listassa jo ennestään'));
     }
   }
 }
