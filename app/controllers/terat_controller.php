@@ -21,11 +21,11 @@ class TeraController extends BaseController{
       'valmistaja' => $params['valmistaja'],
       'malli' => $params['malli']
     ));
-    $onnistui = $tera->add;
+    $onnistui = $tera->add();
     if ($onnistui) {
       Redirect::to('/nayta_tera/' . $tera->id, array('message' => 'Terä on nyt lisätty tietokantaan'));
     } else {
-      Redirect::to('/lisaa_tera/', array('error' => 'Terän lisäminen tietokantaan epäonnistui, tarkista onko se siellä jo ennestään'));
+      Redirect::to('/lisaa_tera', array('error' => 'Terän lisäminen tietokantaan epäonnistui, tarkista onko se siellä jo ennestään'));
     }
   }
 }
