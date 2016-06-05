@@ -20,14 +20,6 @@ $routes->get('/omat_tiedot', function() {
     HelloWorldController::omat_tiedot();
 });
 
-$routes->get('/uusi_tera', function() {
-    HelloWorldController::lisaa_tera();
-});
-
-$routes->get('/nayta_tera', function() {
-    HelloWorldController::nayta_tera();
-});
-
 $routes->get('/uusi_hoyla', function() {
     HelloWorldController::lisaa_hoyla();
 });
@@ -50,4 +42,12 @@ $routes->get('/listaa_ajot', function() {
 
 $routes->get('/listaa_terat', function() {
     TeraController::index();
+});
+
+$routes->get('/uusi_tera', function() {
+    TeraController::lisaa();
+});
+
+$routes->get('/nayta_tera/:id', function($id) {
+    TeraController::nayta($id);
 });

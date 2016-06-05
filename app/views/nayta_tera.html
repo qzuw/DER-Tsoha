@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col-sm-2"></div>
+<div class="col-sm-8">
+    <div class="page-header">
+        <h1>{{tera.valmistaja}} {{tera.malli}}</h1>
+    </div>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Valmistaja</th>
+                    <th>Malli</th>
+                    <th>Terävyys</th>
+                    <th>Pehmeys</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{tera.valmistaja}}</td>
+                    <td>{{tera.malli}}</td>
+                    {% if tera.viittauksia>0 %}
+                    <td>tera.teravyys</td>
+                    <td>tera.pehmeys</td>
+                    {% else %}
+                    <td>ei käyttöjä</td>
+                    <td>ei käyttöjä</td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="col-sm-2"></div>
+{% endblock %}
