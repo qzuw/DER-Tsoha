@@ -49,5 +49,5 @@ $routes->get('/listaa_ajot', function() {
 });
 
 $routes->get('/listaa_terat', function() {
-    HelloWorldController::listaa_terat();
+    TeraController::index();
 });

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Listaa terät</h1>
+</div>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Terä</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tera in terat %}
+              <tr>
+                  <td><a href="{{base_path}}/nayta_tera/{{tera.id}}">{{tera.valmistaja}} {{tera.malli}}</a></td>
+              </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>
+        <a href="{{base_path}}/uusi_tera" class="btn btn-success">Lisää uusi terä</a>
+    </p>
+</div>
+{% endblock %}
