@@ -6,7 +6,7 @@
 </div>
 {%if error %}
 <div class="alert alert-warning">
-{{error}}
+    {{error}}
 </div>
 {% endif %}
 <div>
@@ -18,9 +18,9 @@
         </thead>
         <tbody>
             {% for tera in terat %}
-              <tr>
-                  <td><a href="{{base_path}}/nayta_tera/{{tera.id}}">{{tera.valmistaja}} {{tera.malli}}</a></td>
-              </tr>
+            <tr>
+                <td><a href="{{base_path}}/nayta_tera/{{tera.id}}">{{tera.valmistaja}} {{tera.malli}}</a></td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
