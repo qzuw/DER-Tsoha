@@ -12,6 +12,9 @@
     </div>
     {% endif %}
     <div>
+        <a href="/tsoha/listaa_terat" class="btn btn-primary">Terien listaukseen</a>
+    </div>
+    <div>
         <table class="table">
             <thead>
                 <tr>
@@ -36,6 +39,11 @@
             </tbody>
         </table>
     </div>
+{% if tera.viittauksia ==0 %}
+    <div>
+        <a href="/tsoha/poista_tera/{{tera.id}}" class="btn btn-danger">Poista tämä terä tietokannasta</a>
+    </div>
+{% endif %}
 </div>
 <div class="col-sm-2"></div>
 {% endblock %}
