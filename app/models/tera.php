@@ -8,9 +8,19 @@ class Tera extends BaseModel {
         parent::__construct($attributes);
     }
 
-    public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM Tera ORDER BY viittauksia');
-        $query->execute();
+    public static function all($options) {
+        if (isset($options['sivu'])) {
+            $sivu = $options['sivu'];
+        } else {
+            $sivu = 1;
+        }
+        $maara = 10;
+
+        $limit = $maara;
+        $offset = $maara * ($sivu - 1);
+
+        $query = DB::connection()->prepare('SELECT * FROM Tera ORDER BY viittauksia LIMIT :limit OFFSET :offset');
+        $query->execute(array('limit' => $limit, 'offset' => $offset));
         $rows = $query->fetchAll();
         $terat = array();
         foreach ($rows as $row) {
@@ -26,22 +36,16 @@ class Tera extends BaseModel {
         return $terat;
     }
 
-    public static function getXfrom($limit, $offset) {
-        $query = DB::connection()->prepare('SELECT * FROM Tera LIMIT :limit OFFSET :offset ORDER BY viittauksia');
-        $query->execute(array('limit' => $limit, 'offset' => $offset));
-        $rows = $query->fetchAll();
-        $terat = array();
-        foreach ($rows as $row) {
-            $terat[] = new Tera(array(
-                'id' => $row['id'],
-                'valmistaja' => $row['valmistaja'],
-                'malli' => $row['malli'],
-                'teravyys' => $row['teravyys'],
-                'pehmeys' => $row['pehmeys'],
-                'viittauksia' => $row['viittauksia']
-            ));
+    public static function count() {
+        $query = DB::connection()->prepare('SELECT count(*) AS maara FROM Tera');
+        $query->execute();
+        $row = $query->fetch();
+
+        if ($row) {
+            $maara = $row['maara'];
+            return $maara;
         }
-        return $terat;
+        return null;
     }
 
     public static function find($id) {

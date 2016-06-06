@@ -2,9 +2,62 @@
 
 class TeraController extends BaseController {
 
-    public static function index() {
-        $terat = Tera::all();
-        View::make('listaa_terat.html', array('terat' => $terat));
+    public static function index($sivu) {
+        $teramaara = Tera::count();
+        $sivukoko = 10;
+        $sivuja = ceil($teramaara / $sivukoko);
+
+        if (isset($sivu)) {
+            $terat = Tera::all(array('sivu' => $sivu));
+        } else {
+            $terat = Tera::all(array());
+            $sivu = 1;
+        }
+
+        $data = array('terat' => $terat);
+
+        if ($sivu < $sivuja) {
+            $seur_sivu = ($sivu + 1);
+            $data['seur_sivu'] = $seur_sivu;
+        }
+
+        if ($sivu > 1) {
+            $ed_sivu = ($sivu - 1);
+            $data['ed_sivu'] = $ed_sivu;
+        }
+
+        $data['nyk_sivu'] = $sivu;
+        $data['sivut'] = $sivuja;
+        View::make('listaa_terat.html', $data);
+    }
+
+    public static function index_s() {
+        $teramaara = Tera::count();
+        $sivukoko = 10;
+        $sivuja = ceil($teramaara / $sivukoko);
+
+        if (isset($sivu)) {
+            $terat = Tera::all(array('sivu' => $sivu));
+        } else {
+            $terat = Tera::all(array());
+            $sivu = 1;
+        }
+
+        $data = array('terat' => $terat);
+
+        if ($sivu < $sivuja) {
+            $seur_sivu = ($sivu + 1);
+            $data['seur_sivu'] = $seur_sivu;
+        }
+
+        if ($sivu > 1) {
+            $ed_sivu = ($sivu - 1);
+            $data['ed_sivu'] = $ed_sivu;
+        }
+
+        $data['nyk_sivu'] = $sivu;
+        $data['sivut'] = $sivuja;
+        View::make('listaa_terat.html', $data);
     }
 
     public static function nayta($id) {

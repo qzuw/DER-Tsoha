@@ -40,8 +40,12 @@ $routes->get('/listaa_ajot', function() {
     HelloWorldController::listaa_ajot();
 });
 
+$routes->get('/listaa_terat/:sivu', function($sivu) {
+    TeraController::index($sivu);
+});
+
 $routes->get('/listaa_terat', function() {
-    TeraController::index();
+    TeraController::index_s();
 });
 
 $routes->get('/uusi_tera', function() {
@@ -54,4 +58,8 @@ $routes->post('/lisaa_tera', function() {
 
 $routes->get('/nayta_tera/:id', function($id) {
     TeraController::nayta($id);
+});
+
+$routes->get('/nayta_tera', function() {
+    HelloWorldController::nayta_tera();
 });
