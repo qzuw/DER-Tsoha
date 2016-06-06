@@ -82,4 +82,28 @@ class Tera extends BaseModel {
         }
     }
 
+    public function delete() {
+        if ($this->viittauksia == 0){
+          $query = DB::connection()->prepare('DELETE FROM Tera WHERE id = :id');
+          try {
+              $query->execute(array('id' => $this->id));
+              return true;
+          } catch (Exception $e) {
+              return false;
+          }
+        } else {
+          return false;
+        }
+    }
+
+    public function update() {
+        $query = DB::connection()->prepare('UPDATE Tera SET viittauksia = :viittauksia, teravyys = :teravyys, pehmeys = :pehmeys WHERE id = :id');
+        try {
+            $query->execute(array('id' => $this->id, 'viittauksia' => $this->viittauksia, 'teravyys' => $this->teravyys, 'pehmeys' => $this->pehmeys));
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
 }
