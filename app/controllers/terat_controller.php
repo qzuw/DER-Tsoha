@@ -31,35 +31,6 @@ class TeraController extends BaseController {
         View::make('listaa_terat.html', $data);
     }
 
-    public static function index_s() {
-        $teramaara = Tera::count();
-        $sivukoko = 10;
-        $sivuja = ceil($teramaara / $sivukoko);
-
-        if (isset($sivu)) {
-            $terat = Tera::all(array('sivu' => $sivu));
-        } else {
-            $terat = Tera::all(array());
-            $sivu = 1;
-        }
-
-        $data = array('terat' => $terat);
-
-        if ($sivu < $sivuja) {
-            $seur_sivu = ($sivu + 1);
-            $data['seur_sivu'] = $seur_sivu;
-        }
-
-        if ($sivu > 1) {
-            $ed_sivu = ($sivu - 1);
-            $data['ed_sivu'] = $ed_sivu;
-        }
-
-        $data['nyk_sivu'] = $sivu;
-        $data['sivut'] = $sivuja;
-        View::make('listaa_terat.html', $data);
-    }
-
     public static function nayta($id) {
         $tera = Tera::find($id);
         View::make('nayta_tera.html', array('tera' => $tera));

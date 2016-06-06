@@ -45,7 +45,7 @@ $routes->get('/listaa_terat/:sivu', function($sivu) {
 });
 
 $routes->get('/listaa_terat', function() {
-    TeraController::index_s();
+    TeraController::index(1);
 });
 
 $routes->get('/uusi_tera', function() {
