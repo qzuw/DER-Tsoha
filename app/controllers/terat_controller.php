@@ -26,8 +26,11 @@ class TeraController extends BaseController {
             $data['ed_sivu'] = $ed_sivu;
         }
 
-        $data['nyk_sivu'] = $sivu;
-        $data['sivut'] = $sivuja;
+        if ($sivuja > 1) {
+            $data['nyk_sivu'] = $sivu;
+            $data['sivut'] = $sivuja;
+        }
+
         View::make('listaa_terat.html', $data);
     }
 
