@@ -57,4 +57,15 @@ class TeraController extends BaseController {
         }
     }
 
+        public static function poista($id) {
+        $tera = Tera::find($id);
+        $tera_nimi = $tera->valmistaja . " " . $tera->malli;
+        $onnistui = $tera->delete();
+        if ($onnistui) {
+            Redirect::to('/listaa_terat', array('success' => 'Terä ' . $tera_nimi . ' on nyt poistettu tietokannasta'));
+        } else {
+            Redirect::to('/nayta_tera/' . $id, array('error' => 'Terän poistaminen epäonnistui, se on käytössä'));
+        }
+    }
+
 }

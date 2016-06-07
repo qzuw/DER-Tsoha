@@ -28,6 +28,10 @@ $routes->get('/nayta_hoyla', function() {
     HelloWorldController::nayta_hoyla();
 });
 
+$routes->get('/nayta_tera', function() {
+    HelloWorldController::nayta_tera();
+});
+
 $routes->get('/ajopaivakirja', function() {
     HelloWorldController::ajopaivakirja();
 });
@@ -60,6 +64,7 @@ $routes->get('/nayta_tera/:id', function($id) {
     TeraController::nayta($id);
 });
 
-$routes->get('/nayta_tera', function() {
-    HelloWorldController::nayta_tera();
+$routes->get('/poista_tera/:id', function($id) {
+    TeraController::poista($id);
 });
+
