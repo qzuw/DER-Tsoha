@@ -9,7 +9,7 @@ CREATE TABLE Partahoyla(
   id SERIAL PRIMARY KEY, 
   valmistaja varchar(50) NOT NULL, 
   malli varchar(50) NOT NULL,
-  aggressiivisuus REAL DEFAULT 0,
+  aggressiivisuus INTEGER DEFAULT 0,
   viittauksia INTEGER DEFAULT 0,
   UNIQUE (valmistaja, malli)
 );
@@ -24,8 +24,8 @@ CREATE TABLE Tera(
   id SERIAL PRIMARY KEY, 
   valmistaja varchar(50) NOT NULL, 
   malli varchar(50) NOT NULL,
-  teravyys REAL DEFAULT 0,
-  pehmeys REAL DEFAULT 0,
+  teravyys INTEGER DEFAULT 0,
+  pehmeys INTEGER DEFAULT 0,
   viittauksia INTEGER DEFAULT 0,
   UNIQUE (valmistaja, malli)
 );
