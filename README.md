@@ -19,6 +19,9 @@ siihen arvioita terästä ja/tai höylästä. Näiden arvioiden perusteella käy
 * [Linkki terien listaukseen](https://ttuotila.users.cs.helsinki.fi/tsoha/listaa_terat)
 * [Linkki terän tietojen näyttämiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/nayta_tera/1)
 * [Linkki uuden terän lisäämiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/uusi_tera)
+* [Linkki partahöylien listaukseen](https://ttuotila.users.cs.helsinki.fi/tsoha/listaa_hoylat)
+* [Linkki partahöylän tietojen näyttämiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/nayta_hoyla/1)
+* [Linkki uuden partahöylän lisäämiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/uusi_hoyla)
 
 ## Linkit suunnitelmiin
 
