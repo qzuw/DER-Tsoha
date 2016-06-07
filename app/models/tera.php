@@ -19,7 +19,7 @@ class Tera extends BaseModel {
         $limit = $maara;
         $offset = $maara * ($sivu - 1);
 
-        $query = DB::connection()->prepare('SELECT * FROM Tera ORDER BY viittauksia LIMIT :limit OFFSET :offset');
+        $query = DB::connection()->prepare('SELECT * FROM Tera ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
         $query->execute(array('limit' => $limit, 'offset' => $offset));
         $rows = $query->fetchAll();
         $terat = array();
