@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col-sm-2"></div>
+<div class="col-sm-8">
+    <div class="page-header">
+        <h1>{{hoyla.valmistaja}} {{hoyla.malli}}</h1>
+    </div>
+    {% if message %}
+    <div class="alert alert-success">
+        {{message}}
+    </div>
+    {% endif %}
+    <div>
+        <a href="/tsoha/listaa_hoylat" class="btn btn-primary">Partahöylien listaukseen</a>
+    </div>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Valmistaja</th>
+                    <th>Malli</th>
+                    <th>Aggressiivisuus</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{hoyla.valmistaja}}</td>
+                    <td>{{hoyla.malli}}</td>
+                    {% if hoyla.viittauksia>0 %}
+                    <td>{{(1.0 * hoyla.aggressiivisuus / hoyla.viittauksia)}}</td>
+                    {% else %}
+                    <td>ei käyttöjä</td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {% if hoyla.viittauksia == 0 %}
+    <div>
+        <a href="/tsoha/poista_hoyla/{{hoyla.id}}" class="btn btn-danger">Poista tämä partahöylä tietokannasta</a>
+    </div>
+    {% endif %}
+</div>
+<div class="col-sm-2"></div>
+{% endblock %}

@@ -20,10 +20,6 @@ $routes->get('/omat_tiedot', function() {
     HelloWorldController::omat_tiedot();
 });
 
-$routes->get('/uusi_hoyla', function() {
-    HelloWorldController::lisaa_hoyla();
-});
-
 $routes->get('/nayta_hoyla', function() {
     HelloWorldController::nayta_hoyla();
 });
@@ -66,5 +62,29 @@ $routes->get('/nayta_tera/:id', function($id) {
 
 $routes->get('/poista_tera/:id', function($id) {
     TeraController::poista($id);
+});
+
+$routes->get('/listaa_hoylat', function() {
+    HoylaController::index(1);
+});
+
+$routes->get('/listaa_hoylat/:sivu', function($sivu) {
+    HoylaController::index($sivu);
+});
+
+$routes->get('/uusi_hoyla', function() {
+    HoylaController::uusi();
+});
+
+$routes->post('/lisaa_hoyla', function() {
+    HoylaController::lisaa();
+});
+
+$routes->get('/nayta_hoyla/:id', function($id) {
+    HoylaController::nayta($id);
+});
+
+$routes->get('/poista_hoyla/:id', function($id) {
+    HoylaController::poista($id);
 });
 

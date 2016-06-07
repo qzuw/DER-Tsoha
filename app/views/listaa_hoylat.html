@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Listaa partahöylät</h1>
+</div>
+{% if success %}
+<div class="alert alert-success">
+    {{success}}
+</div>
+{% endif %}
+{% if message %}
+<div class="alert alert-info">
+    {{message}}
+</div>
+{% endif %}
+{% if error %}
+<div class="alert alert-warning">
+    {{error}}
+</div>
+{% endif %}
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Höylä</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hoyla in hoylat %}
+            <tr>
+                <td><a href="{{base_path}}/nayta_hoyla/{{hoyla.id}}">{{hoyla.valmistaja}} {{hoyla.malli}}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if sivut %}
+    <nav>
+        <ul class="pagination">
+            <li class="{% if not ed_sivu %}disabled"><a href=""><<</a>{% else %}"><a href="{{base_path}}/listaa_hoylat/{{ed_sivu}}"><<</a>{% endif %}</li>
+            {% for sivu in 1..sivut %}
+            <li class="{% if nyk_sivu == sivu %}active{% endif %}"><a href="{{base_path}}/listaa_hoylat/{{sivu}}">{{sivu}}</a></li>
+            {% endfor %}
+            <li class="{% if not seur_sivu %}disabled"><a href="">>></a>{% else %}"><a href="{{base_path}}/listaa_hoylat/{{seur_sivu}}">>></a>{% endif %}</li>
+        </ul>
+    </nav>
+    {% endif %}
+    <p>
+        <a href="{{base_path}}/uusi_hoyla" class="btn btn-success">Lisää uusi partahöylä</a>
+    </p>
+</div>
+{% endblock %}
