@@ -6,7 +6,7 @@
     <div class="page-header">
         <h1>{{tera.valmistaja}} {{tera.malli}}</h1>
     </div>
-    {% if message%}
+    {% if message %}
     <div class="alert alert-success">
         {{message}}
     </div>
@@ -29,8 +29,8 @@
                     <td>{{tera.valmistaja}}</td>
                     <td>{{tera.malli}}</td>
                     {% if tera.viittauksia>0 %}
-                    <td>tera.teravyys</td>
-                    <td>tera.pehmeys</td>
+                    <td>{{(1.0 * tera.teravyys / tera.viittauksia)}}</td>
+                    <td>{{(1.0 * tera.pehmeys / tera.viittauksia)}}</td>
                     {% else %}
                     <td>ei käyttöjä</td>
                     <td>ei käyttöjä</td>
@@ -39,11 +39,11 @@
             </tbody>
         </table>
     </div>
-{% if tera.viittauksia ==0 %}
+    {% if tera.viittauksia ==0 %}
     <div>
         <a href="/tsoha/poista_tera/{{tera.id}}" class="btn btn-danger">Poista tämä terä tietokannasta</a>
     </div>
-{% endif %}
+    {% endif %}
 </div>
 <div class="col-sm-2"></div>
 {% endblock %}
