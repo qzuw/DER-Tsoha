@@ -34,7 +34,7 @@
             {% endfor %}
         </tbody>
     </table>
-{% if sivut %}
+    {% if sivut %}
     <nav>
         <ul class="pagination">
             <li class="{% if not ed_sivu %}disabled"><a href=""><<</a>{% else %}"><a href="{{base_path}}/listaa_terat/{{ed_sivu}}"><<</a>{% endif %}</li>
@@ -44,7 +44,7 @@
             <li class="{% if not seur_sivu %}disabled"><a href="">>></a>{% else %}"><a href="{{base_path}}/listaa_terat/{{seur_sivu}}">>></a>{% endif %}</li>
         </ul>
     </nav>
-{% endif %}
+    {% endif %}
     <p>
         <a href="{{base_path}}/uusi_tera" class="btn btn-success">Lisää uusi terä</a>
     </p>

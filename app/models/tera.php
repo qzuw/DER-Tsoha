@@ -83,16 +83,16 @@ class Tera extends BaseModel {
     }
 
     public function delete() {
-        if ($this->viittauksia == 0){
-          $query = DB::connection()->prepare('DELETE FROM Tera WHERE id = :id');
-          try {
-              $query->execute(array('id' => $this->id));
-              return true;
-          } catch (Exception $e) {
-              return false;
-          }
+        if ($this->viittauksia == 0) {
+            $query = DB::connection()->prepare('DELETE FROM Tera WHERE id = :id');
+            try {
+                $query->execute(array('id' => $this->id));
+                return true;
+            } catch (Exception $e) {
+                return false;
+            }
         } else {
-          return false;
+            return false;
         }
     }
 

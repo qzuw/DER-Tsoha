@@ -57,7 +57,7 @@ class TeraController extends BaseController {
         }
     }
 
-        public static function poista($id) {
+    public static function poista($id) {
         $tera = Tera::find($id);
         $tera_nimi = $tera->valmistaja . " " . $tera->malli;
         $onnistui = $tera->delete();
