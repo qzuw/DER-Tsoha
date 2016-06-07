@@ -1,7 +1,7 @@
 -- Lisää CREATE TABLE lauseet tähän tiedostoon
 CREATE TABLE Kayttaja(
   id SERIAL PRIMARY KEY, 
-  tunnus varchar(50) NOT NULL, 
+  tunnus varchar(50) UNIQUE NOT NULL, 
   salasana varchar(50) NOT NULL
 );
 
