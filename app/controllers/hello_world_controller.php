@@ -9,21 +9,26 @@ class HelloWorldController extends BaseController {
 
     public static function sandbox() {
         // Testaa koodiasi täällä
-        $tera1 = Partahoyla::find(1);
         $terat = Partahoyla::all(array());
+        $tera1 = Tera::find(1);
         $tera1->pehmeys = 7;
         $tera1->teravyys = 9;
         $tera1->viittauksia = 2;
         $tera1->update();
-        $hoyla = new Partahoyla(array(
+        $hoyla1 = Partahoyla::find(1);
+        $hoyla1->aggressiivisuus = 7;
+        $hoyla1->viittauksia = 2;
+        $hoyla1->update();
+        $hoyla2 = new Partahoyla(array(
             'valmistaja' => "Pearl",
             'malli' => "SH-01"
         ));
-        $hoyla->add();
+        $hoyla2->add();
 
         Kint::dump($terat);
         Kint::dump($tera1);
-        Kint::dump($hoyla);
+        Kint::dump($hoyla1);
+        Kint::dump($hoyla2);
     }
 
     public static function helloworld() {
