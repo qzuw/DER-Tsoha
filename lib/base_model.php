@@ -53,4 +53,14 @@ class BaseModel {
         return $errors;
     }
 
+    public function validate_number_within_range($mita, $num, $small, $large) {
+        $errors = array();
+        if (is_numeric($num)) {
+            if ($num > $large || $num < $small){
+                $errors[] = $mita . " pitää olla välillä " . $small . "-" . $large;
+            }
+        }
+        return $errors;
+    }
+
 }
