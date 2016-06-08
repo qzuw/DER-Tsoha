@@ -45,15 +45,23 @@ class HoylaController extends BaseController {
 
     public static function lisaa() {
         $params = $_POST;
-        $hoyla = new Partahoyla(array(
+
+        $attributes = array(
             'valmistaja' => $params['valmistaja'],
-            'malli' => $params['malli']
-        ));
-        $onnistui = $hoyla->add();
-        if ($onnistui) {
-            Redirect::to('/nayta_hoyla/' . $hoyla->id, array('message' => 'Partahöylä on nyt lisätty tietokantaan'));
+            'malli' => $params['malli'],
+            'aggressiivisuus' => 0
+        );
+        $hoyla = new Partahoyla($attributes);
+        $errors = $hoyla->errors();
+        if (count($errors) == 0) {
+            $onnistui = $hoyla->add();
+            if ($onnistui) {
+                Redirect::to('/nayta_hoyla/' . $hoyla->id, array('message' => 'Partahöylä on nyt lisätty tietokantaan'));
+            } else {
+                Redirect::to('/listaa_hoylat', array('error' => 'Partahöylän lisääminen tietokantaan epäonnistui, tarkista onko se listassa jo ennestään'));
+            }
         } else {
-            Redirect::to('/listaa_hoylat', array('error' => 'Partahöylän lisääminen tietokantaan epäonnistui, tarkista onko se listassa jo ennestään'));
+            Redirect::to('/uusi_hoyla' . $hoyla->id, array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
         }
     }
 

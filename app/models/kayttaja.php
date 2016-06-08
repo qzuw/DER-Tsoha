@@ -100,11 +100,11 @@ class Kayttaja extends BaseModel {
     public function validate_new_passwd() {
         $errors = array();
 
-        $errors[] = $this->validate_string_not_empty('Salasana', $this->salasana);
-        $errors[] = $this->validate_string_length('Salasana', $this->salasana, 10);
+        $errors = array_merge($errors, $this->validate_string_not_empty('Salasana', $this->salasana));
+        $errors = array_merge($errors, $this->validate_string_length('Salasana', $this->salasana, 10));
 
         if ($this->salasana != $this->pw2) {
-            $errors[] = "Annetut salasanat eivät ole samat!";
+            $errors = array_merge($errors, "Annetut salasanat eivät ole samat!");
         }
 
         return $errors;
@@ -113,8 +113,8 @@ class Kayttaja extends BaseModel {
     public function validate_username() {
         $errors = array();
 
-        $errors[] = $this->validate_string_not_empty('Tunnus', $this->tunnus);
-        $errors[] = $this->validate_string_length('Tunnus', $this->tunnus, 3);
+        $errors = array_merge($errors, $this->validate_string_not_empty('Tunnus', $this->tunnus));
+        $errors = array_merge($errors, $this->validate_string_length('Tunnus', $this->tunnus, 3));
 
         return $errors;
     }
