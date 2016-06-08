@@ -6,6 +6,7 @@ class Kayttaja extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
+        $this->validators = array('validate_username', 'validate_new_passwd');
     }
 
     public static function all($options) {
@@ -98,14 +99,14 @@ class Kayttaja extends BaseModel {
 
     public function validate_new_passwd() {
         $errors = array();
-        
+
         $errors[] = $this->validate_string_not_empty('Salasana', $this->salasana);
         $errors[] = $this->validate_string_length('Salasana', $this->salasana, 10);
-        
+
         if ($this->salasana != $this->pw2) {
             $errors[] = "Annetut salasanat eivät ole samat!";
         }
-        
+
         return $errors;
     }
 

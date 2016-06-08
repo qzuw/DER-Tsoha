@@ -47,7 +47,9 @@ class TeraController extends BaseController {
         $params = $_POST;
         $attributes = array(
             'valmistaja' => $params['valmistaja'],
-            'malli' => $params['malli']
+            'malli' => $params['malli'],
+            'pehmeys' => 0,
+            'teravyys' => 0
         );
 
         $tera = new Tera($attributes);
@@ -61,7 +63,7 @@ class TeraController extends BaseController {
                 Redirect::to('/listaa_terat', array('error' => 'Terän lisääminen tietokantaan epäonnistui, tarkista onko se listassa jo ennestään'));
             }
         } else {
-            Redirect::to('/uusi_tera' . $tera->id, array('error' => 'Tiedot eivät ole oikein', 'attributes' => $attributes));
+            Redirect::to('/uusi_tera' . $tera->id, array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
         }
     }
 

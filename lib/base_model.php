@@ -31,7 +31,7 @@ class BaseModel {
 
     public function validate_string_length($mita, $string, $length) {
         $errors = array();
-        if (strlen($string) >= $length) {
+        if (strlen($string) < $length) {
             $errors[] = $mita . " on liian lyhyt, pitäisi olla vähintään " . $length . " merkkiä!";
         }
         return $errors;

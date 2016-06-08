@@ -112,8 +112,8 @@ class Tera extends BaseModel {
     public function validate_manufact() {
         $errors = array();
 
-        $errors[] = $this->validate_string_not_empty('Valmistaja', $this->valmistaja);
-        $errors[] = $this->validate_string_length('Valmistaja', $this->valmistaja, 3);
+        $errors = array_merge($errors, $this->validate_string_not_empty('Valmistaja', $this->valmistaja));
+        $errors = array_merge($errors, $this->validate_string_length('Valmistaja', $this->valmistaja, 3));
 
         return $errors;
     }
@@ -121,8 +121,8 @@ class Tera extends BaseModel {
     public function validate_model() {
         $errors = array();
 
-        $errors[] = $this->validate_string_not_empty('Malli', $this->malli);
-        $errors[] = $this->validate_string_length('Malli', $this->malli, 3);
+        $errors = array_merge($errors, $this->validate_string_not_empty('Malli', $this->malli));
+        $errors = array_merge($errors, $this->validate_string_length('Malli', $this->malli, 3));
 
         return $errors;
     }
@@ -130,7 +130,7 @@ class Tera extends BaseModel {
     public function validate_sharpness() {
         $errors = array();
 
-        $errors[] = $this->validate_string_is_number('Terävyys', $this->teravyys);
+        $errors = array_merge($errors, $this->validate_string_is_number('Terävyys', $this->teravyys));
 
         return $errors;
     }
@@ -138,7 +138,7 @@ class Tera extends BaseModel {
     public function validate_smoothness() {
         $errors = array();
 
-        $errors[] = $this->validate_string_is_number('Pehmeys', $this->teravyys);
+        $errors = array_merge($errors, $this->validate_string_is_number('Pehmeys', $this->teravyys));
 
         return $errors;
     }
