@@ -16,8 +16,11 @@ class Kayttaja extends BaseModel {
         }
         $maara = 10;
 
+        // voisi määritellä suoraan $limit = 10; 
+        // $maara muistutuksena optiosta lisätä se käyttäjän määritettäväksi
+        
         $limit = $maara;
-        $offset = $maara * ($sivu - 1);
+        $offset = $limit * ($sivu - 1);
 
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja ORDER BY tunnus LIMIT :limit OFFSET :offset');
         $query->execute(array('limit' => $limit, 'offset' => $offset));
