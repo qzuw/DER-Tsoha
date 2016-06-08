@@ -6,6 +6,7 @@ class Tera extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
+        $this->validators = array('validate_manufact', 'validate_model', 'validate_sharpness', 'validate_smoothness');
     }
 
     public static function all($options) {
@@ -104,6 +105,40 @@ class Tera extends BaseModel {
         } catch (Exception $e) {
             return false;
         }
+    }
+
+    public function validate_manufact() {
+        $errors = array();
+
+        $errors[] = $this->validate_string_not_empty('Valmistaja', $this->valmistaja);
+        $errors[] = $this->validate_string_length('Valmistaja', $this->valmistaja, 3);
+
+        return $errors;
+    }
+
+    public function validate_model() {
+        $errors = array();
+
+        $errors[] = $this->validate_string_not_empty('Malli', $this->malli);
+        $errors[] = $this->validate_string_length('Malli', $this->malli, 3);
+
+        return $errors;
+    }
+
+    public function validate_sharpness() {
+        $errors = array();
+
+        $errors[] = $this->validate_string_is_number('Terävyys', $this->teravyys);
+
+        return $errors;
+    }
+
+    public function validate_smoothness() {
+        $errors = array();
+
+        $errors[] = $this->validate_string_is_number('Pehmeys', $this->teravyys);
+
+        return $errors;
     }
 
 }

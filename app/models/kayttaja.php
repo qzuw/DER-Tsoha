@@ -2,7 +2,7 @@
 
 class Kayttaja extends BaseModel {
 
-    public $id, $tunnus, $salasana;
+    public $id, $tunnus, $salasana, $pw2;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -91,6 +91,28 @@ class Kayttaja extends BaseModel {
         } catch (Exception $e) {
             return false;
         }
+    }
+
+    public function validate_new_passwd() {
+        $errors = array();
+        
+        $errors[] = $this->validate_string_not_empty('Salasana', $this->salasana);
+        $errors[] = $this->validate_string_length('Salasana', $this->salasana, 10);
+        
+        if ($this->salasana != $this->pw2) {
+            $errors[] = "Annetut salasanat eivät ole samat!";
+        }
+        
+        return $errors;
+    }
+
+    public function validate_username() {
+        $errors = array();
+
+        $errors[] = $this->validate_string_not_empty('Tunnus', $this->tunnus);
+        $errors[] = $this->validate_string_length('Tunnus', $this->tunnus, 3);
+
+        return $errors;
     }
 
 }

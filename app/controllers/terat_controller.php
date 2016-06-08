@@ -45,15 +45,23 @@ class TeraController extends BaseController {
 
     public static function lisaa() {
         $params = $_POST;
-        $tera = new Tera(array(
+        $attributes = array(
             'valmistaja' => $params['valmistaja'],
             'malli' => $params['malli']
-        ));
-        $onnistui = $tera->add();
-        if ($onnistui) {
-            Redirect::to('/nayta_tera/' . $tera->id, array('message' => 'Terä on nyt lisätty tietokantaan'));
+        );
+
+        $tera = new Tera($attributes);
+        $errors = $tera->errors();
+
+        if (count($errors) == 0) {
+            $onnistui = $tera->add();
+            if ($onnistui) {
+                Redirect::to('/nayta_tera/' . $tera->id, array('message' => 'Terä on nyt lisätty tietokantaan'));
+            } else {
+                Redirect::to('/listaa_terat', array('error' => 'Terän lisääminen tietokantaan epäonnistui, tarkista onko se listassa jo ennestään'));
+            }
         } else {
-            Redirect::to('/listaa_terat', array('error' => 'Terän lisääminen tietokantaan epäonnistui, tarkista onko se listassa jo ennestään'));
+            Redirect::to('/uusi_tera' . $tera->id, array('error' => 'Tiedot eivät ole oikein', 'attributes' => $attributes));
         }
     }
 

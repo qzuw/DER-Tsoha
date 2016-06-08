@@ -37,11 +37,11 @@
     {% if sivut %}
     <nav>
         <ul class="pagination">
-            <li class="{% if not ed_sivu %}disabled"><a href=""><<</a>{% else %}"><a href="{{base_path}}/listaa_terat/{{ed_sivu}}"><<</a>{% endif %}</li>
+            <li class="{% if not ed_sivu %}disabled"><a><<</a>{% else %}"><a href="{{base_path}}/listaa_terat/{{ed_sivu}}"><<</a>{% endif %}</li>
             {% for sivu in 1..sivut %}
             <li class="{% if nyk_sivu == sivu %}active{% endif %}"><a href="{{base_path}}/listaa_terat/{{sivu}}">{{sivu}}</a></li>
             {% endfor %}
-            <li class="{% if not seur_sivu %}disabled"><a href="">>></a>{% else %}"><a href="{{base_path}}/listaa_terat/{{seur_sivu}}">>></a>{% endif %}</li>
+            <li class="{% if not seur_sivu %}disabled"><a>>></a>{% else %}"><a href="{{base_path}}/listaa_terat/{{seur_sivu}}">>></a>{% endif %}</li>
         </ul>
     </nav>
     {% endif %}
