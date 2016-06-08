@@ -14,9 +14,12 @@ class Partahoyla extends BaseModel {
         } else {
             $sivu = 1;
         }
-        $maara = 10;
+        if (isset($options['maara'])) {
+            $limit = $options['maara'];
+        } else {
+            $limit = 10;
+        }
 
-        $limit = $maara;
         $offset = $limit * ($sivu - 1);
 
         $query = DB::connection()->prepare('SELECT * FROM Partahoyla ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
