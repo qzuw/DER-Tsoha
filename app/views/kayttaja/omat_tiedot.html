@@ -2,14 +2,25 @@
 
 {% block content %}
 <div class="page-header">
-    <h1>Tunnus: parranajaja</h1>
+    <h1>Tunnus: {{kayttaja.tunnus}}</h1>
 </div>
+{% if error %}
+<div class="alert alert-danger">
+    {{error}}
+</div>
+{% for err in errors %}
+<div class="alert alert-warning">
+    {{err}}
+</div>
+{% endfor %}
+{% endif %}
+
 <div>
 
 </div>
 <div>
     <h3>Muuta salasana</h3>
-    <form role="form">
+    <form role="form" method="post" action="{{base_path}}/muuta_salasana">
         <div class="form-group">
             <label for="salasana">Vanha salasana:</label>
             <input type="password" class="form-control" id="salasana">
@@ -25,7 +36,6 @@
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
 </div>
-
 <div>
     <h3>Partahöylät</h3>
     <table class="table">
@@ -35,14 +45,23 @@
             </tr>
         </thead>
         <tbody>
+            {% if hoylat %}
+            {% for hoyla in hoylat %}
             <tr>
-                <td>Parker 24C</td>
+                <td><a href="{{base_path}}/nayta_hoyla/{{hoyla.id}}">{{hoyla.valmistaja}} {{hoyla.malli}}</a></td>
             </tr>
+            {% endfor %}
+            {% else %}
             <tr>
-                <td>Merkur 34c</td>
+                <td>Ei höyliä!</td>
             </tr>
+            {% endif %}
         </tbody>
     </table>
-    <a href="uusi_hoyla">lisää uusi höylä</a>
+    <a href="{{base_path}}/uusi_oma_hoyla"><button class="btn btn-primary">lisää uusi höylä</button></a>
+</div>
+<div>
+    <h3>Tunnuksen poisto</h3>
+    <a href="{{base_path}}/poista_tunnus"><button class="btn btn-danger">Tuhoa tunnuksesi</button></a>
 </div>
 {% endblock %}
