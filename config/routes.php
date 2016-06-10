@@ -1,9 +1,5 @@
 <?php
 
-$routes->get('/', function() {
-    HelloWorldController::index();
-});
-
 $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();
 });
@@ -38,6 +34,10 @@ $routes->get('/uusi_ajopaivakirja', function() {
 
 $routes->get('/listaa_ajot', function() {
     HelloWorldController::listaa_ajot();
+});
+
+$routes->get('/', function() {
+    HelloController::index();
 });
 
 $routes->get('/listaa_terat/:sivu', function($sivu) {

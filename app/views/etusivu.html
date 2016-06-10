@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Etusivu!</h1>
+</div>
+<div>
+    <div>
+        <a href="kirjaudu"><button class="btn btn-primary">Kirjaudu sisään tai rekisteröidy</button></a>
+    </div>
+    <div class="col-sm-6">
+        <h2>Eniten käytetyt höylät</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Eniten käytetyt höylät</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hoyla in hoylat %}
+                <tr>
+                    <td><a href="{{base_path}}/nayta_hoyla/{{hoyla.id}}">{{hoyla.valmistaja}} {{hoyla.malli}}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+    <div class="col-sm-6">
+        <h2>Eniten käytetyt terät</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Eniten käytetyt terät</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tera in terat %}
+                <tr>
+                    <td><a href="{{base_path}}/nayta_tera/{{tera.id}}">{{tera.valmistaja}} {{tera.malli}}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+{% endblock %}
