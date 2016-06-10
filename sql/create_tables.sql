@@ -15,9 +15,9 @@ CREATE TABLE Partahoyla(
 );
 
 CREATE TABLE KayttajanHoylat(
-  id SERIAL PRIMARY KEY, 
   kayttaja_id INTEGER REFERENCES Kayttaja(id),
-  partahoyla_id INTEGER REFERENCES Partahoyla(id)
+  partahoyla_id INTEGER REFERENCES Partahoyla(id),
+  PRIMARY KEY(kayttaja_id, partahoyla_id)
 );
 
 CREATE TABLE Tera(
