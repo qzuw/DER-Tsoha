@@ -104,7 +104,7 @@ class Kayttaja extends BaseModel {
         $errors = array_merge($errors, $this->validate_string_length('Salasana', $this->salasana, 10));
 
         if ($this->salasana != $this->pw2) {
-            $errors = array_merge($errors, "Annetut salasanat eivät ole samat!");
+            $errors = array_merge($errors, array("Annetut salasanat eivät ole samat!"));
         }
 
         return $errors;

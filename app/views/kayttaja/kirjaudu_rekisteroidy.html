@@ -2,6 +2,16 @@
 
 {% block content %}
 <div class="container">
+    {% if error %}
+    <div class="alert alert-danger">
+        {{error}}
+    </div>
+    {% for err in errors %}
+    <div class="alert alert-warning">
+        {{err}}
+    </div>
+    {% endfor %}
+    {% endif %}
     <div class="row">
 
         <div class="col-sm-6">
@@ -9,14 +19,14 @@
                 <h1>Kirjaudu!</h1>
             </div>
             <div>
-                <form role="form">
+                <form role="form" method="post" action="{{base_path}}/kirjautuminen">
                     <div class="form-group">
                         <label for="tunnus">Tunnus:</label>
-                        <input type="text" class="form-control" id="tunnus" placeholder="Tunnuksesi">
+                        <input type="text" class="form-control" id="tunnus" name="tunnus" placeholder="Tunnuksesi">
                     </div>
                     <div class="form-group">
                         <label for="pwd">Salasana:</label>
-                        <input type="password" class="form-control" id="salasana">
+                        <input type="password" class="form-control" id="salasana" name="salasana">
                     </div>
                     <div class="checkbox">
                         <label><input type="checkbox"> Ethän unohda minua</label>
@@ -30,10 +40,10 @@
                 <h1>Rekisteröidy!</h1>
             </div>
             <div>
-                <form role="form">
+                <form role="form" method="post" action="{{base_path}}/rekisteroityminen">
                     <div class="form-group">
                         <label for="nimi">Tunnus:</label>
-                        <input type="text" class="form-control" id="tunnus" placeholder="Kirjoita haluamasi tunnus">
+                        <input type="text" class="form-control" id="tunnus" name="tunnus" placeholder="Kirjoita haluamasi tunnus">
                     </div>
                     <!--
                     <div class="form-group">
@@ -43,11 +53,11 @@
                     -->
                     <div class="form-group">
                         <label for="salasana">Salasana:</label>
-                        <input type="password" class="form-control" id="salasana">
+                        <input type="password" class="form-control" id="salasana" name="salasana">
                     </div>
                     <div class="form-group">
                         <label for="pwd">Salasana:</label>
-                        <input type="password" class="form-control" id="salasana2">
+                        <input type="password" class="form-control" id="salasana2" name="salasana2">
                     </div>
                     <div class="checkbox">
                         <label><input type="checkbox"> Ethän unohda minua</label>
