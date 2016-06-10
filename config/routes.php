@@ -13,7 +13,7 @@ $routes->post('/rekisteroityminen', function() {
 });
 
 $routes->get('/omat_tiedot', function() {
-    KayttajaController::omat_tiedot();
+    KayttajaController::nayta();
 });
 
 $routes->post('/omat_tiedot', function() {
