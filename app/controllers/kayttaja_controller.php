@@ -35,7 +35,7 @@ class KayttajaController extends BaseController {
     }
 
     public static function nayta() {
-        $id = 3;
+        $id = $_SESSION['tunnus'];
         $kayttaja = Kayttaja::find($id);
         View::make('kayttaja/omat_tiedot.html', array('kayttaja' => $kayttaja));
     }

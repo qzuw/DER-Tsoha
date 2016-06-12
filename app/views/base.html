@@ -42,6 +42,9 @@
                         <li><a href="{{base_path}}">Etusivu</a></li>
                         <li><a href="{{base_path}}/listaa_hoylat">Partahöylien listaus</a></li>
                         <li><a href="{{base_path}}/listaa_terat">Partaterien listaus</a></li>
+{% if user_logged_in %}
+                        <li><a href="{{base_path}}/omat_tiedot">Omat tiedot</a></li>
+{% endif %}
                     </ul>
                 </div>
             </div>
