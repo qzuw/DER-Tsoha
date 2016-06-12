@@ -97,6 +97,25 @@ class Kayttaja extends BaseModel {
         }
     }
 
+    public function tarkista_salasana($tunnus, $salasana) {
+        $query = DB::connection()->prepare('SELECT * FROM Kayttaja WHERE tunnus = :tunnus');
+        $query->execute(array('tunnus' => $tunnus));
+        $row = $query->fetch();
+
+        if ($row) {
+            // myohemmin if (crypt($user_input, $digest) == $digest)
+            if ($row['salasana'] == $salasana) {
+              $kayttaja = new Kayttaja(array(
+                  'id' => $row['id'],
+                  'tunnus' => $row['tunnus'],
+                  'salasana' => $row['salasana']
+              ));
+              return $kayttaja;
+            }
+        }
+        return null;
+    }
+
     public function validate_new_passwd() {
         $errors = array();
 

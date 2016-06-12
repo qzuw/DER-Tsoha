@@ -4,6 +4,21 @@
 <div class="page-header">
     <h1>Etusivu!</h1>
 </div>
+{% if success %}
+<div class="alert alert-success">
+    {{success}}
+</div>
+{% endif %}
+{% if message %}
+<div class="alert alert-info">
+    {{message}}
+</div>
+{% endif %}
+{% if error %}
+<div class="alert alert-warning">
+    {{error}}
+</div>
+{% endif %}
 <div>
     <div>
         <a href="kirjaudu"><button class="btn btn-primary">Kirjaudu sisään tai rekisteröidy</button></a>

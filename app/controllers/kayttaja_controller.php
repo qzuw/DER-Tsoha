@@ -45,7 +45,17 @@ class KayttajaController extends BaseController {
     }
 
     public static function kirjautuminen() {
-        View::make('kayttaja/omat_tiedot.html');
+        $params = $_POST;
+
+        $kayttaja = Kayttaja::tarkista_salasana($params['tunnus'], $params['salasana']);
+
+        if(!$kayttaja){
+          View::make('kayttaja/kirjaudu.html', array('error' => 'Väärä käyttäjätunnus tai salasana!', 'tunnus' => $params['tunnus']));
+        }else{
+          $_SESSION['tunnus'] = $kayttaja->id;
+
+          Redirect::to('/', array('message' => 'Kirjauduit sisään tunnuksella ' . $kayttaja->tunnus . '!'));
+        }
     }
 
     public static function rekisteroityminen() {
