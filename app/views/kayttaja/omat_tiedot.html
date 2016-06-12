@@ -16,25 +16,7 @@
 {% endif %}
 
 <div>
-
-</div>
-<div>
-    <h3>Muuta salasana</h3>
-    <form role="form" method="post" action="{{base_path}}/muuta_salasana">
-        <div class="form-group">
-            <label for="salasana">Vanha salasana:</label>
-            <input type="password" class="form-control" id="salasana">
-        </div>
-        <div class="form-group">
-            <label for="salasana">Uusi salasana:</label>
-            <input type="password" class="form-control" id="usalasana">
-        </div>
-        <div class="form-group">
-            <label for="pwd">Uusi salasana uudestaan:</label>
-            <input type="password" class="form-control" id="usalasana2">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-    </form>
+pvk
 </div>
 <div>
     <h3>Partahöylät</h3>
@@ -59,6 +41,24 @@
         </tbody>
     </table>
     <a href="{{base_path}}/uusi_oma_hoyla"><button class="btn btn-primary">lisää uusi höylä</button></a>
+</div>
+<div>
+    <h3>Muuta salasana</h3>
+    <form role="form" method="post" action="{{base_path}}/muuta_salasana">
+        <div class="form-group">
+            <label for="salasana">Vanha salasana:</label>
+            <input type="password" class="form-control" id="salasana">
+        </div>
+        <div class="form-group">
+            <label for="salasana">Uusi salasana:</label>
+            <input type="password" class="form-control" id="usalasana">
+        </div>
+        <div class="form-group">
+            <label for="pwd">Uusi salasana uudestaan:</label>
+            <input type="password" class="form-control" id="usalasana2">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
 </div>
 <div>
     <h3>Tunnuksen poisto</h3>
