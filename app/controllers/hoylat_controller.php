@@ -36,9 +36,13 @@ class HoylaController extends BaseController {
 
     public static function nayta($id) {
         $kaytt_id = $_SESSION['tunnus'];
+        $kayttaja = Kayttaja::find($kaytt_id);
 
-        //tanne $omistaa true jos kayttaja omistaa hoylan
         $omistaa = false;
+        //tanne $omistaa true jos kayttaja omistaa hoylan
+        if ($kaytt_id) {
+          $omistaa = $kayttaja->omistaako($id);
+        }
 
         $hoyla = Partahoyla::find($id);
         View::make('nayta_hoyla.html', array('hoyla' => $hoyla, 'omistaa' => $omistaa));

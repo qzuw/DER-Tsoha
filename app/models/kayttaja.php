@@ -49,6 +49,20 @@ class Kayttaja extends BaseModel {
         return null;
     }
 
+    public static function omistaako($hid) {
+        $kid = $_SESSION['tunnus'];
+        $query = DB::connection()->prepare('SELECT count(*) AS maara FROM Kayttajanhoylat WHERE kayttaja_id = :kid AND partahoyla_id = :hid');
+        $query->execute(array('hid' => $hid, 'kid' => $kid));
+        $row = $query->fetch();
+
+        if ($row) {
+          if ($row['maara'] > 0) {
+            return true;
+          }
+        }
+        return false;
+    }
+
     public static function find($id) {
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja WHERE id = :id');
         $query->execute(array('id' => $id));
