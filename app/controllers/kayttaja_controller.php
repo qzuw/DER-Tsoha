@@ -35,6 +35,7 @@ class KayttajaController extends BaseController {
     }
 
     public static function nayta() {
+        self::check_logged_in();
         $id = $_SESSION['tunnus'];
         $kayttaja = Kayttaja::find($id);
 
@@ -89,11 +90,13 @@ class KayttajaController extends BaseController {
     }
 
     public static function kirjaudu_ulos() {
+        self::check_logged_in();
         $_SESSION['tunnus'] = null;
         Redirect::to('/', array('message' => 'Olet kirjautunut ulos!'));
     }
 
     public static function poista($id) {
+        self::check_logged_in();
         $kayttaja = Kayttaja::find($id);
         $tunnus = $kayttaja->tunnus;
         $onnistui = $kayttaja->delete();

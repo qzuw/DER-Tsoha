@@ -40,10 +40,12 @@ class TeraController extends BaseController {
     }
 
     public static function uusi() {
+        self::check_logged_in();
         View::make('lisaa_tera.html');
     }
 
     public static function lisaa() {
+        self::check_logged_in();
         $params = $_POST;
         $attributes = array(
             'valmistaja' => $params['valmistaja'],
@@ -68,6 +70,7 @@ class TeraController extends BaseController {
     }
 
     public static function poista($id) {
+        self::check_logged_in();
         $tera = Tera::find($id);
         $tera_nimi = $tera->valmistaja . " " . $tera->malli;
         $onnistui = $tera->delete();

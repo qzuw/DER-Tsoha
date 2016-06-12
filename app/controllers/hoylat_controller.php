@@ -45,10 +45,12 @@ class HoylaController extends BaseController {
     }
 
     public static function uusi() {
+        self::check_logged_in();
         View::make('lisaa_hoyla.html');
     }
 
     public static function lisaa() {
+        self::check_logged_in();
         $params = $_POST;
 
         $attributes = array(
@@ -71,6 +73,7 @@ class HoylaController extends BaseController {
     }
 
     public static function poista($id) {
+        self::check_logged_in();
         $hoyla = Partahoyla::find($id);
         $hoyla_nimi = $hoyla->valmistaja . " " . $hoyla->malli;
         $onnistui = $hoyla->delete();

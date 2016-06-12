@@ -78,7 +78,6 @@ class Kayttaja extends BaseModel {
     }
 
     public function delete() {
-        self::check_logged_in();
         $query = DB::connection()->prepare('DELETE FROM Kayttaja WHERE id = :id');
         try {
             $query->execute(array('id' => $this->id));
@@ -89,7 +88,6 @@ class Kayttaja extends BaseModel {
     }
 
     public function update() {
-        self::check_logged_in();
         $query = DB::connection()->prepare('UPDATE Kayttaja SET salasana = :salasana WHERE id = :id');
         try {
             $query->execute(array('id' => $this->id, 'salasana' => $this->salasana));

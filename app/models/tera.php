@@ -71,7 +71,6 @@ class Tera extends BaseModel {
     }
 
     public function add() {
-        self::check_logged_in();
         $query = DB::connection()->prepare('INSERT INTO Tera (valmistaja, malli) VALUES (:valmistaja, :malli) RETURNING id');
         try {
             $query->execute(array('valmistaja' => $this->valmistaja, 'malli' => $this->malli));
@@ -87,7 +86,6 @@ class Tera extends BaseModel {
     }
 
     public function delete() {
-        self::check_logged_in();
         if ($this->viittauksia == 0) {
             $query = DB::connection()->prepare('DELETE FROM Tera WHERE id = :id');
             try {
@@ -102,7 +100,6 @@ class Tera extends BaseModel {
     }
 
     public function update() {
-        self::check_logged_in();
         $query = DB::connection()->prepare('UPDATE Tera SET viittauksia = :viittauksia, teravyys = :teravyys, pehmeys = :pehmeys WHERE id = :id');
         try {
             $query->execute(array('id' => $this->id, 'viittauksia' => $this->viittauksia, 'teravyys' => $this->teravyys, 'pehmeys' => $this->pehmeys));
