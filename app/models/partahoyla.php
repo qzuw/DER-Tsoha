@@ -70,6 +70,7 @@ class Partahoyla extends BaseModel {
     }
 
     public function add() {
+        self::check_logged_in();
         $query = DB::connection()->prepare('INSERT INTO Partahoyla (valmistaja, malli) VALUES (:valmistaja, :malli) RETURNING id');
         try {
             $query->execute(array('valmistaja' => $this->valmistaja, 'malli' => $this->malli));
@@ -84,6 +85,7 @@ class Partahoyla extends BaseModel {
     }
 
     public function delete() {
+        self::check_logged_in();
         if ($this->viittauksia == 0) {
             $query = DB::connection()->prepare('DELETE FROM Partahoyla WHERE id = :id');
             try {
@@ -98,6 +100,7 @@ class Partahoyla extends BaseModel {
     }
 
     public function update() {
+        self::check_logged_in();
         $query = DB::connection()->prepare('UPDATE Partahoyla SET viittauksia = :viittauksia, aggressiivisuus = :aggressiivisuus WHERE id = :id');
         try {
             $query->execute(array('id' => $this->id, 'viittauksia' => $this->viittauksia, 'aggressiivisuus' => $this->aggressiivisuus));

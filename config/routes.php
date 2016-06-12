@@ -1,5 +1,13 @@
 <?php
 
+function check_logged_in(){
+    BaseController::check_logged_in();
+}
+
+$routes->get('/kirjaudu_ulos', 'check_logged_in', function() {
+    KayttajaController::kirjaudu_ulos();
+});
+
 $routes->get('/kirjaudu', function() {
     KayttajaController::kirjaudu();
 });
@@ -12,11 +20,11 @@ $routes->post('/rekisteroityminen', function() {
     KayttajaController::rekisteroityminen();
 });
 
-$routes->get('/omat_tiedot', function() {
+$routes->get('/omat_tiedot', 'check_logged_in', function() {
     KayttajaController::nayta();
 });
 
-$routes->post('/omat_tiedot', function() {
+$routes->post('/omat_tiedot', 'check_logged_in', function() {
     KayttajaController::nayta();
 });
 
@@ -28,11 +36,11 @@ $routes->get('/listaa_terat', function() {
     TeraController::index(1);
 });
 
-$routes->get('/uusi_tera', function() {
+$routes->get('/uusi_tera', 'check_logged_in', function() {
     TeraController::uusi();
 });
 
-$routes->post('/lisaa_tera', function() {
+$routes->post('/lisaa_tera', 'check_logged_in', function() {
     TeraController::lisaa();
 });
 
@@ -40,7 +48,7 @@ $routes->get('/nayta_tera/:id', function($id) {
     TeraController::nayta($id);
 });
 
-$routes->get('/poista_tera/:id', function($id) {
+$routes->get('/poista_tera/:id', 'check_logged_in', function($id) {
     TeraController::poista($id);
 });
 
@@ -52,11 +60,11 @@ $routes->get('/listaa_hoylat/:sivu', function($sivu) {
     HoylaController::index($sivu);
 });
 
-$routes->get('/uusi_hoyla', function() {
+$routes->get('/uusi_hoyla', 'check_logged_in', function() {
     HoylaController::uusi();
 });
 
-$routes->post('/lisaa_hoyla', function() {
+$routes->post('/lisaa_hoyla', 'check_logged_in', function() {
     HoylaController::lisaa();
 });
 
@@ -64,13 +72,15 @@ $routes->get('/nayta_hoyla/:id', function($id) {
     HoylaController::nayta($id);
 });
 
-$routes->get('/poista_hoyla/:id', function($id) {
+$routes->get('/poista_hoyla/:id', 'check_logged_in', function($id) {
     HoylaController::poista($id);
 });
 
 $routes->get('/', function() {
     HelloController::index();
 });
+
+
 
 $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();

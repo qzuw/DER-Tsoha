@@ -81,6 +81,11 @@ class KayttajaController extends BaseController {
         }
     }
 
+    public static function kirjaudu_ulos() {
+        $_SESSION['tunnus'] = null;
+        Redirect::to('/', array('message' => 'Olet kirjautunut ulos!'));
+    }
+
     public static function poista($id) {
         $kayttaja = Kayttaja::find($id);
         $tunnus = $kayttaja->tunnus;
