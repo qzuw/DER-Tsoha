@@ -17,6 +17,7 @@ siihen arvioita terästä ja/tai höylästä. Näiden arvioiden perusteella käy
 ## Linkit toteutettuihin sivuihin
 
 * [Linkki etusivulle](https://ttuotila.users.cs.helsinki.fi/tsoha/)
+* [Linkki omiin tietoihin](https://ttuotila.users.cs.helsinki.fi/tsoha/omat_tiedot)
 * [Linkki terien listaukseen](https://ttuotila.users.cs.helsinki.fi/tsoha/listaa_terat)
 * [Linkki terän tietojen näyttämiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/nayta_tera/1)
 * [Linkki uuden terän lisäämiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/uusi_tera)
@@ -26,14 +27,14 @@ siihen arvioita terästä ja/tai höylästä. Näiden arvioiden perusteella käy
 
 ## Linkit suunnitelmiin
 
-* [Linkki etusivulle](https://ttuotila.users.cs.helsinki.fi/tsoha/etusivu)
-* [Linkki kirjautumiseen/rekisteröitymiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/kirjaudu)
-* [Linkki uuden höylän lisäämiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/uusi_hoyla)
-* [Linkki uuden terän lisäämiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/uusi_tera)
-* [Linkki höylän katseluun](https://ttuotila.users.cs.helsinki.fi/tsoha/nayta_hoyla)
-* [Linkki terän katseluun](https://ttuotila.users.cs.helsinki.fi/tsoha/nayta_tera)
-* [Linkki uuteen ajopäiväkirjamerkintään](https://ttuotila.users.cs.helsinki.fi/tsoha/uusi_ajopaivakirja)
-* [Linkki omiin tietoihin](https://ttuotila.users.cs.helsinki.fi/tsoha/omat_tiedot)
-* [Linkki päiväkirjamerkintälistaukseen](https://ttuotila.users.cs.helsinki.fi/tsoha/listaa_ajot)
-* [Linkki yksittäiseen ajopaivakirjaan](https://ttuotila.users.cs.helsinki.fi/tsoha/ajopaivakirja)
+* [Linkki etusivulle](https://ttuotila.users.cs.helsinki.fi/tsoha/suunnitelmat/etusivu)
+* [Linkki kirjautumiseen/rekisteröitymiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/suunnitelmat/kirjaudu)
+* [Linkki uuden höylän lisäämiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/suunnitelmat/uusi_hoyla)
+* [Linkki uuden terän lisäämiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/suunnitelmat/uusi_tera)
+* [Linkki höylän katseluun](https://ttuotila.users.cs.helsinki.fi/tsoha/suunnitelmat/nayta_hoyla)
+* [Linkki terän katseluun](https://ttuotila.users.cs.helsinki.fi/tsoha/suunnitelmat/nayta_tera)
+* [Linkki uuteen ajopäiväkirjamerkintään](https://ttuotila.users.cs.helsinki.fi/tsoha/suunnitelmat/uusi_ajopaivakirja)
+* [Linkki omiin tietoihin](https://ttuotila.users.cs.helsinki.fi/tsoha/suunnitelmat/omat_tiedot)
+* [Linkki päiväkirjamerkintälistaukseen](https://ttuotila.users.cs.helsinki.fi/tsoha/suunnitelmat/listaa_ajot)
+* [Linkki yksittäiseen ajopaivakirjaan](https://ttuotila.users.cs.helsinki.fi/tsoha/suunnitelmat/ajopaivakirja)
 

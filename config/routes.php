@@ -76,27 +76,47 @@ $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();
 });
 
-$routes->get('/etusivu', function() {
+$routes->get('/suunnitelmat/etusivu', function() {
     HelloWorldController::etusivu();
 });
 
-$routes->get('/nayta_hoyla', function() {
+$routes->get('/suunnitelmat/kirjaudu', function() {
+    HelloWorldController::kirjaudu();
+});
+
+$routes->get('/suunnitelmat/omat_tiedot', function() {
+    HelloWorldController::omat_tiedot();
+});
+
+$routes->get('/suunnitelmat/nayta_hoyla', function() {
     HelloWorldController::nayta_hoyla();
 });
 
-$routes->get('/nayta_tera', function() {
+$routes->get('/suunnitelmat/nayta_tera', function() {
     HelloWorldController::nayta_tera();
 });
 
-$routes->get('/ajopaivakirja', function() {
+$routes->get('/suunnitelmat/uusi_hoyla', function() {
+    HelloWorldController::lisaa_hoyla();
+});
+
+$routes->get('/suunnitelmat/uusi_tera', function() {
+    HelloWorldController::lisaa_tera();
+});
+
+$routes->get('/suunnitelmat/listaa_terat', function() {
+    HelloWorldController::listaa_terat();
+});
+
+$routes->get('/suunnitelmat/ajopaivakirja', function() {
     HelloWorldController::ajopaivakirja();
 });
 
-$routes->get('/uusi_ajopaivakirja', function() {
+$routes->get('/suunnitelmat/uusi_ajopaivakirja', function() {
     HelloWorldController::lisaa_ajopaivakirja();
 });
 
-$routes->get('/listaa_ajot', function() {
+$routes->get('/suunnitelmat/listaa_ajot', function() {
     HelloWorldController::listaa_ajot();
 });
 
