@@ -45,6 +45,8 @@
 {% if user_logged_in %}
                         <li><a href="{{base_path}}/omat_tiedot">Omat tiedot</a></li>
                         <li><a href="{{base_path}}/kirjaudu_ulos">Kirjaudu ulos</a></li>
+{% else %}
+                        <li><a href="{{base_path}}/kirjaudu">Kirjaudu sisään</a></li>
 {% endif %}
                     </ul>
                 </div>
