@@ -31,6 +31,12 @@ pvk
             {% for hoyla in hoylat %}
             <tr>
                 <td><a href="{{base_path}}/nayta_hoyla/{{hoyla.id}}">{{hoyla.valmistaja}} {{hoyla.malli}}</a></td>
+                <td>
+                  <form role="form" method="post" action="{{base_path}}/poista_oma_hoyla">
+                    <input type="hidden" class="form-control" id="hoyla" name="hoyla" value={{hoyla.id}}>
+                    <button type="submit" class="btn btn-default btn-sm">En omista tätä partahöylää enää</button>
+                  </form>
+                </td>
             </tr>
             {% endfor %}
             {% else %}
@@ -47,17 +53,17 @@ pvk
     <form role="form" method="post" action="{{base_path}}/muuta_salasana">
         <div class="form-group">
             <label for="salasana">Vanha salasana:</label>
-            <input type="password" class="form-control" id="salasana">
+            <input type="password" class="form-control" id="salasana" name="salasana">
         </div>
         <div class="form-group">
             <label for="salasana">Uusi salasana:</label>
-            <input type="password" class="form-control" id="usalasana">
+            <input type="password" class="form-control" id="usalasana" name="usalasana">
         </div>
         <div class="form-group">
             <label for="pwd">Uusi salasana uudestaan:</label>
-            <input type="password" class="form-control" id="usalasana2">
+            <input type="password" class="form-control" id="usalasana2" name="usalasana2">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default">Muuta salasana</button>
     </form>
 </div>
 <div>
