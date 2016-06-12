@@ -39,6 +39,44 @@ class Partahoyla extends BaseModel {
         return $hoylat;
     }
 
+    public static function owned($options) {
+        if (isset($options['id'])) {
+            $id = $options['id'];
+        } 
+        if (isset($options['sivu'])) {
+            $sivu = $options['sivu'];
+        } else {
+            $sivu = 1;
+        }
+        if (isset($options['maara'])) {
+            $limit = $options['maara'];
+        } else {
+            $limit = 0;
+        }
+
+        $offset = $limit * ($sivu - 1);
+
+        if ($limit == 0) {
+          $query = DB::connection()->prepare('SELECT * FROM Partahoyla JOIN Kayttajanhoylat AS kh ON kh.partahoyla_id = partahoyla.id WHERE kh.kayttaja_id = :id ORDER BY viittauksia DESC');
+          $query->execute(array('id' => $id));
+        } else {
+          $query = DB::connection()->prepare('SELECT * FROM Partahoyla JOIN Kayttajanhoylat AS kh ON kh.partahoyla_id = partahoyla.id WHERE kh.kayttaja_id = :id ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
+          $query->execute(array('id' => $id, 'limit' => $limit, 'offset' => $offset));
+        }
+        $rows = $query->fetchAll();
+        $hoylat = array();
+        foreach ($rows as $row) {
+            $hoylat[] = new Partahoyla(array(
+                'id' => $row['id'],
+                'valmistaja' => $row['valmistaja'],
+                'malli' => $row['malli'],
+                'aggressiivisuus' => $row['aggressiivisuus'],
+                'viittauksia' => $row['viittauksia']
+            ));
+        }
+        return $hoylat;
+    }
+
     public static function count() {
         $query = DB::connection()->prepare('SELECT count(*) AS maara FROM Partahoyla');
         $query->execute();
