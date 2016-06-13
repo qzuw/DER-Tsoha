@@ -41,7 +41,7 @@ class HoylaController extends BaseController {
         $omistaa = false;
         //tanne $omistaa true jos kayttaja omistaa hoylan
         if ($kaytt_id) {
-          $omistaa = $kayttaja->omistaako($id);
+            $omistaa = $kayttaja->omistaako($id);
         }
 
         $hoyla = Partahoyla::find($id);

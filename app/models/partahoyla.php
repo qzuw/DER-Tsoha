@@ -42,7 +42,7 @@ class Partahoyla extends BaseModel {
     public static function owned($options) {
         if (isset($options['id'])) {
             $id = $options['id'];
-        } 
+        }
         if (isset($options['sivu'])) {
             $sivu = $options['sivu'];
         } else {
@@ -57,11 +57,11 @@ class Partahoyla extends BaseModel {
         $offset = $limit * ($sivu - 1);
 
         if ($limit == 0) {
-          $query = DB::connection()->prepare('SELECT * FROM Partahoyla JOIN Kayttajanhoylat AS kh ON kh.partahoyla_id = partahoyla.id WHERE kh.kayttaja_id = :id ORDER BY viittauksia DESC');
-          $query->execute(array('id' => $id));
+            $query = DB::connection()->prepare('SELECT * FROM Partahoyla JOIN Kayttajanhoylat AS kh ON kh.partahoyla_id = partahoyla.id WHERE kh.kayttaja_id = :id ORDER BY viittauksia DESC');
+            $query->execute(array('id' => $id));
         } else {
-          $query = DB::connection()->prepare('SELECT * FROM Partahoyla JOIN Kayttajanhoylat AS kh ON kh.partahoyla_id = partahoyla.id WHERE kh.kayttaja_id = :id ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
-          $query->execute(array('id' => $id, 'limit' => $limit, 'offset' => $offset));
+            $query = DB::connection()->prepare('SELECT * FROM Partahoyla JOIN Kayttajanhoylat AS kh ON kh.partahoyla_id = partahoyla.id WHERE kh.kayttaja_id = :id ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
+            $query->execute(array('id' => $id, 'limit' => $limit, 'offset' => $offset));
         }
         $rows = $query->fetchAll();
         $hoylat = array();

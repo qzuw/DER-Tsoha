@@ -57,12 +57,12 @@ class KayttajaController extends BaseController {
 
         $kayttaja = Kayttaja::tarkista_salasana($params['tunnus'], $params['salasana']);
 
-        if(!$kayttaja){
-          View::make('kayttaja/kirjaudu.html', array('error' => 'Väärä käyttäjätunnus tai salasana!', 'tunnus' => $params['tunnus']));
-        }else{
-          $_SESSION['tunnus'] = $kayttaja->id;
+        if (!$kayttaja) {
+            View::make('kayttaja/kirjaudu.html', array('error' => 'Väärä käyttäjätunnus tai salasana!', 'tunnus' => $params['tunnus']));
+        } else {
+            $_SESSION['tunnus'] = $kayttaja->id;
 
-          Redirect::to('/', array('message' => 'Kirjauduit sisään tunnuksella ' . $kayttaja->tunnus . '!'));
+            Redirect::to('/', array('message' => 'Kirjauduit sisään tunnuksella ' . $kayttaja->tunnus . '!'));
         }
     }
 

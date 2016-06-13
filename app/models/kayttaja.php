@@ -56,9 +56,9 @@ class Kayttaja extends BaseModel {
         $row = $query->fetch();
 
         if ($row) {
-          if ($row['maara'] > 0) {
-            return true;
-          }
+            if ($row['maara'] > 0) {
+                return true;
+            }
         }
         return false;
     }
@@ -119,12 +119,12 @@ class Kayttaja extends BaseModel {
         if ($row) {
             // myohemmin if (crypt($user_input, $digest) == $digest)
             if ($row['salasana'] == $salasana) {
-              $kayttaja = new Kayttaja(array(
-                  'id' => $row['id'],
-                  'tunnus' => $row['tunnus'],
-                  'salasana' => $row['salasana']
-              ));
-              return $kayttaja;
+                $kayttaja = new Kayttaja(array(
+                    'id' => $row['id'],
+                    'tunnus' => $row['tunnus'],
+                    'salasana' => $row['salasana']
+                ));
+                return $kayttaja;
             }
         }
         return null;

@@ -16,7 +16,7 @@
 {% endif %}
 
 <div>
-pvk
+    pvk
 </div>
 <div>
     <h3>Partahöylät</h3>
@@ -32,10 +32,10 @@ pvk
             <tr>
                 <td><a href="{{base_path}}/nayta_hoyla/{{hoyla.id}}">{{hoyla.valmistaja}} {{hoyla.malli}}</a></td>
                 <td>
-                  <form role="form" method="post" action="{{base_path}}/poista_oma_hoyla">
-                    <input type="hidden" class="form-control" id="hoyla" name="hoyla" value={{hoyla.id}}>
-                    <button type="submit" class="btn btn-default btn-sm">En omista tätä partahöylää enää</button>
-                  </form>
+                    <form role="form" method="post" action="{{base_path}}/poista_oma_hoyla">
+                        <input type="hidden" class="form-control" id="hoyla" name="hoyla" value={{hoyla.id}}>
+                        <button type="submit" class="btn btn-default btn-sm">En omista tätä partahöylää enää</button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}
