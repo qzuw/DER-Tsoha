@@ -52,6 +52,10 @@ class KayttajaController extends BaseController {
         View::make('kayttaja/kirjaudu_rekisteroidy.html');
     }
 
+    public static function poistolomake() {
+        View::make('kayttaja/poista_tunnus.html');
+    }
+
     public static function kirjautuminen() {
         $params = $_POST;
 
@@ -95,13 +99,20 @@ class KayttajaController extends BaseController {
         Redirect::to('/', array('message' => 'Olet kirjautunut ulos!'));
     }
 
-    public static function poista($id) {
+    public static function poista() {
         self::check_logged_in();
-        $kayttaja = Kayttaja::find($id);
-        $tunnus = $kayttaja->tunnus;
-        $onnistui = $kayttaja->delete();
-        if ($onnistui) {
-            Redirect::to('/', array('success' => 'Käyttäjätunnuksesi on nyt poistettu tietokannasta'));
+        $params = $_POST;
+        $tunnus = $params['tunnus'];
+        $salasana = $params['salasana'];
+        $kayttaja = Kayttaja::find($_SESSION['tunnus']);
+        if ($tunnus == $kayttaja->tunnus && $salasana == $kayttaja->salasana) {
+            $onnistui = $kayttaja->delete();
+            if ($onnistui) {
+                $_SESSION['tunnus'] = null;
+                Redirect::to('/', array('success' => 'Käyttäjätunnuksesi on nyt poistettu tietokannasta'));
+            } else {
+                Redirect::to('/omat_tiedot', array('error' => 'Tunnuksen poistaminen epäonnistui', 'kayttaja' => $kayttaja));
+            }
         } else {
             Redirect::to('/omat_tiedot', array('error' => 'Tunnuksen poistaminen epäonnistui', 'kayttaja' => $kayttaja));
         }

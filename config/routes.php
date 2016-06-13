@@ -20,6 +20,14 @@ $routes->post('/rekisteroityminen', function() {
     KayttajaController::rekisteroityminen();
 });
 
+$routes->get('/poista_tunnus', 'check_logged_in', function() {
+    KayttajaController::poistolomake();
+});
+
+$routes->post('/poistaminen', 'check_logged_in', function() {
+    KayttajaController::poista();
+});
+
 $routes->get('/omat_tiedot', 'check_logged_in', function() {
     KayttajaController::nayta();
 });
