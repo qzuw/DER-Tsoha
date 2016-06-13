@@ -54,6 +54,40 @@ class KayttajaController extends BaseController {
         View::make('kayttaja/nayta_kayttaja.html', array('kayttaja' => $kayttaja));
     }
 
+    public static function lisaa_hoyla() {
+        self::check_logged_in();
+        $params = $_POST;
+        $hid = $params['hoyla'];
+
+        $kayttaja = Kayttaja::find($_SESSION['tunnus']);
+        $hoyla = Partahoyla::find($hid);
+
+        $lisays_ok = $kayttaja->lisaa_hoyla($hid);
+
+        if ($lisays_ok) {
+            Redirect::to('/nayta_hoyla/' . $hid, array('success' => $hoyla->valmistaja . ' ' . $hoyla->malli . ' merkittiin omistamaksesi.', 'hoyla' => $hoyla));
+        } else {
+            Redirect::to('/nayta_hoyla/' . $hid, array('error' => 'Tämän höylän merkitseminen omistamaksesi epäonnistui.', 'hoyla' => $hoyla));
+        }
+    }
+
+    public static function poista_hoyla() {
+        self::check_logged_in();
+        $params = $_POST;
+        $hid = $params['hoyla'];
+
+        $kayttaja = Kayttaja::find($_SESSION['tunnus']);
+        $hoyla = Partahoyla::find($hid);
+
+        $poisto_ok = $kayttaja->poista_hoyla($hid);
+
+        if ($poisto_ok) {
+            Redirect::to('/nayta_hoyla/' . $hid, array('success' => $hoyla->valmistaja . ' ' . $hoyla->malli . ' poistettiin partahöylistäsi.', 'hoyla' => $hoyla));
+        } else {
+            Redirect::to('/nayta_hoyla/' . $hid, array('error' => 'Tämän höylän poistaminen omistamistasi partahöylistä epäonnistui.', 'hoyla' => $hoyla));
+        }
+    }
+
     public static function kirjaudu() {
         View::make('kayttaja/kirjaudu_rekisteroidy.html');
     }

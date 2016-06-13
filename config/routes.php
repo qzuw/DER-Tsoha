@@ -40,6 +40,14 @@ $routes->post('/omat_tiedot', 'check_logged_in', function() {
     KayttajaController::omat_tiedot();
 });
 
+$routes->post('/lisaa_oma_hoyla', 'check_logged_in', function() {
+    KayttajaController::lisaa_hoyla();
+});
+
+$routes->post('/poista_oma_hoyla', 'check_logged_in', function() {
+    KayttajaController::poista_hoyla();
+});
+
 $routes->get('/nayta_kayttaja/:id', 'check_logged_in', function($id) {
     KayttajaController::nayta($id);
 });

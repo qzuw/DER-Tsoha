@@ -63,6 +63,29 @@ class Kayttaja extends BaseModel {
         return false;
     }
 
+    public static function lisaa_hoyla($hid) {
+        $kid = $_SESSION['tunnus'];
+        $query = DB::connection()->prepare('INSERT INTO Kayttajanhoylat (kayttaja_id, partahoyla_id) VALUES (:kid, :hid)');
+        try {
+            $query->execute(array('hid' => $hid, 'kid' => $kid));
+            $row = $query->fetch();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public static function poista_hoyla($hid) {
+        $kid = $_SESSION['tunnus'];
+        $query = DB::connection()->prepare('DELETE FROM Kayttajanhoylat WHERE (kayttaja_id, partahoyla_id) = (:kid, :hid)');
+        try {
+            $query->execute(array('hid' => $hid, 'kid' => $kid));
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
     public static function find($id) {
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja WHERE id = :id');
         $query->execute(array('id' => $id));
