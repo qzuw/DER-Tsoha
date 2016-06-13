@@ -38,3 +38,7 @@ siihen arvioita terästä ja/tai höylästä. Näiden arvioiden perusteella käy
 * [Linkki päiväkirjamerkintälistaukseen](https://ttuotila.users.cs.helsinki.fi/tsoha/suunnitelmat/listaa_ajot)
 * [Linkki yksittäiseen ajopaivakirjaan](https://ttuotila.users.cs.helsinki.fi/tsoha/suunnitelmat/ajopaivakirja)
 
+## Kirjautumistiedot
+
+Tunnus: Parranajaja
+Salasana: salasana123
