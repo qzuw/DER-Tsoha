@@ -34,7 +34,7 @@ class KayttajaController extends BaseController {
         View::make('kayttaja/listaa_kayttajat.html', $data);
     }
 
-    public static function nayta() {
+    public static function omat_tiedot() {
         self::check_logged_in();
         $id = $_SESSION['tunnus'];
         $kayttaja = Kayttaja::find($id);
@@ -46,6 +46,12 @@ class KayttajaController extends BaseController {
         $data['hoylat'] = $hoylat;
 
         View::make('kayttaja/omat_tiedot.html', $data);
+    }
+
+    public static function nayta($id) {
+        self::check_logged_in();
+        $kayttaja = Kayttaja::find($id);
+        View::make('kayttaja/nayta_kayttaja.html', array('kayttaja' => $kayttaja));
     }
 
     public static function kirjaudu() {
@@ -83,7 +89,7 @@ class KayttajaController extends BaseController {
             $kayttaja->salasana = $params['usalasana'];
             $kayttaja->pw2 = $params['usalasana2'];
             $errors = $kayttaja->validate_new_passwd();
-            if ( !$errors ) {
+            if (!$errors) {
                 $kayttaja->update();
                 Redirect::to('/omat_tiedot', array('message' => 'Salasanasi on muutettu.'));
             } else {

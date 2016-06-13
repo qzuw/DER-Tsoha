@@ -33,11 +33,23 @@ $routes->post('/poistaminen', 'check_logged_in', function() {
 });
 
 $routes->get('/omat_tiedot', 'check_logged_in', function() {
-    KayttajaController::nayta();
+    KayttajaController::omat_tiedot();
 });
 
 $routes->post('/omat_tiedot', 'check_logged_in', function() {
-    KayttajaController::nayta();
+    KayttajaController::omat_tiedot();
+});
+
+$routes->get('/nayta_kayttaja/:id', 'check_logged_in', function($id) {
+    KayttajaController::nayta($id);
+});
+
+$routes->get('/listaa_kayttajat/:sivu', 'check_logged_in', function($sivu) {
+    KayttajaController::index($sivu);
+});
+
+$routes->get('/listaa_kayttajat', 'check_logged_in', function() {
+    KayttajaController::index(1);
 });
 
 $routes->get('/listaa_terat/:sivu', function($sivu) {

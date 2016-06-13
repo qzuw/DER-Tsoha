@@ -18,6 +18,7 @@ siihen arvioita terästä ja/tai höylästä. Näiden arvioiden perusteella käy
 
 * [Linkki etusivulle](https://ttuotila.users.cs.helsinki.fi/tsoha/)
 * [Linkki omiin tietoihin](https://ttuotila.users.cs.helsinki.fi/tsoha/omat_tiedot)
+* [Linkki käyttäjien listaukseen](https://ttuotila.users.cs.helsinki.fi/tsoha/listaa_kayttajat)
 * [Linkki terien listaukseen](https://ttuotila.users.cs.helsinki.fi/tsoha/listaa_terat)
 * [Linkki terän tietojen näyttämiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/nayta_tera/1)
 * [Linkki uuden terän lisäämiseen](https://ttuotila.users.cs.helsinki.fi/tsoha/uusi_tera)

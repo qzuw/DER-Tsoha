@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Tunnus: {{kayttaja.tunnus}}</h1>
+</div>
+{% if error %}
+<div class="alert alert-danger">
+    {{error}}
+</div>
+{% for err in errors %}
+<div class="alert alert-warning">
+    {{err}}
+</div>
+{% endfor %}
+{% endif %}
+
+<div>
+    pvk
+</div>
+{% endblock %}
