@@ -80,12 +80,14 @@ class KayttajaController extends BaseController {
         if (!$kayttaja) {
             Redirect::to('/omat_tiedot', array('error' => 'Virheellinen salasana!'));
         } else {
-            if ($kayttaja->id == $_SESSION['tunnus'] && $params['usalasana'] == $params['usalasana2']) {
-                $kayttaja->salasana = $params['usalasana'];
+            $kayttaja->salasana = $params['usalasana'];
+            $kayttaja->pw2 = $params['usalasana2'];
+            $errors = $kayttaja->validate_new_passwd();
+            if ( !$errors ) {
                 $kayttaja->update();
                 Redirect::to('/omat_tiedot', array('message' => 'Salasanasi on muutettu.'));
             } else {
-                Redirect::to('/omat_tiedot', array('error' => 'Virheellinen salasana!'));
+                Redirect::to('/omat_tiedot', array('error' => 'Virheellinen salasana!', 'errors' => $errors));
             }
         }
     }
