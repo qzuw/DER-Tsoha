@@ -31,17 +31,17 @@ class TeraController extends BaseController {
             $data['sivut'] = $sivuja;
         }
 
-        View::make('listaa_terat.html', $data);
+        View::make('tera/listaa_terat.html', $data);
     }
 
     public static function nayta($id) {
         $tera = Tera::find($id);
-        View::make('nayta_tera.html', array('tera' => $tera));
+        View::make('tera/nayta_tera.html', array('tera' => $tera));
     }
 
     public static function uusi() {
         self::check_logged_in();
-        View::make('lisaa_tera.html');
+        View::make('tera/lisaa_tera.html');
     }
 
     public static function lisaa() {

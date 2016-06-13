@@ -31,7 +31,7 @@ class HoylaController extends BaseController {
             $data['sivut'] = $sivuja;
         }
 
-        View::make('listaa_hoylat.html', $data);
+        View::make('hoyla/listaa_hoylat.html', $data);
     }
 
     public static function nayta($id) {
@@ -45,12 +45,12 @@ class HoylaController extends BaseController {
         }
 
         $hoyla = Partahoyla::find($id);
-        View::make('nayta_hoyla.html', array('hoyla' => $hoyla, 'omistaa' => $omistaa));
+        View::make('hoyla/nayta_hoyla.html', array('hoyla' => $hoyla, 'omistaa' => $omistaa));
     }
 
     public static function uusi() {
         self::check_logged_in();
-        View::make('lisaa_hoyla.html');
+        View::make('hoyla/lisaa_hoyla.html');
     }
 
     public static function lisaa() {
