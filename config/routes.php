@@ -20,6 +20,10 @@ $routes->post('/rekisteroityminen', function() {
     KayttajaController::rekisteroityminen();
 });
 
+$routes->post('/muuta_salasana', 'check_logged_in', function() {
+    KayttajaController::muuta_salasana();
+});
+
 $routes->get('/poista_tunnus', 'check_logged_in', function() {
     KayttajaController::poistolomake();
 });

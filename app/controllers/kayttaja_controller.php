@@ -70,6 +70,26 @@ class KayttajaController extends BaseController {
         }
     }
 
+    public static function muuta_salasana() {
+        self::check_logged_in();
+        $params = $_POST;
+
+        $kayttaja1 = Kayttaja::find($_SESSION['tunnus']);
+        $kayttaja = Kayttaja::tarkista_salasana($kayttaja1->tunnus, $params['salasana']);
+
+        if (!$kayttaja) {
+            Redirect::to('/omat_tiedot', array('error' => 'Virheellinen salasana!'));
+        } else {
+            if ($kayttaja->id == $_SESSION['tunnus'] && $params['usalasana'] == $params['usalasana2']) {
+                $kayttaja->salasana = $params['usalasana'];
+                $kayttaja->update();
+                Redirect::to('/omat_tiedot', array('message' => 'Salasanasi on muutettu.'));
+            } else {
+                Redirect::to('/omat_tiedot', array('error' => 'Virheellinen salasana!'));
+            }
+        }
+    }
+
     public static function rekisteroityminen() {
         $params = $_POST;
         $attributes = array(
@@ -84,7 +104,7 @@ class KayttajaController extends BaseController {
         if (count($errors) == 0) {
             $onnistui = $kayttaja->add();
             if ($onnistui) {
-                Redirect::to('/omat_tiedot', array('message' => 'Tunnus ' . $kayttaja->tunnus . ' on nyt lisätty tietokantaan', 'kayttaja' => $kayttaja));
+                Redirect::to('/', array('message' => 'Tunnus ' . $kayttaja->tunnus . ' on nyt lisätty tietokantaan', 'kayttaja' => $kayttaja));
             } else {
                 Redirect::to('/kirjaudu', array('error' => 'Tunnuksen lisääminen tietokantaan epäonnistui, tämä tunnus saattaa olla jo olemassa.', 'attributes' => $attributes));
             }
@@ -102,10 +122,9 @@ class KayttajaController extends BaseController {
     public static function poista() {
         self::check_logged_in();
         $params = $_POST;
-        $tunnus = $params['tunnus'];
-        $salasana = $params['salasana'];
         $kayttaja = Kayttaja::find($_SESSION['tunnus']);
-        if ($tunnus == $kayttaja->tunnus && $salasana == $kayttaja->salasana) {
+        $kayttaja2 = Kayttaja::tarkista_salasana($params['tunnus'], $params['salasana']);
+        if ($kayttaja->id == $kayttaja2->id) {
             $onnistui = $kayttaja->delete();
             if ($onnistui) {
                 $_SESSION['tunnus'] = null;
