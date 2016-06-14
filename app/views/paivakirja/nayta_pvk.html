@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col-sm-2"></div>
+<div class="col-sm-8">
+    <div class="page-header">
+        <h1>{{pvk.pvm}} {{pvk.kayttaja.tunnus}}</h1>
+    </div>
+    {% if success %}
+    <div class="alert alert-success">
+        {{success}}
+    </div>
+    {% endif %}
+    {% if message %}
+    <div class="alert alert-info">
+        {{message}}
+    </div>
+    {% endif %}
+    {% if error %}
+    <div class="alert alert-warning">
+        {{error}}
+    </div>
+    {% endif %}
+    <div>
+        <a href="/tsoha/listaa_paivakirjat" class="btn btn-primary">Päiväkirjamerkintöjen listaukseen</a>
+    </div>
+    <div>
+        <p>
+            {% if pvk.julkisuus %}
+            Tämä päiväkirjamerkintä on julkinen.
+            {% else %}
+            Tämä päiväkirjamerkintä on yksityinen.
+            {% endif %}
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Aika</th>
+                    <th>Partahöylä</th>
+                    <th>Partaterä</th>
+                    <th>Saippua</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{pvk.pvm}}</td>
+                    <td>{{pvk.hoyla.valmistaja}} {{pvk.hoyla.malli}}</td>
+                    <td>{{pvk.tera.valmistaja}} {{pvk.tera.malli}}</td>
+                    <td>{{pvk.saippua}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>
+            {{pvk.kommentit}}
+        </p>
+    </div>
+    {% if oma %}
+    <div>
+        <a href="/tsoha/muokkaa_paivakirja/{{pvk.id}}" class="btn btn-primary">Poista tämä merkintä tietokannasta</a>
+        <a href="/tsoha/poista_paivakirja/{{pvk.id}}" class="btn btn-danger">Poista tämä merkintä tietokannasta</a>
+    </div>
+    {% endif %}
+</div>
+<div class="col-sm-2"></div>
+{% endblock %}

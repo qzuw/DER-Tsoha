@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Listaa julkiset päiväkirjamerkinnät</h1>
+</div>
+{% if success %}
+<div class="alert alert-success">
+    {{success}}
+</div>
+{% endif %}
+{% if message %}
+<div class="alert alert-info">
+    {{message}}
+</div>
+{% endif %}
+{% if error %}
+<div class="alert alert-warning">
+    {{error}}
+</div>
+{% endif %}
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Pvm</th>
+                <th>Käyttäjä</th>
+                <th>Höylä</th>
+                <th>Terä</th>
+                <th>Saippua</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for merkinta in pvk %}
+            <tr>
+                <td><a href="{{base_path}}/nayta_paivakirja/{{merkinta.id}}">{{merkinta.pvm}}</a></td>
+                <td>{{merkinta.kayttaja.tunnus}}</td>
+                <td>{{merkinta.hoyla.valmistaja}} {{merkinta.hoyla.malli}}</td>
+                <td>{{merkinta.tera.valmistaja}} {{merkinta.tera.malli}}</td>
+                <td>{{merkinta.saippua}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if sivut %}
+    <nav>
+        <ul class="pagination">
+            <li class="{% if not ed_sivu %}disabled"><a><<</a>{% else %}"><a href="{{base_path}}/listaa_paivakirjamerkinnat/{{ed_sivu}}"><<</a>{% endif %}</li>
+            {% for sivu in 1..sivut %}
+            <li class="{% if nyk_sivu == sivu %}active{% endif %}"><a href="{{base_path}}/listaa_paivakirjamerkinnat/{{sivu}}">{{sivu}}</a></li>
+            {% endfor %}
+            <li class="{% if not seur_sivu %}disabled"><a>>></a>{% else %}"><a href="{{base_path}}/listaa_paivakirjamerkinnat/{{seur_sivu}}">>></a>{% endif %}</li>
+        </ul>
+    </nav>
+    {% endif %}
+    <p>
+        <a href="{{base_path}}/uusi_pvk" class="btn btn-success">Lisää uusi päiväkirjamerkintä</a>
+    </p>
+</div>
+{% endblock %}

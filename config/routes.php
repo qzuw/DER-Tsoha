@@ -108,6 +108,18 @@ $routes->get('/poista_hoyla/:id', 'check_logged_in', function($id) {
     HoylaController::poista($id);
 });
 
+$routes->get('/listaa_paivakirjat', 'check_logged_in', function() {
+    PvkController::index(1);
+});
+
+$routes->get('/listaa_paivakirjat/:sivu', 'check_logged_in', function($sivu) {
+    PvkController::index($sivu);
+});
+
+$routes->get('/nayta_paivakirja/:id', 'check_logged_in', function($id) {
+    PvkController::nayta($id);
+});
+
 $routes->get('/', function() {
     HelloController::index();
 });
