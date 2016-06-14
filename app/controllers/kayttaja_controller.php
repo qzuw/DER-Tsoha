@@ -166,7 +166,7 @@ class KayttajaController extends BaseController {
         $params = $_POST;
         $kayttaja = Kayttaja::find($_SESSION['tunnus']);
         $kayttaja2 = Kayttaja::tarkista_salasana($params['tunnus'], $params['salasana']);
-        if ($kayttaja->id == $kayttaja2->id) {
+        if ($kayttaja2 && $kayttaja->id == $kayttaja2->id) {
             $onnistui = $kayttaja->delete();
             if ($onnistui) {
                 $_SESSION['tunnus'] = null;
