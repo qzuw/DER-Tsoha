@@ -39,7 +39,7 @@
             </tbody>
         </table>
     </div>
-    {% if tera.viittauksia == 0 %}
+    {% if tera.viittauksia == 0 and user_logged_in %}
     <div>
         <a href="/tsoha/poista_tera/{{tera.id}}" class="btn btn-danger">Poista tämä terä tietokannasta</a>
     </div>
