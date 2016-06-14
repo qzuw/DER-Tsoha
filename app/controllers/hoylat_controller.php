@@ -35,8 +35,11 @@ class HoylaController extends BaseController {
     }
 
     public static function nayta($id) {
-        $kaytt_id = $_SESSION['tunnus'];
-        $kayttaja = Kayttaja::find($kaytt_id);
+        $kaytt_id = null;
+        if ($_SESSION && $_SESSION['tunnus']) {
+            $kaytt_id = $_SESSION['tunnus'];
+            $kayttaja = Kayttaja::find($kaytt_id);
+        }
 
         $omistaa = false;
         //tanne $omistaa true jos kayttaja omistaa hoylan
