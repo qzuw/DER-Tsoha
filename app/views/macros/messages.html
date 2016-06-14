@@ -1,0 +1,28 @@
+{% macro show_messages() %}
+
+{% if success %}
+<div class="alert alert-success">
+    {{success}}
+</div>
+{% endif %}
+{% if message %}
+<div class="alert alert-info">
+    {{message}}
+</div>
+{% endif %}
+{% if error %}
+<div class="alert alert-danger">
+    {{error}}
+</div>
+{% for err in errors %}
+<div class="alert alert-warning">
+    {{err}}
+</div>
+{% endfor %}
+{% endif %}
+
+{% endmacro %}
+
+{% macro show_a() %}
+a
+{% endmacro %}
