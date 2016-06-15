@@ -4,15 +4,19 @@ function check_logged_in(){
     BaseController::check_logged_in();
 }
 
+function check_logged_out(){
+    BaseController::check_logged_out();
+}
+
 $routes->get('/kirjaudu_ulos', 'check_logged_in', function() {
     KayttajaController::kirjaudu_ulos();
 });
 
-$routes->get('/kirjaudu', function() {
+$routes->get('/kirjaudu', 'check_logged_out', function() {
     KayttajaController::kirjaudu();
 });
 
-$routes->post('/kirjautuminen', function() {
+$routes->post('/kirjautuminen', 'check_logged_out', function() {
     KayttajaController::kirjautuminen();
 });
 
