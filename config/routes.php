@@ -20,7 +20,7 @@ $routes->post('/kirjautuminen', 'check_logged_out', function() {
     KayttajaController::kirjautuminen();
 });
 
-$routes->post('/rekisteroityminen', function() {
+$routes->post('/rekisteroityminen', 'check_logged_out', function() {
     KayttajaController::rekisteroityminen();
 });
 
