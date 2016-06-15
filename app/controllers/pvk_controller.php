@@ -35,8 +35,9 @@ class PvkController extends BaseController {
         View::make('paivakirja/listaa_pvk.html', $data);
     }
 
-    public static function index_user($id, $sivu) {
+    public static function index_user($sivu) {
         self::check_logged_in();
+        $id = $_SESSION['tunnus'];
         $pvkmaara = Pvk::count_user($id);
         $sivukoko = 10;
         $sivuja = ceil($pvkmaara / $sivukoko);

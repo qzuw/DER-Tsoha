@@ -116,6 +116,14 @@ $routes->get('/listaa_paivakirjat/:sivu', 'check_logged_in', function($sivu) {
     PvkController::index($sivu);
 });
 
+$routes->get('/listaa_omat_paivakirjat', 'check_logged_in', function() {
+    PvkController::index_user(1);
+});
+
+$routes->get('/listaa_omat_paivakirjat/:sivu', 'check_logged_in', function($sivu) {
+    PvkController::index_user($sivu);
+});
+
 $routes->get('/nayta_paivakirja/:id', 'check_logged_in', function($id) {
     PvkController::nayta($id);
 });
