@@ -22,8 +22,13 @@ class Tera extends BaseModel {
         }
         $offset = $limit * ($sivu - 1);
 
-        $query = DB::connection()->prepare('SELECT * FROM Tera ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
-        $query->execute(array('limit' => $limit, 'offset' => $offset));
+        if ($limit == 0) {
+            $query = DB::connection()->prepare('SELECT * FROM Tera ORDER BY viittauksia DESC');
+            $query->execute(array());
+        } else {
+            $query = DB::connection()->prepare('SELECT * FROM Tera ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
+            $query->execute(array('limit' => $limit, 'offset' => $offset));
+        }
         $rows = $query->fetchAll();
         $terat = array();
         foreach ($rows as $row) {

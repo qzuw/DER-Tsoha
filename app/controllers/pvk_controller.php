@@ -87,9 +87,9 @@ class PvkController extends BaseController {
         self::check_logged_in();
         $id = $_SESSION['tunnus'];
         $data = array();
-        $data['omat_hoylat'] = Partahoyla::owned(array('id' => $id));
-        $data['hoylat'] = Partahoyla::all(array());
-        $data['terat'] = Tera::all(array());
+        $data['omat_hoylat'] = Partahoyla::owned(array('id' => $id, 'maara' => 0));
+        $data['hoylat'] = Partahoyla::all(array('maara' => 0));
+        $data['terat'] = Tera::all(array('maara' => 0));
         $data['tanaan'] = date("Y-m-d");
         $data['kello'] = date("H:i");
         

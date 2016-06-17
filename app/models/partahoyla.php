@@ -23,8 +23,13 @@ class Partahoyla extends BaseModel {
 
         $offset = $limit * ($sivu - 1);
 
-        $query = DB::connection()->prepare('SELECT * FROM Partahoyla ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
-        $query->execute(array('limit' => $limit, 'offset' => $offset));
+        if ($limit == 0) {
+            $query = DB::connection()->prepare('SELECT * FROM Partahoyla ORDER BY viittauksia DESC');
+            $query->execute(array());
+        } else {
+            $query = DB::connection()->prepare('SELECT * FROM Partahoyla ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
+            $query->execute(array('limit' => $limit, 'offset' => $offset));
+        }
         $rows = $query->fetchAll();
         $hoylat = array();
         foreach ($rows as $row) {
