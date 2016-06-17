@@ -24,6 +24,32 @@
     <div>
         <a href="kirjaudu"><button class="btn btn-primary">Kirjaudu sisään tai rekisteröidy</button></a>
     </div>
+    {% else %}
+    <div>
+        <h2>Viimeisimmät julkiset parranajopäiväkirjamerkinnät</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Pvm</th>
+                    <th>Käyttäjä</th>
+                    <th>Partahöylä</th>
+                    <th>Partaterä</th>
+                    <th>Saippua</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pvk in pvkt %}
+                <tr>
+                    <td><a href="{{base_path}}/nayta_paivakirja/{{pvk.id}}">{{pvk.pvm}}</a></td>
+                    <td><a href="{{base_path}}/nayta_kayttaja/{{pvk.kayttaja.id}}">{{pvk.kayttaja.tunnus}}</a></td>
+                    <td><a href="{{base_path}}/nayta_hoyla/{{pvk.hoyla.id}}">{{pvk.hoyla.valmistaja}} {{pvk.hoyla.malli}}</a></td>
+                    <td><a href="{{base_path}}/nayta_tera/{{pvk.tera.id}}">{{pvk.tera.valmistaja}} {{pvk.tera.malli}}</a></td>
+                    <td>{{pvk.saippua}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     {% endif %}
     <div class="col-sm-6">
         <h2>Eniten käytetyt höylät</h2>
