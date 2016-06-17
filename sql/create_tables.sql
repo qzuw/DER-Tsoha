@@ -1,7 +1,7 @@
 -- Lisää CREATE TABLE lauseet tähän tiedostoon
 CREATE TABLE Kayttaja(
   id SERIAL PRIMARY KEY, 
-  tunnus varchar(50) UNIQUE NOT NULL, 
+  tunnus varchar(150) UNIQUE NOT NULL, 
   salasana varchar(250) NOT NULL
 );
 
@@ -15,7 +15,7 @@ CREATE TABLE Partahoyla(
 );
 
 CREATE TABLE KayttajanHoylat(
-  kayttaja_id INTEGER REFERENCES Kayttaja(id),
+  kayttaja_id INTEGER REFERENCES Kayttaja(id) ON DELETE CASCADE,
   partahoyla_id INTEGER REFERENCES Partahoyla(id),
   PRIMARY KEY(kayttaja_id, partahoyla_id)
 );
@@ -32,7 +32,7 @@ CREATE TABLE Tera(
 
 CREATE TABLE Paivakirja(
   id SERIAL PRIMARY KEY, 
-  kayttaja_id INTEGER NOT NULL REFERENCES Kayttaja(id),
+  kayttaja_id INTEGER NOT NULL REFERENCES Kayttaja(id) ON DELETE CASCADE,
   partahoyla_id INTEGER NOT NULL REFERENCES Partahoyla(id),
   tera_id INTEGER NOT NULL REFERENCES Tera(id),
   pvm TIMESTAMP NOT NULL,
