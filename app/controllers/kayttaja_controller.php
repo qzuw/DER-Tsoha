@@ -157,7 +157,7 @@ class KayttajaController extends BaseController {
                 $_SESSION['tunnus'] = $kayttaja->id;
                 Redirect::to('/', array('message' => 'Tunnus ' . $kayttaja->tunnus . ' on nyt lisätty tietokantaan ja kirjauduit sillä sisään.', 'kayttaja' => $kayttaja));
             } else {
-                Redirect::to('/kirjaudu', array('error' => 'Tunnuksen lisääminen tietokantaan epäonnistui, tämä tunnus saattaa olla jo olemassa. ' . $attributes['cpw'], 'attributes' => $attributes));
+                Redirect::to('/kirjaudu', array('error' => 'Tunnuksen lisääminen tietokantaan epäonnistui, tämä tunnus saattaa olla jo olemassa.', 'attributes' => $attributes));
             }
         } else {
             Redirect::to('/kirjaudu', array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
