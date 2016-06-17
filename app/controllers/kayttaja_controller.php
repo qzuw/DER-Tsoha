@@ -127,7 +127,7 @@ class KayttajaController extends BaseController {
             $salt = self::generate_salt();
             $kayttaja->salasana = $params['usalasana'];
             $kayttaja->pw2 = $params['usalasana2'];
-            $kayttaja->cpw = crypt($params['usalasana'], $salt);
+            $kayttaja->cpw = crypt(base64_encode($params['usalasana']), $salt);
             $errors = $kayttaja->validate_new_passwd();
             if (!$errors) {
                 $kayttaja->update();
@@ -145,7 +145,7 @@ class KayttajaController extends BaseController {
             'tunnus' => $params['tunnus'],
             'salasana' => $params['salasana'],
             'pw2' => $params['salasana2'],
-            'cpw' => crypt($params['salasana'], $salt)
+            'cpw' => crypt(base64_encode($params['salasana']), $salt)
         );
 
         $kayttaja = new Kayttaja($attributes);
@@ -156,7 +156,7 @@ class KayttajaController extends BaseController {
             if ($onnistui) {
                 Redirect::to('/', array('message' => 'Tunnus ' . $kayttaja->tunnus . ' on nyt lisätty tietokantaan', 'kayttaja' => $kayttaja));
             } else {
-                Redirect::to('/kirjaudu', array('error' => 'Tunnuksen lisääminen tietokantaan epäonnistui, tämä tunnus saattaa olla jo olemassa.', 'attributes' => $attributes));
+                Redirect::to('/kirjaudu', array('error' => 'Tunnuksen lisääminen tietokantaan epäonnistui, tämä tunnus saattaa olla jo olemassa. ' . $attributes['cpw'], 'attributes' => $attributes));
             }
         } else {
             Redirect::to('/kirjaudu', array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
