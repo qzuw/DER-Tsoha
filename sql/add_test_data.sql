@@ -2,7 +2,7 @@
 INSERT INTO Kayttaja (id, tunnus, salasana) VALUES (1, 'Parranajaja', '$6$mnzhNalN48wlwKOB$PbGNJEogv5/0UOKqQ3Lc45SPJlidMlpvaFutGTgLd9zT5.nCF0zm79ZA.IIGCdJKgMgxtU8yIq/GMhVgrSS1n.');
 INSERT INTO Kayttaja (id, tunnus, salasana) VALUES (2, 'Partapekka', '$6$mnzhNalN48wlwKOB$PbGNJEogv5/0UOKqQ3Lc45SPJlidMlpvaFutGTgLd9zT5.nCF0zm79ZA.IIGCdJKgMgxtU8yIq/GMhVgrSS1n.');
 
-INSERT INTO Tera (valmistaja, malli) VALUES ('Astra', 'Superior Platinum');
+INSERT INTO Tera (valmistaja, malli, teravyys, pehmeys, viittauksia) VALUES ('Astra', 'Superior Platinum', 13, 12, 3);
 INSERT INTO Tera (valmistaja, malli) VALUES ('Personna', 'Platinum');
 INSERT INTO Tera (valmistaja, malli) VALUES ('Rapira', 'Platinum');
 INSERT INTO Tera (valmistaja, malli) VALUES ('Rapira', 'Voskhod');
@@ -22,10 +22,10 @@ INSERT INTO Tera (valmistaja, malli) VALUES ('Lord', 'Big Ben');
 INSERT INTO Tera (valmistaja, malli) VALUES ('Perma-Sharp', 'Super');
 INSERT INTO Tera (valmistaja, malli) VALUES ('Tiger', 'Superior Stainless');
 
-INSERT INTO Partahoyla (id, valmistaja, malli) VALUES (1, 'Parker', '24C');
+INSERT INTO Partahoyla (id, valmistaja, malli, aggressiivisuus, viittauksia) VALUES (1, 'Parker', '24C', 8, 2);
 INSERT INTO Partahoyla (id, valmistaja, malli) VALUES (2, 'Merkur', '34C HD');
 INSERT INTO Partahoyla (id, valmistaja, malli) VALUES (3, 'Pearl', 'SSH-02');
-INSERT INTO Partahoyla (id, valmistaja, malli) VALUES (4, 'Fatip', 'Piccolo');
+INSERT INTO Partahoyla (id, valmistaja, malli, aggressiivisuus, viittauksia) VALUES (4, 'Fatip', 'Piccolo', 5, 1);
 INSERT INTO Partahoyla (id, valmistaja, malli) VALUES (5, 'Merkur', '37C');
 
 INSERT INTO KayttajanHoylat (partahoyla_id, kayttaja_id) VALUES (1, 1);
