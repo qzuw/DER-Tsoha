@@ -1,6 +1,6 @@
 -- Lisää INSERT INTO lauseet tähän tiedostoon
-INSERT INTO Kayttaja (id, tunnus, salasana) VALUES (1, 'Parranajaja', '$6$mnzhNalN48wlwKOB$PbGNJEogv5/0UOKqQ3Lc45SPJlidMlpvaFutGTgLd9zT5.nCF0zm79ZA.IIGCdJKgMgxtU8yIq/GMhVgrSS1n.');
-INSERT INTO Kayttaja (id, tunnus, salasana) VALUES (2, 'Partapekka', '$6$mnzhNalN48wlwKOB$PbGNJEogv5/0UOKqQ3Lc45SPJlidMlpvaFutGTgLd9zT5.nCF0zm79ZA.IIGCdJKgMgxtU8yIq/GMhVgrSS1n.');
+INSERT INTO Kayttaja (id, tunnus, salasana) VALUES (1, 'Parranajaja', '$6$MviwXqizDwbnul3A$T3L3w1tLcIrJ1GASdiBc6ErzpIJN5wbZhwM5p0eEKsw/q9TTVbAWbDPOayzB1hXiNGCPPZsnpZ3i4Zax.HP6v1');
+INSERT INTO Kayttaja (id, tunnus, salasana) VALUES (2, 'Partapekka', '$6$MviwXqizDwbnul3A$T3L3w1tLcIrJ1GASdiBc6ErzpIJN5wbZhwM5p0eEKsw/q9TTVbAWbDPOayzB1hXiNGCPPZsnpZ3i4Zax.HP6v1');
 
 INSERT INTO Tera (valmistaja, malli, teravyys, pehmeys, viittauksia) VALUES ('Astra', 'Superior Platinum', 13, 12, 3);
 INSERT INTO Tera (valmistaja, malli) VALUES ('Personna', 'Platinum');
