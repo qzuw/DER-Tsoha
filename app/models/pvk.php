@@ -2,11 +2,12 @@
 
 class Pvk extends BaseModel {
 
-    public $id, $pvm, $kayttaja, $hoyla, $tera, $saippua, $julkisuus, $kommentit;
+    public $id, $pvm, $klo, $kayttaja, $hoyla, $tera, $saippua, $julkisuus, $kommentit;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
 //        $this->validators = array('validate_manufact', 'validate_model', 'validate_sharpness', 'validate_smoothness');
+        $this->validators = array('validate_soap', 'validate_blade', 'validate_razor', 'validate_comment');
     }
 
     public static function all($options) {
@@ -27,12 +28,14 @@ class Pvk extends BaseModel {
         $rows = $query->fetchAll();
         $pvkt = array();
         foreach ($rows as $row) {
+            $aika = explode(" ", $row['pvm']);
             $pvkt[] = new Pvk(array(
                 'id' => $row['id'],
                 'kayttaja' => Kayttaja::find($row['kayttaja_id']),
                 'hoyla' => Partahoyla::find($row['partahoyla_id']),
                 'tera' => Tera::find($row['tera_id']),
-                'pvm' => $row['pvm'],
+                'pvm' => $aika[0],
+                'klo' => $aika[1],
                 'saippua' => $row['saippua'],
                 'kommentit' => $row['kommentit'],
                 'julkisuus' => $row['julkisuus']
@@ -73,12 +76,14 @@ class Pvk extends BaseModel {
         $rows = $query->fetchAll();
         $pvkt = array();
         foreach ($rows as $row) {
+            $aika = explode(" ", $row['pvm']);
             $pvkt[] = new Pvk(array(
                 'id' => $row['id'],
                 'kayttaja' => Kayttaja::find($row['kayttaja_id']),
                 'hoyla' => Partahoyla::find($row['partahoyla_id']),
                 'tera' => Tera::find($row['tera_id']),
-                'pvm' => $row['pvm'],
+                'pvm' => $aika[0],
+                'klo' => $aika[1],
                 'saippua' => $row['saippua'],
                 'kommentit' => $row['kommentit'],
                 'julkisuus' => $row['julkisuus']
@@ -105,12 +110,14 @@ class Pvk extends BaseModel {
         $row = $query->fetch();
 
         if ($row) {
+            $aika = explode(" ", $row['pvm']);
             $pvk = new Pvk(array(
                 'id' => $row['id'],
                 'kayttaja' => Kayttaja::find($row['kayttaja_id']),
                 'hoyla' => Partahoyla::find($row['partahoyla_id']),
                 'tera' => Tera::find($row['tera_id']),
-                'pvm' => $row['pvm'],
+                'pvm' => $aika[0],
+                'klo' => $aika[1],
                 'saippua' => $row['saippua'],
                 'kommentit' => $row['kommentit'],
                 'julkisuus' => $row['julkisuus']
@@ -121,14 +128,11 @@ class Pvk extends BaseModel {
     }
 
     public function add() {
-        $query = DB::connection()->prepare('INSERT INTO Tera (valmistaja, malli) VALUES (:valmistaja, :malli) RETURNING id');
+        $query = DB::connection()->prepare('INSERT INTO Paivakirja (kayttaja_id, partahoyla_id, tera_id, pvm, saippua, kommentit, julkisuus) VALUES (:kayttaja, :hoyla, :tera, :pvm, :saippua, :kommentit, :julkisuus) RETURNING id');
         try {
-            $query->execute(array('valmistaja' => $this->valmistaja, 'malli' => $this->malli));
+            $query->execute(array('kayttaja' => $this->kayttaja, 'hoyla' => $this->hoyla, 'tera' => $this->tera, 'pvm' => $this->pvm . ' ' . $this->klo, 'saippua' => $this->saippua, 'kommentit' => $this->kommentit, 'julkisuus' => $this->julkisuus));
             $row = $query->fetch();
             $this->id = $row['id'];
-            $this->viittauksia = 0;
-            $this->teravyys = 0;
-            $this->pehmeys = 0;
             return true;
         } catch (Exception $e) {
             return false;
@@ -159,36 +163,37 @@ class Pvk extends BaseModel {
         }
     }
 
-    public function validate_manufact() {
+    public function validate_soap() {
         $errors = array();
 
-        $errors = array_merge($errors, $this->validate_string_not_empty('Valmistaja', $this->valmistaja));
-        $errors = array_merge($errors, $this->validate_string_length('Valmistaja', $this->valmistaja, 3));
+        $errors = array_merge($errors, $this->validate_string_not_empty('saippua', $this->saippua));
+        $errors = array_merge($errors, $this->validate_string_length('saippua', $this->saippua, 3));
 
         return $errors;
     }
 
-    public function validate_model() {
+    public function validate_blade() {
         $errors = array();
 
-        $errors = array_merge($errors, $this->validate_string_not_empty('Malli', $this->malli));
-        $errors = array_merge($errors, $this->validate_string_length('Malli', $this->malli, 3));
+//        $errors = array_merge($errors, $this->validate_string_not_empty('Malli', $this->malli));
+//        $errors = array_merge($errors, $this->validate_string_length('Malli', $this->malli, 3));
 
         return $errors;
     }
 
-    public function validate_sharpness() {
+    public function validate_razor() {
         $errors = array();
 
-        $errors = array_merge($errors, $this->validate_string_is_number('Terävyys', $this->teravyys));
+//        $errors = array_merge($errors, $this->validate_string_is_number('Terävyys', $this->teravyys));
 
         return $errors;
     }
 
-    public function validate_smoothness() {
+    public function validate_comment() {
         $errors = array();
 
-        $errors = array_merge($errors, $this->validate_string_is_number('Pehmeys', $this->teravyys));
+        $errors = array_merge($errors, $this->validate_string_not_empty('kommentit', $this->kommentit));
+        $errors = array_merge($errors, $this->validate_string_length('kommentit', $this->kommentit, 10));
 
         return $errors;
     }

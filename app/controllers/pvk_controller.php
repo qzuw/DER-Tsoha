@@ -75,33 +75,45 @@ class PvkController extends BaseController {
         View::make('paivakirja/nayta_pvk.html', array('pvk' => $pvk));
     }
 
-    public static function uusi() {
+    public static function nayta_lisayssivu() {
         self::check_logged_in();
-        View::make('paivakirja/lisaa_pvk.html');
+        $id = $_SESSION['tunnus'];
+        $data = array();
+        $data['hoylat'] = array_merge(Partahoyla::owned(array('id' => $id)), Partahoyla::all(array()));
+        $data['terat'] = Tera::all(array());
+        $data['tanaan'] = date("Y-m-d");
+        $data['kello'] = date("H:i");
+        
+        View::make('paivakirja/lisaa_pvk.html', $data);
     }
 
     public static function lisaa() {
         self::check_logged_in();
+        $id = $_SESSION['tunnus'];
         $params = $_POST;
         $attributes = array(
-            'valmistaja' => $params['valmistaja'],
-            'malli' => $params['malli'],
-            'pehmeys' => 0,
-            'teravyys' => 0
+            'kayttaja' => $id,
+            'hoyla' => $params['hoyla'],
+            'tera' => $params['tera'],
+            'pvm' => $params['pvm'],
+            'klo' => $params['klo'],
+            'saippua' => $params['saippua'],
+            'kommentit' => $params['ajopvkirja'],
+            'julkisuus' => $params['julkisuus']
         );
 
-        $tera = new Tera($attributes);
-        $errors = $tera->errors();
+        $pvk = new Pvk($attributes);
+        $errors = $pvk->errors();
 
         if (count($errors) == 0) {
-            $onnistui = $tera->add();
+            $onnistui = $pvk->add();
             if ($onnistui) {
-                Redirect::to('/nayta_tera/' . $tera->id, array('message' => 'Terä on nyt lisätty tietokantaan'));
+                Redirect::to('/nayta_paivakirja/' . $pvk->id, array('message' => 'Ajopäiväkirjamerkintä on nyt lisätty tietokantaan'));
             } else {
-                Redirect::to('/listaa_terat', array('error' => 'Terän lisääminen tietokantaan epäonnistui, tarkista onko se listassa jo ennestään'));
+                Redirect::to('/uusi_paivakirja', array('error' => 'Päiväkirjamerkinnän lisääminen tietokantaan epäonnistui, tarkista ovatko kaikki tiedot oikein'));
             }
         } else {
-            Redirect::to('/uusi_tera' . $tera->id, array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
+            Redirect::to('/uusi_paivakirja', array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
         }
     }
 
