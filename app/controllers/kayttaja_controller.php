@@ -103,7 +103,7 @@ class KayttajaController extends BaseController {
     public static function kirjautuminen() {
         $params = $_POST;
 
-        $kayttaja = Kayttaja::tarkista_salasana($params['tunnus'], $params['salasana']);
+        $kayttaja = Kayttaja::tarkista_salasana($params['tunnus'], base64_encode($params['salasana']));
 
         if (!$kayttaja) {
             View::make('kayttaja/kirjaudu_rekisteroidy.html', array('error' => 'Väärä käyttäjätunnus tai salasana!', 'tunnus' => $params['tunnus']));
@@ -119,7 +119,7 @@ class KayttajaController extends BaseController {
         $params = $_POST;
 
         $kayttaja1 = Kayttaja::find($_SESSION['tunnus']);
-        $kayttaja = Kayttaja::tarkista_salasana($kayttaja1->tunnus, $params['salasana']);
+        $kayttaja = Kayttaja::tarkista_salasana($kayttaja1->tunnus, base64_encode($params['salasana']));
 
         if (!$kayttaja) {
             Redirect::to('/omat_tiedot', array('error' => 'Virheellinen salasana!'));
@@ -174,7 +174,7 @@ class KayttajaController extends BaseController {
         self::check_logged_in();
         $params = $_POST;
         $kayttaja = Kayttaja::find($_SESSION['tunnus']);
-        $kayttaja2 = Kayttaja::tarkista_salasana($params['tunnus'], $params['salasana']);
+        $kayttaja2 = Kayttaja::tarkista_salasana($params['tunnus'], base64_encode($params['salasana']));
         if ($kayttaja2 && $kayttaja->id == $kayttaja2->id) {
             $onnistui = $kayttaja->delete();
             if ($onnistui) {
