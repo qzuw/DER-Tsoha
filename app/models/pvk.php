@@ -2,7 +2,7 @@
 
 class Pvk extends BaseModel {
 
-    public $id, $pvm, $klo, $kayttaja, $hoyla, $tera, $saippua, $julkisuus, $kommentit;
+    public $id, $pvm, $klo, $kayttaja, $hoyla, $tera, $saippua, $julkisuus, $kommentit, $aggressiivisuus, $teravyys, $pehmeys;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -33,7 +33,10 @@ class Pvk extends BaseModel {
                 'id' => $row['id'],
                 'kayttaja' => Kayttaja::find($row['kayttaja_id']),
                 'hoyla' => Partahoyla::find($row['partahoyla_id']),
+                'aggressiivisuus' => Tera::find($row['aggressiivisuus']),
                 'tera' => Tera::find($row['tera_id']),
+                'teravyys' => Tera::find($row['teravyys']),
+                'pehmeys' => Tera::find($row['pehmeys']),
                 'pvm' => $aika[0],
                 'klo' => $aika[1],
                 'saippua' => $row['saippua'],
@@ -86,7 +89,10 @@ class Pvk extends BaseModel {
                 'id' => $row['id'],
                 'kayttaja' => Kayttaja::find($row['kayttaja_id']),
                 'hoyla' => Partahoyla::find($row['partahoyla_id']),
+                'aggressiivisuus' => Tera::find($row['aggressiivisuus']),
                 'tera' => Tera::find($row['tera_id']),
+                'teravyys' => Tera::find($row['teravyys']),
+                'pehmeys' => Tera::find($row['pehmeys']),
                 'pvm' => $aika[0],
                 'klo' => $aika[1],
                 'saippua' => $row['saippua'],
@@ -120,7 +126,10 @@ class Pvk extends BaseModel {
                 'id' => $row['id'],
                 'kayttaja' => Kayttaja::find($row['kayttaja_id']),
                 'hoyla' => Partahoyla::find($row['partahoyla_id']),
+                'aggressiivisuus' => Tera::find($row['aggressiivisuus']),
                 'tera' => Tera::find($row['tera_id']),
+                'teravyys' => Tera::find($row['teravyys']),
+                'pehmeys' => Tera::find($row['pehmeys']),
                 'pvm' => $aika[0],
                 'klo' => $aika[1],
                 'saippua' => $row['saippua'],
@@ -133,9 +142,9 @@ class Pvk extends BaseModel {
     }
 
     public function add() {
-        $query = DB::connection()->prepare('INSERT INTO Paivakirja (kayttaja_id, partahoyla_id, tera_id, pvm, saippua, kommentit, julkisuus) VALUES (:kayttaja, :hoyla, :tera, :pvm, :saippua, :kommentit, :julkisuus) RETURNING id');
+        $query = DB::connection()->prepare('INSERT INTO Paivakirja (kayttaja_id, partahoyla_id, aggressiivisuus, tera_id, teravyys, pehmeys, pvm, saippua, kommentit, julkisuus) VALUES (:kayttaja, :hoyla, :aggressiivisuus, :tera, :teravyys, :pehmeys, :pvm, :saippua, :kommentit, :julkisuus) RETURNING id');
         try {
-            $query->execute(array('kayttaja' => $this->kayttaja, 'hoyla' => $this->hoyla, 'tera' => $this->tera, 'pvm' => $this->pvm . ' ' . $this->klo, 'saippua' => $this->saippua, 'kommentit' => $this->kommentit, 'julkisuus' => $this->julkisuus));
+            $query->execute(array('kayttaja' => $this->kayttaja->id, 'hoyla' => $this->hoyla->id, 'aggressiivisuus' => $this->aggressiivisuus, 'tera' => $this->tera->id, 'teravyys' => $this->teravyys, 'pehmeys' => $this->pehmeys, 'pvm' => $this->pvm . ' ' . $this->klo, 'saippua' => $this->saippua, 'kommentit' => $this->kommentit, 'julkisuus' => $this->julkisuus));
             $row = $query->fetch();
             $this->id = $row['id'];
             return true;
@@ -146,7 +155,7 @@ class Pvk extends BaseModel {
 
     public function delete() {
         if ($this->viittauksia == 0) {
-            $query = DB::connection()->prepare('DELETE FROM Tera WHERE id = :id');
+            $query = DB::connection()->prepare('DELETE FROM Paivakirja WHERE id = :id');
             try {
                 $query->execute(array('id' => $this->id));
                 return true;
@@ -159,7 +168,7 @@ class Pvk extends BaseModel {
     }
 
     public function update() {
-        $query = DB::connection()->prepare('UPDATE Tera SET viittauksia = :viittauksia, teravyys = :teravyys, pehmeys = :pehmeys WHERE id = :id');
+        $query = DB::connection()->prepare('UPDATE Paivakirja SET viittauksia = :viittauksia, teravyys = :teravyys, pehmeys = :pehmeys WHERE id = :id');
         try {
             $query->execute(array('id' => $this->id, 'viittauksia' => $this->viittauksia, 'teravyys' => $this->teravyys, 'pehmeys' => $this->pehmeys));
             return true;

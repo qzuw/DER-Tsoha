@@ -87,7 +87,8 @@ class PvkController extends BaseController {
         self::check_logged_in();
         $id = $_SESSION['tunnus'];
         $data = array();
-        $data['hoylat'] = array_merge(Partahoyla::owned(array('id' => $id)), Partahoyla::all(array()));
+        $data['omat_hoylat'] = Partahoyla::owned(array('id' => $id));
+        $data['hoylat'] = Partahoyla::all(array());
         $data['terat'] = Tera::all(array());
         $data['tanaan'] = date("Y-m-d");
         $data['kello'] = date("H:i");
@@ -99,10 +100,15 @@ class PvkController extends BaseController {
         self::check_logged_in();
         $id = $_SESSION['tunnus'];
         $params = $_POST;
+        $hid = $params['hoyla'];
+        $tid = $params['tera'];
         $attributes = array(
-            'kayttaja' => $id,
-            'hoyla' => $params['hoyla'],
-            'tera' => $params['tera'],
+            'kayttaja' => Kayttaja::find($id),
+            'hoyla' => Partahoyla::find($hid),
+            'tera' => Tera::find($tid),
+            'aggressiivisuus' => $params['aggressiivisuus'],
+            'teravyys' => $params['teravyys'],
+            'pehmeys' => $params['pehmeys'],
             'pvm' => $params['pvm'],
             'klo' => $params['klo'],
             'saippua' => $params['saippua'],
@@ -116,6 +122,15 @@ class PvkController extends BaseController {
         if (count($errors) == 0) {
             $onnistui = $pvk->add();
             if ($onnistui) {
+                $hoyla = Partahoyla::find($hid);
+                $hoyla->viittauksia = $hoyla->viittauksia + 1;
+                $hoyla->aggressiivisuus = $hoyla->aggressiivisuus + $pvk->aggressiivisuus;
+                $hoyla->update();
+                $tera = Tera::find($tid);
+                $tera->viittauksia = $tera->viittauksia + 1;
+                $tera->teravyys = $tera->teravyys + $pvk->teravyys;
+                $tera->pehmeys = $tera->pehmeys + $pvk->pehmeys;
+                $tera->update();
                 Redirect::to('/nayta_paivakirja/' . $pvk->id, array('message' => 'Ajopäiväkirjamerkintä on nyt lisätty tietokantaan'));
             } else {
                 Redirect::to('/uusi_paivakirja', array('error' => 'Päiväkirjamerkinnän lisääminen tietokantaan epäonnistui'));

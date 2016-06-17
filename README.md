@@ -46,6 +46,6 @@ Salasana: salasana123
 
 ## CRUD-tilanne
 * Käyttäjä: CRUD
-* Höylä: CRD (myös U, mutta ei käytetä millään sivulla vielä)
-* Terä: CRD (myös U, mutta ei käytetä millään sivulla vielä)
+* Höylä: CRUD
+* Terä: CRUD
 * Pvk: CR
