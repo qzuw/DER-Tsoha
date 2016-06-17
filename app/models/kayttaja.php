@@ -31,7 +31,7 @@ class Kayttaja extends BaseModel {
             $kayttajat[] = new Kayttaja(array(
                 'id' => $row['id'],
                 'tunnus' => $row['tunnus'],
-                'salasana' => $row['salasana']
+                'cpw' => $row['salasana']
             ));
         }
         return $kayttajat;
@@ -95,7 +95,7 @@ class Kayttaja extends BaseModel {
             $kayttaja = new Kayttaja(array(
                 'id' => $row['id'],
                 'tunnus' => $row['tunnus'],
-                'salasana' => $row['salasana']
+                'cpw' => $row['salasana']
             ));
             return $kayttaja;
         }
