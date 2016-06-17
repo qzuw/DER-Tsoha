@@ -76,7 +76,11 @@ class PvkController extends BaseController {
         if (!$pvk->julkisuus && $kid != $pvk->kayttaja->id) {
             $pvk = null;
         }
-        View::make('paivakirja/nayta_pvk.html', array('pvk' => $pvk));
+        $data = array('pvk' => $pvk);
+        if ($kid == $pvk->kayttaja->id) {
+            $data['oma'] = true;
+        }     
+        View::make('paivakirja/nayta_pvk.html', $data);
     }
 
     public static function nayta_lisayssivu() {
@@ -114,7 +118,7 @@ class PvkController extends BaseController {
             if ($onnistui) {
                 Redirect::to('/nayta_paivakirja/' . $pvk->id, array('message' => 'Ajopäiväkirjamerkintä on nyt lisätty tietokantaan'));
             } else {
-                Redirect::to('/uusi_paivakirja', array('error' => 'Päiväkirjamerkinnän lisääminen tietokantaan epäonnistui, tarkista ovatko kaikki tiedot oikein'));
+                Redirect::to('/uusi_paivakirja', array('error' => 'Päiväkirjamerkinnän lisääminen tietokantaan epäonnistui'));
             }
         } else {
             Redirect::to('/uusi_paivakirja', array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
@@ -123,13 +127,17 @@ class PvkController extends BaseController {
 
     public static function poista($id) {
         self::check_logged_in();
-        $tera = Tera::find($id);
-        $tera_nimi = $tera->valmistaja . " " . $tera->malli;
-        $onnistui = $tera->delete();
+        $kid = $_SESSION['tunnus'];
+        if ($kid != $pvk->kayttaja->id) {
+            Redirect::to('/nayta_paivakirja/' . $id, array('error' => 'Tämä ajopäiväkirjamerkintä ei ole omasi vaan jonkun muun!'));
+        }
+        $pvk = Pvk::find($id);
+        $pvk_aika = $pvk->pvm . " " . $pvk->klo;
+        $onnistui = $pvk->delete();
         if ($onnistui) {
-            Redirect::to('/listaa_terat', array('success' => 'Terä ' . $tera_nimi . ' on nyt poistettu tietokannasta'));
+            Redirect::to('/listaa_omat_paivakirjat', array('success' => 'Ajopäiväkirjan merkintä ' . $pvk_aika . ' on nyt poistettu tietokannasta'));
         } else {
-            Redirect::to('/nayta_tera/' . $id, array('error' => 'Terän poistaminen epäonnistui, se on käytössä'));
+            Redirect::to('/nayta_paivakirja/' . $id, array('error' => 'Ajopäiväkirjamerkinnän poistaminen epäonnistui'));
         }
     }
 
