@@ -53,7 +53,7 @@ class KayttajaController extends BaseController {
 
         $data = array('kayttaja' => $kayttaja);
 
-        $data['pvk'] = Pvk::all_user(array('kayttaja' => $id));
+        $data['pvk'] = Pvk::all_user(array('kayttaja' => $id, 'julkinen' => true));
 
         View::make('kayttaja/nayta_kayttaja.html', $data);
     }

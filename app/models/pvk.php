@@ -71,7 +71,12 @@ class Pvk extends BaseModel {
         
         $kayttaja = $options['kayttaja'];
 
-        $query = DB::connection()->prepare('SELECT * FROM Paivakirja WHERE kayttaja_id = :kayttaja ORDER BY pvm DESC LIMIT :limit OFFSET :offset');
+        if (isset($options['julkinen'])) {
+            $query = DB::connection()->prepare('SELECT * FROM Paivakirja WHERE kayttaja_id = :kayttaja AND julkisuus = TRUE ORDER BY pvm DESC LIMIT :limit OFFSET :offset');
+        } else {
+            $query = DB::connection()->prepare('SELECT * FROM Paivakirja WHERE kayttaja_id = :kayttaja ORDER BY pvm DESC LIMIT :limit OFFSET :offset');
+        }
+
         $query->execute(array('limit' => $limit, 'offset' => $offset, 'kayttaja' => $kayttaja));
         $rows = $query->fetchAll();
         $pvkt = array();
