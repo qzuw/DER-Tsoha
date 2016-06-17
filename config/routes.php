@@ -132,12 +132,12 @@ $routes->get('/nayta_paivakirja/:id', 'check_logged_in', function($id) {
     PvkController::nayta($id);
 });
 
-$routes->get('/uusi_pvk', 'check_logged_in', function() {
+$routes->post('/uusi_pvk', 'check_logged_in', function() {
     PvkController::lisaa();
 });
 
 $routes->get('/uusi_paivakirja', 'check_logged_in', function() {
-    PvkController::lisaa();
+    PvkController::nayta_lisayssivu();
 });
 
 $routes->get('/', function() {
