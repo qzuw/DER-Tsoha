@@ -71,7 +71,11 @@ class PvkController extends BaseController {
 
     public static function nayta($id) {
         self::check_logged_in();
+        $kid = $_SESSION['tunnus'];
         $pvk = Pvk::find($id);
+        if (!$pvk->julkisuus && $kid != $pvk->kayttaja->id) {
+            $pvk = null;
+        }
         View::make('paivakirja/nayta_pvk.html', array('pvk' => $pvk));
     }
 
