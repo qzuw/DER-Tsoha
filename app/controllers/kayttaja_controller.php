@@ -154,7 +154,8 @@ class KayttajaController extends BaseController {
         if (count($errors) == 0) {
             $onnistui = $kayttaja->add();
             if ($onnistui) {
-                Redirect::to('/', array('message' => 'Tunnus ' . $kayttaja->tunnus . ' on nyt lisätty tietokantaan', 'kayttaja' => $kayttaja));
+                $_SESSION['tunnus'] = $kayttaja->id;
+                Redirect::to('/', array('message' => 'Tunnus ' . $kayttaja->tunnus . ' on nyt lisätty tietokantaan ja kirjauduit sillä sisään.', 'kayttaja' => $kayttaja));
             } else {
                 Redirect::to('/kirjaudu', array('error' => 'Tunnuksen lisääminen tietokantaan epäonnistui, tämä tunnus saattaa olla jo olemassa. ' . $attributes['cpw'], 'attributes' => $attributes));
             }
