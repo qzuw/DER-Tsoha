@@ -2,7 +2,7 @@
 
 class Kayttaja extends BaseModel {
 
-    public $id, $tunnus, $salasana, $pw2;
+    public $id, $tunnus, $salasana, $pw2, $cpw;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -105,7 +105,7 @@ class Kayttaja extends BaseModel {
     public function add() {
         $query = DB::connection()->prepare('INSERT INTO Kayttaja (tunnus, salasana) VALUES (:tunnus, :salasana) RETURNING id');
         try {
-            $query->execute(array('tunnus' => $this->tunnus, 'salasana' => $this->salasana));
+            $query->execute(array('tunnus' => $this->tunnus, 'salasana' => $this->cpw));
             $row = $query->fetch();
             $this->id = $row['id'];
             return true;
@@ -127,7 +127,7 @@ class Kayttaja extends BaseModel {
     public function update() {
         $query = DB::connection()->prepare('UPDATE Kayttaja SET salasana = :salasana WHERE id = :id');
         try {
-            $query->execute(array('id' => $this->id, 'salasana' => $this->salasana));
+            $query->execute(array('id' => $this->id, 'salasana' => $this->cpw));
             return true;
         } catch (Exception $e) {
             return false;
@@ -141,11 +141,11 @@ class Kayttaja extends BaseModel {
 
         if ($row) {
             // myohemmin if (crypt($user_input, $digest) == $digest)
-            if ($row['salasana'] == $salasana) {
+            if ($row['salasana'] == crypt($salasana, $row['salasana'])) {
                 $kayttaja = new Kayttaja(array(
                     'id' => $row['id'],
                     'tunnus' => $row['tunnus'],
-                    'salasana' => $row['salasana']
+                    'cpw' => $row['salasana']
                 ));
                 return $kayttaja;
             }

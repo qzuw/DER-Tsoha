@@ -41,8 +41,8 @@ class KayttajaController extends BaseController {
 
         $data = array('kayttaja' => $kayttaja);
 
-        $data['hoylat'] =  Partahoyla::owned(array('id' => $id));
-        $data['pvk'] =  Pvk::all_user(array('kayttaja' => $id, 'maara' => 5));
+        $data['hoylat'] = Partahoyla::owned(array('id' => $id));
+        $data['pvk'] = Pvk::all_user(array('kayttaja' => $id, 'maara' => 5));
 
         View::make('kayttaja/omat_tiedot.html', $data);
     }
@@ -53,7 +53,7 @@ class KayttajaController extends BaseController {
 
         $data = array('kayttaja' => $kayttaja);
 
-        $data['pvk'] =  Pvk::all_user(array('kayttaja' => $id));
+        $data['pvk'] = Pvk::all_user(array('kayttaja' => $id));
 
         View::make('kayttaja/nayta_kayttaja.html', $data);
     }
@@ -124,8 +124,10 @@ class KayttajaController extends BaseController {
         if (!$kayttaja) {
             Redirect::to('/omat_tiedot', array('error' => 'Virheellinen salasana!'));
         } else {
+            $salt = self::generate_salt();
             $kayttaja->salasana = $params['usalasana'];
             $kayttaja->pw2 = $params['usalasana2'];
+            $kayttaja->cpw = crypt($params['usalasana'], $salt);
             $errors = $kayttaja->validate_new_passwd();
             if (!$errors) {
                 $kayttaja->update();
@@ -138,10 +140,12 @@ class KayttajaController extends BaseController {
 
     public static function rekisteroityminen() {
         $params = $_POST;
+        $salt = self::generate_salt();
         $attributes = array(
             'tunnus' => $params['tunnus'],
             'salasana' => $params['salasana'],
-            'pw2' => $params['salasana2']
+            'pw2' => $params['salasana2'],
+            'cpw' => crypt($params['salasana'], $salt)
         );
 
         $kayttaja = new Kayttaja($attributes);
@@ -181,6 +185,15 @@ class KayttajaController extends BaseController {
         } else {
             Redirect::to('/omat_tiedot', array('error' => 'Tunnuksen poistaminen epäonnistui', 'kayttaja' => $kayttaja));
         }
+    }
+
+    private static function generate_salt() {
+        $salt = '$6$';
+        $merkit = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        for ($i = 0; $i < 16; $i++) {
+            $salt .= $merkit[mt_rand(0, strlen($merkit) - 1)];
+        }
+        return $salt;
     }
 
 }

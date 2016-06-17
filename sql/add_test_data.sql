@@ -1,6 +1,6 @@
 -- Lisää INSERT INTO lauseet tähän tiedostoon
-INSERT INTO Kayttaja (id, tunnus, salasana) VALUES (1, 'Parranajaja', 'salasana123');
-INSERT INTO Kayttaja (id, tunnus, salasana) VALUES (2, 'Partapekka', 'salasana321');
+INSERT INTO Kayttaja (id, tunnus, salasana) VALUES (1, 'Parranajaja', '$6$mnzhNalN48wlwKOB$PbGNJEogv5/0UOKqQ3Lc45SPJlidMlpvaFutGTgLd9zT5.nCF0zm79ZA.IIGCdJKgMgxtU8yIq/GMhVgrSS1n.');
+INSERT INTO Kayttaja (id, tunnus, salasana) VALUES (2, 'Partapekka', '$6$mnzhNalN48wlwKOB$PbGNJEogv5/0UOKqQ3Lc45SPJlidMlpvaFutGTgLd9zT5.nCF0zm79ZA.IIGCdJKgMgxtU8yIq/GMhVgrSS1n.');
 
 INSERT INTO Tera (valmistaja, malli) VALUES ('Astra', 'Superior Platinum');
 INSERT INTO Tera (valmistaja, malli) VALUES ('Personna', 'Platinum');
@@ -23,7 +23,10 @@ INSERT INTO Tera (valmistaja, malli) VALUES ('Perma-Sharp', 'Super');
 INSERT INTO Tera (valmistaja, malli) VALUES ('Tiger', 'Superior Stainless');
 
 INSERT INTO Partahoyla (id, valmistaja, malli) VALUES (1, 'Parker', '24C');
-INSERT INTO Partahoyla (id, valmistaja, malli) VALUES (2, 'Merkur', '34c');
+INSERT INTO Partahoyla (valmistaja, malli) VALUES ('Merkur', '34C HD');
+INSERT INTO Partahoyla (valmistaja, malli) VALUES ('Pearl', 'SSH-02');
+INSERT INTO Partahoyla (valmistaja, malli) VALUES ('Merkur', '37C');
+INSERT INTO Partahoyla (valmistaja, malli) VALUES ('Fatip', 'Piccolo');
 
 INSERT INTO KayttajanHoylat (partahoyla_id, kayttaja_id) VALUES (1, 1);
 INSERT INTO KayttajanHoylat (partahoyla_id, kayttaja_id) VALUES (2, 1);
