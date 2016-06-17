@@ -102,6 +102,11 @@ class PvkController extends BaseController {
         $params = $_POST;
         $hid = $params['hoyla'];
         $tid = $params['tera'];
+        if (isset($params['julkisuus'])) {
+            $julkisuus = true;
+        } else {
+            $julkisuus = false;
+        }
         $attributes = array(
             'kayttaja' => Kayttaja::find($id),
             'hoyla' => Partahoyla::find($hid),
@@ -113,7 +118,7 @@ class PvkController extends BaseController {
             'klo' => $params['klo'],
             'saippua' => $params['saippua'],
             'kommentit' => $params['ajopvkirja'],
-            'julkisuus' => $params['julkisuus']
+            'julkisuus' => $julkisuus
         );
 
         $pvk = new Pvk($attributes);
@@ -133,7 +138,7 @@ class PvkController extends BaseController {
                 $tera->update();
                 Redirect::to('/nayta_paivakirja/' . $pvk->id, array('message' => 'Ajopäiväkirjamerkintä on nyt lisätty tietokantaan'));
             } else {
-                Redirect::to('/uusi_paivakirja', array('error' => 'Päiväkirjamerkinnän lisääminen tietokantaan epäonnistui'));
+                Redirect::to('/uusi_paivakirja', array('error' => 'Päiväkirjamerkinnän lisääminen tietokantaan epäonnistui', 'attributes' => $attributes));
             }
         } else {
             Redirect::to('/uusi_paivakirja', array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
