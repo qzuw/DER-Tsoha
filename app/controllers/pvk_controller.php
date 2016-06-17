@@ -102,10 +102,10 @@ class PvkController extends BaseController {
         $params = $_POST;
         $hid = $params['hoyla'];
         $tid = $params['tera'];
-        if (isset($params['julkisuus'])) {
+        if (isset($params['julkisuus']) && $params['julkisuus']) {
             $julkisuus = true;
         } else {
-            $julkisuus = false;
+            $julkisuus = 0;
         }
         $attributes = array(
             'kayttaja' => Kayttaja::find($id),
