@@ -41,9 +41,8 @@ class KayttajaController extends BaseController {
 
         $data = array('kayttaja' => $kayttaja);
 
-        $hoylat = Partahoyla::owned(array('id' => $id));
-
-        $data['hoylat'] = $hoylat;
+        $data['hoylat'] =  Partahoyla::owned(array('id' => $id));
+        $data['pvk'] =  Pvk::all_user(array('kayttaja' => $id, 'maara' => 5));
 
         View::make('kayttaja/omat_tiedot.html', $data);
     }
