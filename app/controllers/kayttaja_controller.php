@@ -50,7 +50,12 @@ class KayttajaController extends BaseController {
     public static function nayta($id) {
         self::check_logged_in();
         $kayttaja = Kayttaja::find($id);
-        View::make('kayttaja/nayta_kayttaja.html', array('kayttaja' => $kayttaja));
+
+        $data = array('kayttaja' => $kayttaja);
+
+        $data['pvk'] =  Pvk::all_user(array('kayttaja' => $id));
+
+        View::make('kayttaja/nayta_kayttaja.html', $data);
     }
 
     public static function lisaa_hoyla() {

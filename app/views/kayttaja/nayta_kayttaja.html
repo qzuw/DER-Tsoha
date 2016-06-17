@@ -16,6 +16,44 @@
 {% endif %}
 
 <div>
-    pvk
+    <h3>Viimeisimmät ajopäiväkirjamerkinnät</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Pvm</th>
+                <th>Höylä</th>
+                <th>Terä</th>
+                <th>Saippua</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if pvk %}
+            {% for merkinta in pvk %}
+            <tr>
+                <td><a href="{{base_path}}/nayta_paivakirja/{{merkinta.id}}">{{merkinta.pvm}}</a></td>
+                <td>{{merkinta.hoyla.valmistaja}} {{merkinta.hoyla.malli}}</td>
+                <td>{{merkinta.tera.valmistaja}} {{merkinta.tera.malli}}</td>
+                <td>{{merkinta.saippua}}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td>Ei päiväkirjamerkintöjä!</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    {% if sivut %}
+    <nav>
+        <ul class="pagination">
+            <li class="{% if not ed_sivu %}disabled"><a><<</a>{% else %}"><a href="{{base_path}}/nayta_kayttaja/{{kayttaja.id}}/{{ed_sivu}}"><<</a>{% endif %}</li>
+            {% for sivu in 1..sivut %}
+            <li class="{% if nyk_sivu == sivu %}active{% endif %}"><a href="{{base_path}}/nayta_kayttaja/{{kayttaja.id}}/{{sivu}}">{{sivu}}</a></li>
+            {% endfor %}
+            <li class="{% if not seur_sivu %}disabled"><a>>></a>{% else %}"><a href="{{base_path}}/nayta_kayttaja/{{kayttaja.id}}/{{seur_sivu}}">>></a>{% endif %}</li>
+        </ul>
+    </nav>
+    {% endif %}
+
 </div>
 {% endblock %}
