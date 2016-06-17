@@ -43,3 +43,9 @@ siihen arvioita terästä ja/tai höylästä. Näiden arvioiden perusteella käy
 
 Tunnus: Parranajaja
 Salasana: salasana123
+
+## CRUD-tilanne
+* Käyttäjä: CRUD
+* Höylä: CRD (myös U, mutta ei käytetä millään sivulla vielä)
+* Terä: CRD (myös U, mutta ei käytetä millään sivulla vielä)
+* Pvk: CR
