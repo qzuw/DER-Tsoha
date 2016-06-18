@@ -28,7 +28,7 @@
     {% endif %}
 
     <div>
-        <form action="{{base_path}}/muokkaa_pvk" method="post" role="form">
+        <form action="{{base_path}}/muokkaa_pvk/{{pvk.id}}" method="post" role="form">
             <div class="form-group form-inline">
                 <label for="pvm">Päiväys:</label>
                 <input type="date" class="form-control" id="pvm" name="pvm" value="{{pvk.pvm}}">

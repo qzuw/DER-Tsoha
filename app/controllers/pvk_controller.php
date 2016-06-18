@@ -171,21 +171,26 @@ class PvkController extends BaseController {
         $params = $_POST;
         $hid = $params['hoyla'];
         $tid = $params['tera'];
-        $attributes = array(
-            'kayttaja' => Kayttaja::find($id),
-            'hoyla' => Partahoyla::find($hid),
-            'tera' => Tera::find($tid),
-            'aggressiivisuus' => $params['aggressiivisuus'],
-            'teravyys' => $params['teravyys'],
-            'pehmeys' => $params['pehmeys'],
-            'pvm' => $params['pvm'],
-            'klo' => $params['klo'],
-            'saippua' => $params['saippua'],
-            'kommentit' => $params['ajopvkirja'],
-            'julkisuus' => $julkisuus
-        );
 
-        $pvk = new Pvk($attributes);
+        $pvk = Pvk::find($pid);
+
+
+        if (isset($params['julkisuus']) && $params['julkisuus']) {
+            $pvk->julkisuus = true;
+        } else {
+            $pvk->julkisuus = 0;
+        }
+        $pvk->kayttaja = Kayttaja::find($id);
+        $pvk->hoyla = Partahoyla::find($hid);
+        $pvk->tera = Tera::find($tid);
+        $pvk->aggressiivisuus = $params['aggressiivisuus'];
+        $pvk->teravyys = $params['teravyys'];
+        $pvk->pehmeys = $params['pehmeys'];
+        $pvk->pvm = $params['pvm'];
+        $pvk->klo = $params['klo'];
+        $pvk->saippua = $params['saippua'];
+        $pvk->kommentit = $params['ajopvkirja'];
+
         $errors = $pvk->errors();
 
         if (count($errors) == 0) {
@@ -201,12 +206,12 @@ class PvkController extends BaseController {
                 $tera->teravyys = $tera->teravyys + $pvk->teravyys;
                 $tera->pehmeys = $tera->pehmeys + $pvk->pehmeys;
                 $tera->update();
-                Redirect::to('/nayta_paivakirja/' . $pvk->id, array('message' => 'Ajopäiväkirjamerkintä on nyt päivitetty tietokantaan'));
+                Redirect::to('/nayta_paivakirja/' . $pid, array('message' => 'Ajopäiväkirjamerkintä on nyt päivitetty tietokantaan'));
             } else {
-                Redirect::to('/muokkaa_paivakirja/' . $pvk->id, array('error' => 'Päiväkirjamerkinnän muokkaaminen epäonnistui', 'attributes' => $attributes));
+                Redirect::to('/muokkaa_paivakirja/' . $pid, array('error' => 'Päiväkirjamerkinnän muokkaaminen epäonnistui', 'attributes' => $attributes));
             }
         } else {
-            Redirect::to('/muokkaa_paivakirja/' . $pvk->id, array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
+            Redirect::to('/muokkaa_paivakirja/' . $pid, array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
         }
     }
 

@@ -164,9 +164,11 @@ class Pvk extends BaseModel {
     }
 
     public function update() {
-        $query = DB::connection()->prepare('UPDATE Paivakirja SET viittauksia = :viittauksia, teravyys = :teravyys, pehmeys = :pehmeys WHERE id = :id');
+        $query = DB::connection()->prepare('UPDATE Paivakirja SET kommentit = :kommentit, partahoyla_id = :hoyla, tera_id = :tera, pvm = :pvm, saippua = :saippua, julkisuus = :julkisuus, aggressiivisuus = :aggressiivisuus, teravyys = :teravyys, pehmeys = :pehmeys WHERE id = :id');
+//        $query = DB::connection()->prepare('UPDATE Paivakirja SET kommentit = :kommentit, saippua = :saippua, julkisuus = :julkisuus WHERE id = :id');
         try {
-            $query->execute(array('id' => $this->id, 'viittauksia' => $this->viittauksia, 'teravyys' => $this->teravyys, 'pehmeys' => $this->pehmeys));
+            $query->execute(array('id' => $this->id, 'kommentit' => $this->kommentit, 'hoyla' => $this->hoyla->id, 'tera' => $this->tera->id, 'pvm' => $this->pvm . ' ' . $this->klo, 'saippua' => $this->saippua, 'julkisuus' => $this->julkisuus, 'aggressiivisuus' => $this->aggressiivisuus, 'teravyys' => $this->teravyys, 'pehmeys' => $this->pehmeys));
+//            $query->execute(array('id' => $this->id, 'kommentit' => $this->kommentit, 'saippua' => $this->saippua, 'julkisuus' => $this->julkisuus));
             return true;
         } catch (Exception $e) {
             return false;
