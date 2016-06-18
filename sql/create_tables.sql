@@ -44,3 +44,16 @@ CREATE TABLE Paivakirja(
   julkisuus boolean DEFAULT FALSE
 );
 
+CREATE VIEW Hoylanakyma AS 
+  SELECT ph.id, valmistaja, malli, COALESCE(SUM(pvk.aggressiivisuus), 0) AS aggressiivisuus, 
+  COUNT(pvk.partahoyla_id) AS viittauksia 
+  FROM Partahoyla ph 
+  LEFT JOIN Paivakirja pvk ON ph.id=pvk.partahoyla_id 
+  GROUP BY ph.id, valmistaja, malli;
+
+CREATE VIEW Teranakyma AS 
+  SELECT pt.id, valmistaja, malli, COALESCE(SUM(pvk.teravyys), 0) AS teravyys, COALESCE(SUM(pvk.pehmeys), 0) AS pehmeys, 
+  COUNT(pvk.tera_id) AS viittauksia 
+  FROM Tera pt 
+  LEFT JOIN Paivakirja pvk ON pt.id=pvk.tera_id 
+  GROUP BY pt.id, valmistaja, malli;
