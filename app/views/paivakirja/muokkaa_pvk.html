@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col-sm-2"></div>
+<div class="col-sm-8">
+    <div class="page-header">
+        <h1>Muokkaa merkintää!</h1>
+    </div>
+    {% if success %}
+    <div class="alert alert-success">
+        {{success}}
+    </div>
+    {% endif %}
+    {% if message %}
+    <div class="alert alert-info">
+        {{message}}
+    </div>
+    {% endif %}
+    {% if error %}
+    <div class="alert alert-danger">
+        {{error}}
+    </div>
+    {% for err in errors %}
+    <div class="alert alert-warning">
+        {{err}}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <div>
+        <form action="{{base_path}}/muokkaa_pvk" method="post" role="form">
+            <div class="form-group form-inline">
+                <label for="pvm">Päiväys:</label>
+                <input type="date" class="form-control" id="pvm" name="pvm" value="{{pvk.pvm}}">
+                <input type="time" class="form-control" id="klo" name="klo" value="{{pvk.klo}}">
+            </div>
+            <div class="form-group form-inline">
+                <label for="saippua">Saippua:</label>
+                <input type="text" class="form-control" id="saippua" name="saippua" value="{{pvk.saippua}}">
+            </div>
+            <div class="form-group form-inline">
+                <label for="hoyla">Höylä:</label>
+                <select class="form-control" name="hoyla" id="hoyla">
+                    <option value="{{pvk.hoyla.id}}">{{pvk.hoyla.valmistaja}} {{pvk.hoyla.malli}}</option>
+                    {% for hoyla in omat_hoylat %}
+                    <option value="{{hoyla.id}}">{{hoyla.valmistaja}} {{hoyla.malli}}</option>
+                    {% endfor %}
+                    <option value="eimaaritelty">------------</option>
+                    {% for hoyla in hoylat %}
+                    <option value="{{hoyla.id}}">{{hoyla.valmistaja}} {{hoyla.malli}}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="aggressiivisuus">Aggressiivisuus:</label>
+                <select class="form-control" name="aggressiivisuus" id="aggressiivisuus">
+                    <option value="{{pvk.aggressiivisuus}}">{{pvk.aggressiivisuus}}</option>
+                    <option value="5">5</option>
+                    <option value="4">4</option>
+                    <option value="3">3</option>
+                    <option value="2">2</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+
+            <div class="form-inline form-group">
+                <label for="tera">Terä:</label>
+                <select class="form-control" id="tera" name="tera">
+                    <option value="{{pvk.tera.id}}">{{pvk.tera.valmistaja}} {{pvk.tera.malli}}</option>
+                    {% for tera in terat %}
+                    <option value="{{tera.id}}">{{tera.valmistaja}} {{tera.malli}}</option>
+                    {% endfor %}
+                </select>
+                <label for="teravyys">Terävyys:</label>
+                <select class="form-control" name="teravyys" id="teravyys">
+                    <option value="{{pvk.teravyys}}">{{pvk.teravyys}}</option>
+                    <option value="5">5</option>
+                    <option value="4">4</option>
+                    <option value="3">3</option>
+                    <option value="2">2</option>
+                    <option value="1">1</option>
+                </select>
+                <label for="pehmeys">Pehmeys:</label>
+                <select class="form-control" name="pehmeys" id="pehmeys">
+                    <option value="{{pvk.pehmeys}}">{{pvk.pehmeys}}</option>
+                    <option value="5">5</option>
+                    <option value="4">4</option>
+                    <option value="3">3</option>
+                    <option value="2">2</option>
+                    <option value="1">1</option>
+                </select>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="julkisuus" id="julkisuus" value="{{pvk.julkisuus}}"> Tämä päiväkirja on julkinen</label>
+            </div>
+            <div class="form-group">
+                <label for="ajopvkirja">Päivän ajo:</label>
+                <textarea class="form-control" id="ajopvkirja" name="ajopvkirja" rows="3">{{pvk.kommentit}}</textarea>
+            </div>
+            <button type="submit" class="btn btn-default">Talleta</button>
+        </form>
+    </div>
+</div>
+<div class="col-sm-2"></div>
+{% endblock %}

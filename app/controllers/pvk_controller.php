@@ -145,6 +145,71 @@ class PvkController extends BaseController {
         }
     }
 
+    public static function nayta_muokkaussivu($pid) {
+        self::check_logged_in();
+        $id = $_SESSION['tunnus'];
+        $pvk = Pvk::find($pid);
+        if ($id != $pvk->kayttaja->id) {
+            Redirect::to('/nayta_paivakirja/' . $pid, array('error' => 'Tämä ajopäiväkirjamerkintä ei ole omasi vaan jonkun muun!'));
+        }
+        $data = array();
+        $data['omat_hoylat'] = Partahoyla::owned(array('id' => $id, 'maara' => 0));
+        $data['hoylat'] = Partahoyla::all(array('maara' => 0));
+        $data['terat'] = Tera::all(array('maara' => 0));
+        $data['pvk'] = Pvk::find($pid);
+        
+        View::make('paivakirja/muokkaa_pvk.html', $data);
+    }
+
+    public static function muokkaa($pid) {
+        self::check_logged_in();
+        $id = $_SESSION['tunnus'];
+        $pvk = Pvk::find($pid);
+        if ($id != $pvk->kayttaja->id) {
+            Redirect::to('/nayta_paivakirja/' . $pid, array('error' => 'Tämä ajopäiväkirjamerkintä ei ole omasi vaan jonkun muun!'));
+        }
+        $params = $_POST;
+        $hid = $params['hoyla'];
+        $tid = $params['tera'];
+        $attributes = array(
+            'kayttaja' => Kayttaja::find($id),
+            'hoyla' => Partahoyla::find($hid),
+            'tera' => Tera::find($tid),
+            'aggressiivisuus' => $params['aggressiivisuus'],
+            'teravyys' => $params['teravyys'],
+            'pehmeys' => $params['pehmeys'],
+            'pvm' => $params['pvm'],
+            'klo' => $params['klo'],
+            'saippua' => $params['saippua'],
+            'kommentit' => $params['ajopvkirja'],
+            'julkisuus' => $julkisuus
+        );
+
+        $pvk = new Pvk($attributes);
+        $errors = $pvk->errors();
+
+        if (count($errors) == 0) {
+            $onnistui = $pvk->update();
+            if ($onnistui) {
+                //hoylan ja teran arvot voisi refaktoroida nakymiksi jolloin naita muutoksia alla ei tarvita, muuten tama kaipaa viela paivitysta
+                $hoyla = Partahoyla::find($hid);
+                $hoyla->viittauksia = $hoyla->viittauksia + 1;
+                $hoyla->aggressiivisuus = $hoyla->aggressiivisuus + $pvk->aggressiivisuus;
+                $hoyla->update();
+                $tera = Tera::find($tid);
+                $tera->viittauksia = $tera->viittauksia + 1;
+                $tera->teravyys = $tera->teravyys + $pvk->teravyys;
+                $tera->pehmeys = $tera->pehmeys + $pvk->pehmeys;
+                $tera->update();
+                Redirect::to('/nayta_paivakirja/' . $pvk->id, array('message' => 'Ajopäiväkirjamerkintä on nyt päivitetty tietokantaan'));
+            } else {
+                Redirect::to('/muokkaa_paivakirja/' . $pvk->id, array('error' => 'Päiväkirjamerkinnän muokkaaminen epäonnistui', 'attributes' => $attributes));
+            }
+        } else {
+            Redirect::to('/muokkaa_paivakirja/' . $pvk->id, array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
+        }
+    }
+
     public static function poista($id) {
         self::check_logged_in();
         $kid = $_SESSION['tunnus'];
