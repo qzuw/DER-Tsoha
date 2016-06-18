@@ -23,10 +23,10 @@ class Tera extends BaseModel {
         $offset = $limit * ($sivu - 1);
 
         if ($limit == 0) {
-            $query = DB::connection()->prepare('SELECT * FROM Tera ORDER BY viittauksia DESC');
+            $query = DB::connection()->prepare('SELECT * FROM Teranakyma ORDER BY viittauksia DESC');
             $query->execute(array());
         } else {
-            $query = DB::connection()->prepare('SELECT * FROM Tera ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
+            $query = DB::connection()->prepare('SELECT * FROM Teranakyma ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
             $query->execute(array('limit' => $limit, 'offset' => $offset));
         }
         $rows = $query->fetchAll();
@@ -45,7 +45,7 @@ class Tera extends BaseModel {
     }
 
     public static function count() {
-        $query = DB::connection()->prepare('SELECT count(*) AS maara FROM Tera');
+        $query = DB::connection()->prepare('SELECT count(*) AS maara FROM Teranakyma');
         $query->execute();
         $row = $query->fetch();
 
@@ -58,7 +58,7 @@ class Tera extends BaseModel {
 
     public static function find($id) {
         try {
-            $query = DB::connection()->prepare('SELECT * FROM Tera WHERE id = :id');
+            $query = DB::connection()->prepare('SELECT * FROM Teranakyma WHERE id = :id');
             $query->execute(array('id' => $id));
             $row = $query->fetch();
         } catch (Exception $e) {
