@@ -77,7 +77,7 @@ class PvkController extends BaseController {
             $pvk = null;
         }
         $data = array('pvk' => $pvk);
-        if ($kid == $pvk->kayttaja->id) {
+        if (isset($pvk) && $kid == $pvk->kayttaja->id) {
             $data['oma'] = true;
         }     
         View::make('paivakirja/nayta_pvk.html', $data);
