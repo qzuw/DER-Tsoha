@@ -53,4 +53,4 @@ Salasana: salasana123
 * Käyttäjä: CRUD
 * Höylä: CRUD
 * Terä: CRUD
-* Pvk: CR
+* Pvk: CRD
