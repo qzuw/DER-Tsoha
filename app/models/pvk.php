@@ -212,7 +212,7 @@ class Pvk extends BaseModel {
     public function validate_time() {
         $errors = array();
 
-        $errors = array_merge($errors, $this->validate_string_is_not_empty('Kellonaika', $this->klo));
+        $errors = array_merge($errors, $this->validate_string_not_empty('Kellonaika', $this->klo));
 
         return $errors;
     }

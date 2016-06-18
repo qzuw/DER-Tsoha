@@ -57,9 +57,13 @@ class Tera extends BaseModel {
     }
 
     public static function find($id) {
-        $query = DB::connection()->prepare('SELECT * FROM Tera WHERE id = :id');
-        $query->execute(array('id' => $id));
-        $row = $query->fetch();
+        try {
+            $query = DB::connection()->prepare('SELECT * FROM Tera WHERE id = :id');
+            $query->execute(array('id' => $id));
+            $row = $query->fetch();
+        } catch (Exception $e) {
+            return null;
+        }
 
         if ($row) {
             $tera = new Tera(array(

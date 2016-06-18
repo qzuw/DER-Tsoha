@@ -102,10 +102,10 @@ class PvkController extends BaseController {
         $params = $_POST;
         $hid = $params['hoyla'];
         $tid = $params['tera'];
-        if (isset($params['julkisuus']) && $params['julkisuus']) {
+        if (isset($params['julkisuus']) && $params['julkisuus'] == "on") {
             $julkisuus = true;
         } else {
-            $julkisuus = 0;
+            $julkisuus = false;
         }
         $attributes = array(
             'kayttaja' => Kayttaja::find($id),
@@ -175,10 +175,10 @@ class PvkController extends BaseController {
         $pvk = Pvk::find($pid);
 
 
-        if (isset($params['julkisuus']) && $params['julkisuus']) {
+        if (isset($params['julkisuus']) && $params['julkisuus'] == "on") {
             $pvk->julkisuus = true;
         } else {
-            $pvk->julkisuus = 0;
+            $pvk->julkisuus = false;
         }
         $pvk->kayttaja = Kayttaja::find($id);
         $pvk->hoyla = Partahoyla::find($hid);
@@ -190,6 +190,21 @@ class PvkController extends BaseController {
         $pvk->klo = $params['klo'];
         $pvk->saippua = $params['saippua'];
         $pvk->kommentit = $params['ajopvkirja'];
+
+        $attributes = array(
+            'kayttaja' => Kayttaja::find($id),
+            'hoyla' => Partahoyla::find($hid),
+            'tera' => Tera::find($tid),
+            'aggressiivisuus' => $params['aggressiivisuus'],
+            'teravyys' => $params['teravyys'],
+            'pehmeys' => $params['pehmeys'],
+            'pvm' => $params['pvm'],
+            'klo' => $params['klo'],
+            'saippua' => $params['saippua'],
+            'kommentit' => $params['ajopvkirja'],
+            'julkisuus' => $pvk->julkisuus
+        );
+
 
         $errors = $pvk->errors();
 
