@@ -32,6 +32,7 @@
             Tämä päiväkirjamerkintä on yksityinen.
             {% endif %}
         </p>
+        {% if pvk %}
         <table class="table">
             <thead>
                 <tr>
@@ -55,6 +56,7 @@
         <p>
             {{pvk.kommentit}}
         </p>
+        {% endif %}
     </div>
     {% if oma %}
     <div>
