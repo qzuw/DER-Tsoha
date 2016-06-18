@@ -90,7 +90,11 @@
                 </select>
             </div>
             <div class="checkbox">
-                <label><input type="checkbox" name="julkisuus" id="julkisuus" value="{{pvk.julkisuus}}"> Tämä päiväkirja on julkinen</label>
+{% if pvk.julkisuus == true %}
+                <label><input type="checkbox" name="julkisuus" id="julkisuus" checked> Tämä päiväkirja on julkinen</label>
+{% else %}
+                <label><input type="checkbox" name="julkisuus" id="julkisuus"> Tämä päiväkirja on julkinen</label>
+{% endif %}
             </div>
             <div class="form-group">
                 <label for="ajopvkirja">Päivän ajo:</label>
