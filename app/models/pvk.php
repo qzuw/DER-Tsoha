@@ -6,8 +6,7 @@ class Pvk extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-//        $this->validators = array('validate_manufact', 'validate_model', 'validate_sharpness', 'validate_smoothness');
-        $this->validators = array('validate_soap', 'validate_blade', 'validate_razor', 'validate_comment');
+        $this->validators = array('validate_soap', 'validate_aggressiveness', 'validate_sharpness', 'validate_smoothness', 'validate_comment', 'validate_date', 'validate_time');
     }
 
     public static function all($options) {
@@ -184,19 +183,45 @@ class Pvk extends BaseModel {
         return $errors;
     }
 
-    public function validate_blade() {
+    public function validate_date() {
         $errors = array();
 
-//        $errors = array_merge($errors, $this->validate_string_not_empty('Malli', $this->malli));
-//        $errors = array_merge($errors, $this->validate_string_length('Malli', $this->malli, 3));
+        $errors = array_merge($errors, $this->validate_string_not_empty('Päivämäärä', $this->pvm));
 
         return $errors;
     }
 
-    public function validate_razor() {
+    public function validate_sharpness() {
         $errors = array();
 
-//        $errors = array_merge($errors, $this->validate_string_is_number('Terävyys', $this->teravyys));
+        $errors = array_merge($errors, $this->validate_string_is_number('Terävyys', $this->teravyys));
+        $errors = array_merge($errors, $this->validate_number_within_range('Terävyyden', $this->teravyys, 1, 5));
+
+        return $errors;
+    }
+
+    public function validate_smoothness() {
+        $errors = array();
+
+        $errors = array_merge($errors, $this->validate_string_is_number('Pehmeys', $this->pehmeys));
+        $errors = array_merge($errors, $this->validate_number_within_range('Pehmeyden', $this->pehmeys, 1, 5));
+
+        return $errors;
+    }
+
+    public function validate_time() {
+        $errors = array();
+
+        $errors = array_merge($errors, $this->validate_string_is_not_empty('Kellonaika', $this->klo));
+
+        return $errors;
+    }
+
+    public function validate_aggressiveness() {
+        $errors = array();
+
+        $errors = array_merge($errors, $this->validate_string_is_number('Aggressiivisuus', $this->aggressiivisuus));
+        $errors = array_merge($errors, $this->validate_number_within_range('Aggressiivisuuden', $this->aggressiivisuus, 1, 5));
 
         return $errors;
     }
