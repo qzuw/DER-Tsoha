@@ -105,7 +105,7 @@ class PvkController extends BaseController {
         if (isset($params['julkisuus']) && $params['julkisuus'] == "on") {
             $julkisuus = true;
         } else {
-            $julkisuus = false;
+            $julkisuus = 0;
         }
         $attributes = array(
             'kayttaja' => Kayttaja::find($id),
@@ -178,7 +178,7 @@ class PvkController extends BaseController {
         if (isset($params['julkisuus']) && $params['julkisuus'] == "on") {
             $pvk->julkisuus = true;
         } else {
-            $pvk->julkisuus = false;
+            $pvk->julkisuus = 0;
         }
         $pvk->kayttaja = Kayttaja::find($id);
         $pvk->hoyla = Partahoyla::find($hid);
