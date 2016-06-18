@@ -148,10 +148,10 @@ class PvkController extends BaseController {
     public static function poista($id) {
         self::check_logged_in();
         $kid = $_SESSION['tunnus'];
+        $pvk = Pvk::find($id);
         if ($kid != $pvk->kayttaja->id) {
             Redirect::to('/nayta_paivakirja/' . $id, array('error' => 'Tämä ajopäiväkirjamerkintä ei ole omasi vaan jonkun muun!'));
         }
-        $pvk = Pvk::find($id);
         $pvk_aika = $pvk->pvm . " " . $pvk->klo;
         $onnistui = $pvk->delete();
         if ($onnistui) {

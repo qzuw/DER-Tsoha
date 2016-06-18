@@ -154,7 +154,6 @@ class Pvk extends BaseModel {
     }
 
     public function delete() {
-        if ($this->viittauksia == 0) {
             $query = DB::connection()->prepare('DELETE FROM Paivakirja WHERE id = :id');
             try {
                 $query->execute(array('id' => $this->id));
@@ -162,9 +161,6 @@ class Pvk extends BaseModel {
             } catch (Exception $e) {
                 return false;
             }
-        } else {
-            return false;
-        }
     }
 
     public function update() {

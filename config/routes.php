@@ -140,6 +140,10 @@ $routes->get('/uusi_paivakirja', 'check_logged_in', function() {
     PvkController::nayta_lisayssivu();
 });
 
+$routes->get('/poista_paivakirja/:id', 'check_logged_in', function($id) {
+    PvkController::poista($id);
+});
+
 $routes->get('/', function() {
     HelloController::index();
 });
