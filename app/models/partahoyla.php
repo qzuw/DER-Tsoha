@@ -62,10 +62,10 @@ class Partahoyla extends BaseModel {
         $offset = $limit * ($sivu - 1);
 
         if ($limit == 0) {
-            $query = DB::connection()->prepare('SELECT * FROM Hoylanakyma JOIN Kayttajanhoylat AS kh ON kh.partahoyla_id = partahoyla.id WHERE kh.kayttaja_id = :id ORDER BY viittauksia DESC');
+            $query = DB::connection()->prepare('SELECT * FROM Hoylanakyma hn JOIN Kayttajanhoylat AS kh ON kh.partahoyla_id = hn.id WHERE kh.kayttaja_id = :id ORDER BY viittauksia DESC');
             $query->execute(array('id' => $id));
         } else {
-            $query = DB::connection()->prepare('SELECT * FROM Hoylanakyma JOIN Kayttajanhoylat AS kh ON kh.partahoyla_id = partahoyla.id WHERE kh.kayttaja_id = :id ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
+            $query = DB::connection()->prepare('SELECT * FROM Hoylanakyma hn JOIN Kayttajanhoylat AS kh ON kh.partahoyla_id = hn.id WHERE kh.kayttaja_id = :id ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
             $query->execute(array('id' => $id, 'limit' => $limit, 'offset' => $offset));
         }
         $rows = $query->fetchAll();
