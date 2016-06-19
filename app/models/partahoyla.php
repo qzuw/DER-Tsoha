@@ -144,15 +144,15 @@ class Partahoyla extends BaseModel {
         }
     }
 
-    public function update() {
-        $query = DB::connection()->prepare('UPDATE Partahoyla SET viittauksia = :viittauksia, aggressiivisuus = :aggressiivisuus WHERE id = :id');
-        try {
-            $query->execute(array('id' => $this->id, 'viittauksia' => $this->viittauksia, 'aggressiivisuus' => $this->aggressiivisuus));
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
-    }
+//    public function update() {
+//        $query = DB::connection()->prepare('UPDATE Partahoyla SET viittauksia = :viittauksia, aggressiivisuus = :aggressiivisuus WHERE id = :id');
+//        try {
+//            $query->execute(array('id' => $this->id, 'viittauksia' => $this->viittauksia, 'aggressiivisuus' => $this->aggressiivisuus));
+//            return true;
+//        } catch (Exception $e) {
+//            return false;
+//        }
+//    }
 
     public function validate_manufact() {
         $errors = array();

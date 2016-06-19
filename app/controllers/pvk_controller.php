@@ -127,15 +127,15 @@ class PvkController extends BaseController {
         if (count($errors) == 0) {
             $onnistui = $pvk->add();
             if ($onnistui) {
-                $hoyla = Partahoyla::find($hid);
-                $hoyla->viittauksia = $hoyla->viittauksia + 1;
-                $hoyla->aggressiivisuus = $hoyla->aggressiivisuus + $pvk->aggressiivisuus;
-                $hoyla->update();
-                $tera = Tera::find($tid);
-                $tera->viittauksia = $tera->viittauksia + 1;
-                $tera->teravyys = $tera->teravyys + $pvk->teravyys;
-                $tera->pehmeys = $tera->pehmeys + $pvk->pehmeys;
-                $tera->update();
+//                $hoyla = Partahoyla::find($hid);
+//                $hoyla->viittauksia = $hoyla->viittauksia + 1;
+//                $hoyla->aggressiivisuus = $hoyla->aggressiivisuus + $pvk->aggressiivisuus;
+//                $hoyla->update();
+//                $tera = Tera::find($tid);
+//                $tera->viittauksia = $tera->viittauksia + 1;
+//                $tera->teravyys = $tera->teravyys + $pvk->teravyys;
+//                $tera->pehmeys = $tera->pehmeys + $pvk->pehmeys;
+//                $tera->update();
                 Redirect::to('/nayta_paivakirja/' . $pvk->id, array('message' => 'Ajopäiväkirjamerkintä on nyt lisätty tietokantaan'));
             } else {
                 Redirect::to('/uusi_paivakirja', array('error' => 'Päiväkirjamerkinnän lisääminen tietokantaan epäonnistui', 'attributes' => $attributes));
@@ -212,15 +212,15 @@ class PvkController extends BaseController {
             $onnistui = $pvk->update();
             if ($onnistui) {
                 //hoylan ja teran arvot voisi refaktoroida nakymiksi jolloin naita muutoksia alla ei tarvita, muuten tama kaipaa viela paivitysta
-                $hoyla = Partahoyla::find($hid);
-                $hoyla->viittauksia = $hoyla->viittauksia + 1;
-                $hoyla->aggressiivisuus = $hoyla->aggressiivisuus + $pvk->aggressiivisuus;
-                $hoyla->update();
-                $tera = Tera::find($tid);
-                $tera->viittauksia = $tera->viittauksia + 1;
-                $tera->teravyys = $tera->teravyys + $pvk->teravyys;
-                $tera->pehmeys = $tera->pehmeys + $pvk->pehmeys;
-                $tera->update();
+//                $hoyla = Partahoyla::find($hid);
+//                $hoyla->viittauksia = $hoyla->viittauksia + 1;
+//                $hoyla->aggressiivisuus = $hoyla->aggressiivisuus + $pvk->aggressiivisuus;
+//                $hoyla->update();
+//                $tera = Tera::find($tid);
+//                $tera->viittauksia = $tera->viittauksia + 1;
+//                $tera->teravyys = $tera->teravyys + $pvk->teravyys;
+//                $tera->pehmeys = $tera->pehmeys + $pvk->pehmeys;
+//                $tera->update();
                 Redirect::to('/nayta_paivakirja/' . $pid, array('message' => 'Ajopäiväkirjamerkintä on nyt päivitetty tietokantaan'));
             } else {
                 Redirect::to('/muokkaa_paivakirja/' . $pid, array('error' => 'Päiväkirjamerkinnän muokkaaminen epäonnistui', 'attributes' => $attributes));
