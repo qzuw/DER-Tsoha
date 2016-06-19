@@ -22,7 +22,7 @@
 <div>
     {% if not user_logged_in %}
     <div>
-        <a href="kirjaudu"><button class="btn btn-primary">Kirjaudu sisään tai rekisteröidy</button></a>
+        <a href="{{base_path}}/kirjaudu"><button class="btn btn-primary">Kirjaudu sisään tai rekisteröidy</button></a>
     </div>
     {% else %}
     <div>
@@ -49,6 +49,7 @@
                 {% endfor %}
             </tbody>
         </table>
+        <a href="{{base_path}}/listaa_paivakirjat"><button class="btn btn-primary">Näytä lisää parranajopäiväkirjamerkintöjä</button></a>
     </div>
     {% endif %}
     <div class="col-sm-6">
