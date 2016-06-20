@@ -26,9 +26,9 @@
     {% endfor %}
     {% endif %}
 
-<div>
-<a href="/tsoha/listaa_omat_paivakirjat" class="btn btn-primary">Omien päiväkirjamerkintöjen listaukseen</a>
-</div>
+    <div>
+        <a href="/tsoha/listaa_omat_paivakirjat" class="btn btn-primary">Omien päiväkirjamerkintöjen listaukseen</a>
+    </div>
     <div>
         <form action="{{base_path}}/muokkaa_pvk/{{pvk.id}}" method="post" role="form">
             <div class="form-group form-inline">
@@ -92,11 +92,11 @@
                 </select>
             </div>
             <div class="checkbox">
-{% if pvk.julkisuus == true %}
+                {% if pvk.julkisuus == true %}
                 <label><input type="checkbox" name="julkisuus" id="julkisuus" checked> Tämä päiväkirja on julkinen</label>
-{% else %}
+                {% else %}
                 <label><input type="checkbox" name="julkisuus" id="julkisuus"> Tämä päiväkirja on julkinen</label>
-{% endif %}
+                {% endif %}
             </div>
             <div class="form-group">
                 <label for="ajopvkirja">Päivän ajo:</label>

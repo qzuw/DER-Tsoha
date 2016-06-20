@@ -45,10 +45,10 @@
         </ul>
     </nav>
     {% endif %}
-{% if user_logged_in %}
+    {% if user_logged_in %}
     <p>
         <a href="{{base_path}}/uusi_tera" class="btn btn-primary">Lisää uusi terä</a>
     </p>
-{% endif %}
+    {% endif %}
 </div>
 {% endblock %}

@@ -79,7 +79,7 @@ class PvkController extends BaseController {
         $data = array('pvk' => $pvk);
         if (isset($pvk) && $kid == $pvk->kayttaja->id) {
             $data['oma'] = true;
-        }     
+        }
         View::make('paivakirja/nayta_pvk.html', $data);
     }
 
@@ -92,7 +92,7 @@ class PvkController extends BaseController {
         $data['terat'] = Tera::all(array('maara' => 0));
         $data['tanaan'] = date("Y-m-d");
         $data['kello'] = date("H:i");
-        
+
         View::make('paivakirja/lisaa_pvk.html', $data);
     }
 
@@ -157,7 +157,7 @@ class PvkController extends BaseController {
         $data['hoylat'] = Partahoyla::all(array('maara' => 0));
         $data['terat'] = Tera::all(array('maara' => 0));
         $data['pvk'] = Pvk::find($pid);
-        
+
         View::make('paivakirja/muokkaa_pvk.html', $data);
     }
 

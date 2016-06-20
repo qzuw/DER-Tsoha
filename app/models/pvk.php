@@ -70,7 +70,7 @@ class Pvk extends BaseModel {
             $limit = 10;
         }
         $offset = $limit * ($sivu - 1);
-        
+
         $kayttaja = $options['kayttaja'];
 
         if (isset($options['julkinen'])) {
@@ -153,13 +153,13 @@ class Pvk extends BaseModel {
     }
 
     public function delete() {
-            $query = DB::connection()->prepare('DELETE FROM Paivakirja WHERE id = :id');
-            try {
-                $query->execute(array('id' => $this->id));
-                return true;
-            } catch (Exception $e) {
-                return false;
-            }
+        $query = DB::connection()->prepare('DELETE FROM Paivakirja WHERE id = :id');
+        try {
+            $query->execute(array('id' => $this->id));
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     public function update() {
