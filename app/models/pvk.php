@@ -187,6 +187,11 @@ class Pvk extends BaseModel {
         $errors = array();
 
         $errors = array_merge($errors, $this->validate_string_not_empty('Päivämäärä', $this->pvm));
+        
+        //tämä ei ole tarkka, mutta mielestäni toistaiseksi tarpeeksi lähellä
+        if (!preg_match("/(2[0-9][0-9][0-9]|19[0-9][0-9])-(1[0-2]|0[1-9])-(3[0-1]|[0-2][0-9])/", $this->klo)) {
+            $errors[] = "Päivämäärän tulee olla muodossa VVVV-KK-PP";
+        }
 
         return $errors;
     }
@@ -213,6 +218,9 @@ class Pvk extends BaseModel {
         $errors = array();
 
         $errors = array_merge($errors, $this->validate_string_not_empty('Kellonaika', $this->klo));
+        if (!preg_match("/(2[0-3]|[0-1][0-9]):[0-5][0-9]/", $this->klo)) {
+            $errors[] = "Kellonajan tulee olla muodossa HH:MM";
+        }
 
         return $errors;
     }
