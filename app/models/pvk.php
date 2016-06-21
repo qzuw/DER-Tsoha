@@ -189,8 +189,8 @@ class Pvk extends BaseModel {
         $errors = array_merge($errors, $this->validate_string_not_empty('Päivämäärä', $this->pvm));
         
         //tämä ei ole tarkka, mutta mielestäni toistaiseksi tarpeeksi lähellä
-        if (!preg_match("/(2[0-9][0-9][0-9]|19[0-9][0-9])-(1[0-2]|0[1-9])-(3[0-1]|[0-2][0-9])/", $this->klo)) {
-            $errors[] = "Päivämäärän tulee olla muodossa VVVV-KK-PP";
+        if (!preg_match("/(2[0-9][0-9][0-9]|19[0-9][0-9])-(1[0-2]|0[1-9])-(3[0-1]|[0-2][0-9])/", $this->pvm)) {
+            $errors[] = "Päivämäärän tulee olla muodossa VVVV-KK-PP nyt se oli " . $this->pvm;
         }
 
         return $errors;
