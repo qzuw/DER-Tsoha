@@ -52,5 +52,5 @@ Salasana: salasana123
 ## CRUD-tilanne
 * Käyttäjä: CRUD
 * Pvk: CRUD
-* Höylä: CR(U)D (näkymän käyttö tekee U:n tarpeettomaksi)
-* Terä: CR(U)D
+* Höylä: CRD (näkymän käyttö tekee U:n tarpeettomaksi)
+* Terä: CRD (näkymän käyttö tekee U:n tarpeettomaksi)
