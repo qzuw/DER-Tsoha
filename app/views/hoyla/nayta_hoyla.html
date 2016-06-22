@@ -65,7 +65,8 @@
     </div>
     {% if hoyla.viittauksia == 0 and user_logged_in %}
     <div>
-        <a href="/tsoha/poista_hoyla/{{hoyla.id}}" class="btn btn-danger">Poista tämä partahöylä tietokannasta</a>
+        <a href="{{base_path}}/muokkaa_hoyla/{{hoyla.id}}" class="btn btn-default">Muokkaa tämän partahöylän tietoja</a>
+        <a href="{{base_path}}/poista_hoyla/{{hoyla.id}}" class="btn btn-danger">Poista tämä partahöylä tietokannasta</a>
     </div>
     {% endif %}
 </div>

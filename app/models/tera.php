@@ -109,11 +109,15 @@ class Tera extends BaseModel {
     }
 
     public function update() {
-        $query = DB::connection()->prepare('UPDATE Tera SET valmistaja = :valmistaja, malli = :malli WHERE id = :id');
-        try {
-            $query->execute(array('id' => $this->id, 'valmistaja' => $this->valmistaja, 'malli' => $this->malli));
-            return true;
-        } catch (Exception $e) {
+        if ($this->viittauksia == 0) {
+            $query = DB::connection()->prepare('UPDATE Tera SET valmistaja = :valmistaja, malli = :malli WHERE id = :id');
+            try {
+                $query->execute(array('id' => $this->id, 'valmistaja' => $this->valmistaja, 'malli' => $this->malli));
+                return true;
+            } catch (Exception $e) {
+                return false;
+            }
+        } else {
             return false;
         }
     }

@@ -51,6 +51,7 @@
     </div>
     {% if tera.viittauksia == 0 and user_logged_in %}
     <div>
+        <a href="/tsoha/muokkaa_tera/{{tera.id}}" class="btn btn-default">Muokkaa terän tietoja</a>
         <a href="/tsoha/poista_tera/{{tera.id}}" class="btn btn-danger">Poista tämä terä tietokannasta</a>
     </div>
     {% endif %}

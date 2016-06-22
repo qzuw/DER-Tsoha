@@ -1,10 +1,10 @@
 <?php
 
-function check_logged_in(){
+function check_logged_in() {
     BaseController::check_logged_in();
 }
 
-function check_logged_out(){
+function check_logged_out() {
     BaseController::check_logged_out();
 }
 
@@ -80,6 +80,14 @@ $routes->post('/lisaa_tera', 'check_logged_in', function() {
     TeraController::lisaa();
 });
 
+$routes->get('/muokkaa_tera/:id', 'check_logged_in', function($id) {
+    TeraController::nayta_muokkaussivu($id);
+});
+
+$routes->post('/paivita_tera/:id', 'check_logged_in', function($id) {
+    TeraController::paivita($id);
+});
+
 $routes->get('/nayta_tera/:id', function($id) {
     TeraController::nayta($id);
 });
@@ -106,6 +114,14 @@ $routes->post('/lisaa_hoyla', 'check_logged_in', function() {
 
 $routes->get('/nayta_hoyla/:id', function($id) {
     HoylaController::nayta($id);
+});
+
+$routes->get('/muokkaa_hoyla/:id', 'check_logged_in', function($id) {
+    HoylaController::muokkaussivu($id);
+});
+
+$routes->post('/paivita_hoyla/:id', 'check_logged_in', function($id) {
+    HoylaController::paivita($id);
 });
 
 $routes->get('/poista_hoyla/:id', 'check_logged_in', function($id) {

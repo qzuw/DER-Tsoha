@@ -79,6 +79,37 @@ class HoylaController extends BaseController {
         }
     }
 
+    public static function muokkaussivu($id) {
+        self::check_logged_in();
+        $hoyla = Partahoyla::find($id);
+        View::make('hoyla/muokkaa_hoyla.html', array('attributes' => $hoyla));
+    }
+
+    public static function paivita($id) {
+        self::check_logged_in();
+        $params = $_POST;
+
+        $attributes = array(
+            'valmistaja' => $params['valmistaja'],
+            'malli' => $params['malli'],
+            'aggressiivisuus' => 0
+        );
+        $hoyla = Partahoyla::find($id);
+        $hoyla->malli = $params['malli'];
+        $hoyla->valmistaja = $params['valmistaja'];
+        $errors = $hoyla->errors();
+        if (count($errors) == 0) {
+            $onnistui = $hoyla->update();
+            if ($onnistui) {
+                Redirect::to('/nayta_hoyla/' . $hoyla->id, array('message' => 'Partahöylän tiedot on nyt päivitetty'));
+            } else {
+                Redirect::to('/nayta_hoyla/' . $hoyla->id, array('error' => 'Partahöylän muokkaaminen epäonnistui, se saattaa olla käytössä'));
+            }
+        } else {
+            Redirect::to('/muokkaa_hoyla' . $hoyla->id, array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
+        }
+    }
+
     public static function poista($id) {
         self::check_logged_in();
         $hoyla = Partahoyla::find($id);
