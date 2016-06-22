@@ -24,4 +24,27 @@ class BaseController {
         }
     }
 
+    public static function sivutus($sivu, $sivuja) {
+        $data = array();
+
+        if ($sivu < $sivuja) {
+            $seur_sivu = ($sivu + 1);
+            $data['seur_sivu'] = $seur_sivu;
+        }
+
+        if ($sivu > 1) {
+            $ed_sivu = ($sivu - 1);
+            $data['ed_sivu'] = $ed_sivu;
+        }
+
+        if ($sivuja > 1) {
+            $data['nyk_sivu'] = $sivu;
+            $data['sivut'] = $sivuja;
+        }
+
+
+
+        return $data;
+    }
+
 }

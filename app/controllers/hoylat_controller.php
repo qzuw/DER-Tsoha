@@ -15,21 +15,7 @@ class HoylaController extends BaseController {
         }
 
         $data = array('hoylat' => $hoylat);
-
-        if ($sivu < $sivuja) {
-            $seur_sivu = ($sivu + 1);
-            $data['seur_sivu'] = $seur_sivu;
-        }
-
-        if ($sivu > 1) {
-            $ed_sivu = ($sivu - 1);
-            $data['ed_sivu'] = $ed_sivu;
-        }
-
-        if ($sivuja > 1) {
-            $data['nyk_sivu'] = $sivu;
-            $data['sivut'] = $sivuja;
-        }
+        $data = array_merge($data, self::sivutus($sivu, $sivuja));
 
         View::make('hoyla/listaa_hoylat.html', $data);
     }
