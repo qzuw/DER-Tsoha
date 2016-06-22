@@ -22,7 +22,7 @@
     {% endif %}
 
     <div>
-        <a href="/tsoha/listaa_terat" class="btn btn-primary">Terien listaukseen</a>
+        <a href="{{base_path}}/listaa_terat" class="btn btn-primary">Terien listaukseen</a>
     </div>
     <div>
         <table class="table">
@@ -51,8 +51,8 @@
     </div>
     {% if tera.viittauksia == 0 and user_logged_in %}
     <div>
-        <a href="/tsoha/muokkaa_tera/{{tera.id}}" class="btn btn-default">Muokkaa terän tietoja</a>
-        <a href="/tsoha/poista_tera/{{tera.id}}" class="btn btn-danger">Poista tämä terä tietokannasta</a>
+        <a href="{{base_path}}/muokkaa_tera/{{tera.id}}" class="btn btn-default">Muokkaa terän tietoja</a>
+        <a href="{{base_path}}/poista_tera/{{tera.id}}" class="btn btn-danger">Poista tämä terä tietokannasta</a>
     </div>
     {% endif %}
 </div>

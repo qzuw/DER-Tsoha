@@ -21,9 +21,9 @@
     </div>
     {% endif %}
     <div>
-        <a href="/tsoha/listaa_paivakirjat" class="btn btn-default">Päiväkirjamerkintöjen listaukseen</a>
+        <a href="{{base_path}}/listaa_paivakirjat" class="btn btn-default">Päiväkirjamerkintöjen listaukseen</a>
         {% if oma %}
-        <a href="/tsoha/listaa_omat_paivakirjat" class="btn btn-default">Omien päiväkirjamerkintöjen listaukseen</a>
+        <a href="{{base_path}}/listaa_omat_paivakirjat" class="btn btn-default">Omien päiväkirjamerkintöjen listaukseen</a>
         {% endif %}
     </div>
     <div>
@@ -62,8 +62,8 @@
     </div>
     {% if oma %}
     <div>
-        <a href="/tsoha/muokkaa_paivakirja/{{pvk.id}}" class="btn btn-primary">Muokkaa päiväkirjamerkintää</a>
-        <a href="/tsoha/poista_paivakirja/{{pvk.id}}" class="btn btn-danger">Poista tämä merkintä tietokannasta</a>
+        <a href="{{base_path}}/muokkaa_paivakirja/{{pvk.id}}" class="btn btn-primary">Muokkaa päiväkirjamerkintää</a>
+        <a href="{{base_path}}/poista_paivakirja/{{pvk.id}}" class="btn btn-danger">Poista tämä merkintä tietokannasta</a>
     </div>
     {% endif %}
 </div>
