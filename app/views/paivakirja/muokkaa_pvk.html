@@ -38,7 +38,7 @@
             </div>
             <div class="form-group form-inline">
                 <label for="saippua">Saippua:</label>
-                <input type="text" class="form-control" id="saippua" name="saippua" value="{{pvk.saippua}}">
+                <input type="text" class="form-control" id="saippua" name="saippua" placeholder="Käyttämäsi saippua" value="{{pvk.saippua}}">
             </div>
             <div class="form-group form-inline">
                 <label for="hoyla">Höylä:</label>
@@ -100,7 +100,7 @@
             </div>
             <div class="form-group">
                 <label for="ajopvkirja">Päivän ajo:</label>
-                <textarea class="form-control" id="ajopvkirja" name="ajopvkirja" rows="3">{{pvk.kommentit}}</textarea>
+                <textarea class="form-control" id="ajopvkirja" name="ajopvkirja" rows="3" placeholder="Yleiskatsaus päivän ajosta">{{pvk.kommentit}}</textarea>
             </div>
             <button type="submit" class="btn btn-primary">Talleta</button>
         </form>

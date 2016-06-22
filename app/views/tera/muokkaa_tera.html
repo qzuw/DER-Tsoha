@@ -24,7 +24,7 @@
             <div class="form-group">
                 <label for="valmistaja">Valmistaja:</label>
                 {% if attributes %}
-                <input name="valmistaja" type="text" class="form-control" id="valmistaja" value={{attributes.valmistaja}}>
+                <input name="valmistaja" type="text" class="form-control" id="valmistaja" value={{attributes.valmistaja}} placeholder="Valmistajan nimi">
                 {% else %}
                 <input name="valmistaja" type="text" class="form-control" id="valmistaja" placeholder="Valmistajan nimi">
                 {% endif %}
@@ -32,7 +32,7 @@
             <div class="form-group">
                 <label for="malli">Malli:</label>
                 {% if attributes %}
-                <input name="malli" type="text" class="form-control" id="malli" value={{attributes.malli}}>
+                <input name="malli" type="text" class="form-control" id="malli" placeholder="Terän nimi tai tunniste" value={{attributes.malli}}>
                 {% else %}
                 <input name="malli" type="text" class="form-control" id="malli" placeholder="Terän nimi tai tunniste">
                 {% endif %}
