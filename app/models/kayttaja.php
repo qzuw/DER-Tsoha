@@ -63,11 +63,11 @@ class Kayttaja extends BaseModel {
         return false;
     }
 
-    public static function lisaa_hoyla($hid) {
+    public static function lisaa_hoyla($razor_id) {
         $kid = $_SESSION['tunnus'];
         $query = DB::connection()->prepare('INSERT INTO Kayttajanhoylat (kayttaja_id, partahoyla_id) VALUES (:kid, :hid)');
         try {
-            $query->execute(array('hid' => $hid, 'kid' => $kid));
+            $query->execute(array('hid' => $razor_id, 'kid' => $kid));
             $row = $query->fetch();
             return true;
         } catch (Exception $e) {
@@ -75,11 +75,11 @@ class Kayttaja extends BaseModel {
         }
     }
 
-    public static function poista_hoyla($hid) {
+    public static function poista_hoyla($razor_id) {
         $kid = $_SESSION['tunnus'];
         $query = DB::connection()->prepare('DELETE FROM Kayttajanhoylat WHERE (kayttaja_id, partahoyla_id) = (:kid, :hid)');
         try {
-            $query->execute(array('hid' => $hid, 'kid' => $kid));
+            $query->execute(array('hid' => $razor_id, 'kid' => $kid));
             return true;
         } catch (Exception $e) {
             return false;

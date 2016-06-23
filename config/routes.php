@@ -73,27 +73,27 @@ $routes->get('/listaa_terat', function() {
 });
 
 $routes->get('/uusi_tera', 'check_logged_in', function() {
-    TeraController::uusi();
+    TeraController::create_page();
 });
 
 $routes->post('/lisaa_tera', 'check_logged_in', function() {
-    TeraController::lisaa();
+    TeraController::create();
 });
 
 $routes->get('/muokkaa_tera/:id', 'check_logged_in', function($blade_id) {
-    TeraController::nayta_muokkaussivu($blade_id);
+    TeraController::edit_page($blade_id);
 });
 
 $routes->post('/paivita_tera/:id', 'check_logged_in', function($blade_id) {
-    TeraController::paivita($blade_id);
+    TeraController::update($blade_id);
 });
 
 $routes->get('/nayta_tera/:id', function($blade_id) {
-    TeraController::nayta($blade_id);
+    TeraController::show($blade_id);
 });
 
 $routes->get('/poista_tera/:id', 'check_logged_in', function($blade_id) {
-    TeraController::poista($blade_id);
+    TeraController::remove($blade_id);
 });
 
 $routes->get('/listaa_hoylat', function() {
@@ -105,27 +105,27 @@ $routes->get('/listaa_hoylat/:sivu', function($page) {
 });
 
 $routes->get('/uusi_hoyla', 'check_logged_in', function() {
-    HoylaController::uusi();
+    HoylaController::create_page();
 });
 
 $routes->post('/lisaa_hoyla', 'check_logged_in', function() {
-    HoylaController::lisaa();
+    HoylaController::create();
 });
 
 $routes->get('/nayta_hoyla/:id', function($razor_id) {
-    HoylaController::nayta($razor_id);
+    HoylaController::show($razor_id);
 });
 
 $routes->get('/muokkaa_hoyla/:id', 'check_logged_in', function($razor_id) {
-    HoylaController::muokkaussivu($razor_id);
+    HoylaController::edit_page($razor_id);
 });
 
 $routes->post('/paivita_hoyla/:id', 'check_logged_in', function($razor_id) {
-    HoylaController::paivita($razor_id);
+    HoylaController::update($razor_id);
 });
 
 $routes->get('/poista_hoyla/:id', 'check_logged_in', function($razor_id) {
-    HoylaController::poista($razor_id);
+    HoylaController::remove($razor_id);
 });
 
 $routes->get('/listaa_paivakirjat', 'check_logged_in', function() {
@@ -145,27 +145,27 @@ $routes->get('/listaa_omat_paivakirjat/:sivu', 'check_logged_in', function($page
 });
 
 $routes->get('/nayta_paivakirja/:id', 'check_logged_in', function($diary_id) {
-    PvkController::nayta($diary_id);
+    PvkController::show($diary_id);
 });
 
 $routes->post('/uusi_pvk', 'check_logged_in', function() {
-    PvkController::lisaa();
+    PvkController::create();
 });
 
 $routes->get('/uusi_paivakirja', 'check_logged_in', function() {
-    PvkController::nayta_lisayssivu();
+    PvkController::create_page();
 });
 
 $routes->post('/muokkaa_pvk/:id', 'check_logged_in', function($diary_id) {
-    PvkController::muokkaa($diary_id);
+    PvkController::update($diary_id);
 });
 
 $routes->get('/muokkaa_paivakirja/:id', 'check_logged_in', function($diary_id) {
-    PvkController::nayta_muokkaussivu($diary_id);
+    PvkController::edit_page($diary_id);
 });
 
 $routes->get('/poista_paivakirja/:id', 'check_logged_in', function($diary_id) {
-    PvkController::poista($diary_id);
+    PvkController::remove($diary_id);
 });
 
 $routes->get('/', function() {

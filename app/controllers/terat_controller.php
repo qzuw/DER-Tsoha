@@ -21,17 +21,17 @@ class TeraController extends BaseController {
         View::make('tera/listaa_terat.html', $data);
     }
 
-    public static function nayta($blade_id) {
+    public static function show($blade_id) {
         $tera = Tera::find($blade_id);
         View::make('tera/nayta_tera.html', array('tera' => $tera));
     }
 
-    public static function uusi() {
+    public static function create_page() {
         self::check_logged_in();
         View::make('tera/lisaa_tera.html');
     }
 
-    public static function lisaa() {
+    public static function create() {
         self::check_logged_in();
         $params = $_POST;
         $attributes = array(
@@ -56,13 +56,13 @@ class TeraController extends BaseController {
         }
     }
 
-    public static function nayta_muokkaussivu($blade_id) {
+    public static function edit_page($blade_id) {
         self::check_logged_in();
         $blade = Tera::find($blade_id);
         View::make('tera/muokkaa_tera.html', array('attributes' => $blade));
     }
 
-    public static function paivita($blade_id) {
+    public static function update($blade_id) {
         self::check_logged_in();
         $params = $_POST;
         $attributes = array(
@@ -89,7 +89,7 @@ class TeraController extends BaseController {
         }
     }
 
-    public static function poista($blade_id) {
+    public static function remove($blade_id) {
         self::check_logged_in();
         $blade = Tera::find($blade_id);
         $blade_name = $blade->valmistaja . " " . $blade->malli;

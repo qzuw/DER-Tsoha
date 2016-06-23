@@ -43,10 +43,10 @@ class PvkController extends BaseController {
         View::make('paivakirja/listaa_oma_pvk.html', $data);
     }
 
-    public static function nayta($id) {
+    public static function show($diary_id) {
         self::check_logged_in();
         $user_id = $_SESSION['tunnus'];
-        $diary = Pvk::find($id);
+        $diary = Pvk::find($diary_id);
         if (!$diary->julkisuus && $user_id != $diary->kayttaja->id) {
             $diary = null;
         }
@@ -57,7 +57,7 @@ class PvkController extends BaseController {
         View::make('paivakirja/nayta_pvk.html', $data);
     }
 
-    public static function nayta_lisayssivu() {
+    public static function create_page() {
         self::check_logged_in();
         $user_id = $_SESSION['tunnus'];
         $data = array();
@@ -70,7 +70,7 @@ class PvkController extends BaseController {
         View::make('paivakirja/lisaa_pvk.html', $data);
     }
 
-    public static function lisaa() {
+    public static function create() {
         self::check_logged_in();
         $user_id = $_SESSION['tunnus'];
         $params = $_POST;
@@ -110,7 +110,7 @@ class PvkController extends BaseController {
         }
     }
 
-    public static function nayta_muokkaussivu($diary_id) {
+    public static function edit_page($diary_id) {
         self::check_logged_in();
         $user_id = $_SESSION['tunnus'];
         $diary = Pvk::find($diary_id);
@@ -126,7 +126,7 @@ class PvkController extends BaseController {
         View::make('paivakirja/muokkaa_pvk.html', $data);
     }
 
-    public static function muokkaa($diary_id) {
+    public static function update($diary_id) {
         self::check_logged_in();
         $user_id = $_SESSION['tunnus'];
         $diary = Pvk::find($diary_id);
@@ -185,7 +185,7 @@ class PvkController extends BaseController {
         }
     }
 
-    public static function poista($diary_id) {
+    public static function remove($diary_id) {
         self::check_logged_in();
         $user_id = $_SESSION['tunnus'];
         $diary = Pvk::find($diary_id);

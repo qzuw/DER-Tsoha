@@ -20,7 +20,7 @@ class HoylaController extends BaseController {
         View::make('hoyla/listaa_hoylat.html', $data);
     }
 
-    public static function nayta($razor_id) {
+    public static function show($razor_id) {
         $user_id = null;
         if ($_SESSION && $_SESSION['tunnus']) {
             $user_id = $_SESSION['tunnus'];
@@ -37,12 +37,12 @@ class HoylaController extends BaseController {
         View::make('hoyla/nayta_hoyla.html', array('hoyla' => $hoyla, 'omistaa' => $omistaa));
     }
 
-    public static function uusi() {
+    public static function create_page() {
         self::check_logged_in();
         View::make('hoyla/lisaa_hoyla.html');
     }
 
-    public static function lisaa() {
+    public static function create() {
         self::check_logged_in();
         $params = $_POST;
 
@@ -65,13 +65,13 @@ class HoylaController extends BaseController {
         }
     }
 
-    public static function muokkaussivu($razor_id) {
+    public static function edit_page($razor_id) {
         self::check_logged_in();
         $razor = Partahoyla::find($razor_id);
         View::make('hoyla/muokkaa_hoyla.html', array('attributes' => $razor));
     }
 
-    public static function paivita($razor_id) {
+    public static function update($razor_id) {
         self::check_logged_in();
         $params = $_POST;
 
@@ -96,7 +96,7 @@ class HoylaController extends BaseController {
         }
     }
 
-    public static function poista($razor_id) {
+    public static function remove($razor_id) {
         self::check_logged_in();
         $razor = Partahoyla::find($razor_id);
         $razor_name = $razor->valmistaja . " " . $razor->malli;
