@@ -4,11 +4,11 @@ class HelloController extends BaseController {
 
     public static function index() {
 
-        $hoylat = Partahoyla::all(array('maara' => 5));
-        $terat = Tera::all(array('maara' => 5));
-        $pvkt = Pvk::all(array('maara' => 5));
+        $razors = Partahoyla::all(array('maara' => 5));
+        $blades = Tera::all(array('maara' => 5));
+        $diaries = Pvk::all(array('maara' => 5));
 
-        $data = array('hoylat' => $hoylat, 'terat' => $terat, 'pvkt' => $pvkt);
+        $data = array('hoylat' => $razors, 'terat' => $blades, 'pvkt' => $diaries);
 
         View::make('etusivu.html', $data);
     }
