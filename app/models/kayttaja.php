@@ -134,7 +134,7 @@ class Kayttaja extends BaseModel {
         }
     }
 
-    public function tarkista_salasana($tunnus, $salasana) {
+    public function check_password($tunnus, $salasana) {
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja WHERE tunnus = :tunnus');
         $query->execute(array('tunnus' => $tunnus));
         $row = $query->fetch();

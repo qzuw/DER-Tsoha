@@ -21,7 +21,7 @@ class KayttajaController extends BaseController {
         View::make('kayttaja/listaa_kayttajat.html', $data);
     }
 
-    public static function omat_tiedot() {
+    public static function own_info() {
         self::check_logged_in();
         $user_id = $_SESSION['tunnus'];
         $user = Kayttaja::find($user_id);
@@ -34,7 +34,7 @@ class KayttajaController extends BaseController {
         View::make('kayttaja/omat_tiedot.html', $data);
     }
 
-    public static function nayta($user_id) {
+    public static function show($user_id) {
         self::check_logged_in();
         $user = Kayttaja::find($user_id);
 
@@ -45,7 +45,7 @@ class KayttajaController extends BaseController {
         View::make('kayttaja/nayta_kayttaja.html', $data);
     }
 
-    public static function lisaa_hoyla() {
+    public static function add_owned_razor() {
         self::check_logged_in();
         $params = $_POST;
         $razor_id = $params['hoyla'];
@@ -62,7 +62,7 @@ class KayttajaController extends BaseController {
         }
     }
 
-    public static function poista_hoyla() {
+    public static function remove_owned_razor() {
         self::check_logged_in();
         $params = $_POST;
         $razor_id = $params['hoyla'];
@@ -79,18 +79,18 @@ class KayttajaController extends BaseController {
         }
     }
 
-    public static function kirjaudu() {
+    public static function login_page() {
         View::make('kayttaja/kirjaudu_rekisteroidy.html');
     }
 
-    public static function poistolomake() {
+    public static function delete_page() {
         View::make('kayttaja/poista_tunnus.html');
     }
 
-    public static function kirjautuminen() {
+    public static function log_in() {
         $params = $_POST;
 
-        $user = Kayttaja::tarkista_salasana($params['tunnus'], base64_encode($params['salasana']));
+        $user = Kayttaja::check_password($params['tunnus'], base64_encode($params['salasana']));
 
         if (!$user) {
             View::make('kayttaja/kirjaudu_rekisteroidy.html', array('error' => 'Väärä käyttäjätunnus tai salasana!', 'tunnus' => $params['tunnus']));
@@ -101,12 +101,12 @@ class KayttajaController extends BaseController {
         }
     }
 
-    public static function muuta_salasana() {
+    public static function change_passwd() {
         self::check_logged_in();
         $params = $_POST;
 
         $user_curr = Kayttaja::find($_SESSION['tunnus']);
-        $user_upd = Kayttaja::tarkista_salasana($user_curr->tunnus, base64_encode($params['salasana']));
+        $user_upd = Kayttaja::check_password($user_curr->tunnus, base64_encode($params['salasana']));
 
         if (!$user_upd) {
             Redirect::to('/omat_tiedot', array('error' => 'Virheellinen salasana!'));
@@ -125,7 +125,7 @@ class KayttajaController extends BaseController {
         }
     }
 
-    public static function rekisteroityminen() {
+    public static function registration() {
         $params = $_POST;
         $salt = self::generate_salt();
         $attributes = array(
@@ -151,20 +151,20 @@ class KayttajaController extends BaseController {
         }
     }
 
-    public static function kirjaudu_ulos() {
+    public static function log_out() {
         self::check_logged_in();
         $_SESSION['tunnus'] = null;
         Redirect::to('/', array('message' => 'Olet kirjautunut ulos!'));
     }
 
-    public static function poista() {
+    public static function delete_user() {
         self::check_logged_in();
         $params = $_POST;
         $user_curr = Kayttaja::find($_SESSION['tunnus']);
-        $user_check = Kayttaja::tarkista_salasana($params['tunnus'], base64_encode($params['salasana']));
+        $user_check = Kayttaja::check_password($params['tunnus'], base64_encode($params['salasana']));
         if ($user_check && $user_curr->id == $user_check->id) {
-            $onnistui = $user_curr->delete();
-            if ($onnistui) {
+            $success = $user_curr->delete();
+            if ($success) {
                 $_SESSION['tunnus'] = null;
                 Redirect::to('/', array('success' => 'Käyttäjätunnuksesi on nyt poistettu tietokannasta'));
             } else {

@@ -9,63 +9,63 @@ function check_logged_out() {
 }
 
 $routes->get('/kirjaudu_ulos', 'check_logged_in', function() {
-    KayttajaController::kirjaudu_ulos();
+    KayttajaController::log_out();
 });
 
 $routes->get('/kirjaudu', 'check_logged_out', function() {
-    KayttajaController::kirjaudu();
+    KayttajaController::login_page();
 });
 
 $routes->post('/kirjautuminen', 'check_logged_out', function() {
-    KayttajaController::kirjautuminen();
+    KayttajaController::log_in();
 });
 
 $routes->post('/rekisteroityminen', 'check_logged_out', function() {
-    KayttajaController::rekisteroityminen();
+    KayttajaController::registration();
 });
 
 $routes->post('/muuta_salasana', 'check_logged_in', function() {
-    KayttajaController::muuta_salasana();
+    KayttajaController::change_passwd();
 });
 
 $routes->get('/poista_tunnus', 'check_logged_in', function() {
-    KayttajaController::poistolomake();
+    KayttajaController::delete_page();
 });
 
 $routes->post('/poistaminen', 'check_logged_in', function() {
-    KayttajaController::poista();
+    KayttajaController::delete_user();
 });
 
 $routes->get('/omat_tiedot', 'check_logged_in', function() {
-    KayttajaController::omat_tiedot();
+    KayttajaController::own_info();
 });
 
 $routes->post('/omat_tiedot', 'check_logged_in', function() {
-    KayttajaController::omat_tiedot();
+    KayttajaController::own_info();
 });
 
 $routes->post('/lisaa_oma_hoyla', 'check_logged_in', function() {
-    KayttajaController::lisaa_hoyla();
+    KayttajaController::add_owned_razor();
 });
 
 $routes->post('/poista_oma_hoyla', 'check_logged_in', function() {
-    KayttajaController::poista_hoyla();
+    KayttajaController::remove_owned_razor();
 });
 
-$routes->get('/nayta_kayttaja/:id', 'check_logged_in', function($id) {
-    KayttajaController::nayta($id);
+$routes->get('/nayta_kayttaja/:id', 'check_logged_in', function($user_id) {
+    KayttajaController::show($user_id);
 });
 
-$routes->get('/listaa_kayttajat/:sivu', 'check_logged_in', function($sivu) {
-    KayttajaController::index($sivu);
+$routes->get('/listaa_kayttajat/:sivu', 'check_logged_in', function($page) {
+    KayttajaController::index($page);
 });
 
 $routes->get('/listaa_kayttajat', 'check_logged_in', function() {
     KayttajaController::index(1);
 });
 
-$routes->get('/listaa_terat/:sivu', function($sivu) {
-    TeraController::index($sivu);
+$routes->get('/listaa_terat/:sivu', function($page) {
+    TeraController::index($page);
 });
 
 $routes->get('/listaa_terat', function() {
@@ -80,28 +80,28 @@ $routes->post('/lisaa_tera', 'check_logged_in', function() {
     TeraController::lisaa();
 });
 
-$routes->get('/muokkaa_tera/:id', 'check_logged_in', function($id) {
-    TeraController::nayta_muokkaussivu($id);
+$routes->get('/muokkaa_tera/:id', 'check_logged_in', function($blade_id) {
+    TeraController::nayta_muokkaussivu($blade_id);
 });
 
-$routes->post('/paivita_tera/:id', 'check_logged_in', function($id) {
-    TeraController::paivita($id);
+$routes->post('/paivita_tera/:id', 'check_logged_in', function($blade_id) {
+    TeraController::paivita($blade_id);
 });
 
-$routes->get('/nayta_tera/:id', function($id) {
-    TeraController::nayta($id);
+$routes->get('/nayta_tera/:id', function($blade_id) {
+    TeraController::nayta($blade_id);
 });
 
-$routes->get('/poista_tera/:id', 'check_logged_in', function($id) {
-    TeraController::poista($id);
+$routes->get('/poista_tera/:id', 'check_logged_in', function($blade_id) {
+    TeraController::poista($blade_id);
 });
 
 $routes->get('/listaa_hoylat', function() {
     HoylaController::index(1);
 });
 
-$routes->get('/listaa_hoylat/:sivu', function($sivu) {
-    HoylaController::index($sivu);
+$routes->get('/listaa_hoylat/:sivu', function($page) {
+    HoylaController::index($page);
 });
 
 $routes->get('/uusi_hoyla', 'check_logged_in', function() {
@@ -112,40 +112,40 @@ $routes->post('/lisaa_hoyla', 'check_logged_in', function() {
     HoylaController::lisaa();
 });
 
-$routes->get('/nayta_hoyla/:id', function($id) {
-    HoylaController::nayta($id);
+$routes->get('/nayta_hoyla/:id', function($razor_id) {
+    HoylaController::nayta($razor_id);
 });
 
-$routes->get('/muokkaa_hoyla/:id', 'check_logged_in', function($id) {
-    HoylaController::muokkaussivu($id);
+$routes->get('/muokkaa_hoyla/:id', 'check_logged_in', function($razor_id) {
+    HoylaController::muokkaussivu($razor_id);
 });
 
-$routes->post('/paivita_hoyla/:id', 'check_logged_in', function($id) {
-    HoylaController::paivita($id);
+$routes->post('/paivita_hoyla/:id', 'check_logged_in', function($razor_id) {
+    HoylaController::paivita($razor_id);
 });
 
-$routes->get('/poista_hoyla/:id', 'check_logged_in', function($id) {
-    HoylaController::poista($id);
+$routes->get('/poista_hoyla/:id', 'check_logged_in', function($razor_id) {
+    HoylaController::poista($razor_id);
 });
 
 $routes->get('/listaa_paivakirjat', 'check_logged_in', function() {
     PvkController::index(1);
 });
 
-$routes->get('/listaa_paivakirjat/:sivu', 'check_logged_in', function($sivu) {
-    PvkController::index($sivu);
+$routes->get('/listaa_paivakirjat/:sivu', 'check_logged_in', function($page) {
+    PvkController::index($page);
 });
 
 $routes->get('/listaa_omat_paivakirjat', 'check_logged_in', function() {
     PvkController::index_user(1);
 });
 
-$routes->get('/listaa_omat_paivakirjat/:sivu', 'check_logged_in', function($sivu) {
-    PvkController::index_user($sivu);
+$routes->get('/listaa_omat_paivakirjat/:sivu', 'check_logged_in', function($page) {
+    PvkController::index_user($page);
 });
 
-$routes->get('/nayta_paivakirja/:id', 'check_logged_in', function($id) {
-    PvkController::nayta($id);
+$routes->get('/nayta_paivakirja/:id', 'check_logged_in', function($diary_id) {
+    PvkController::nayta($diary_id);
 });
 
 $routes->post('/uusi_pvk', 'check_logged_in', function() {
@@ -156,16 +156,16 @@ $routes->get('/uusi_paivakirja', 'check_logged_in', function() {
     PvkController::nayta_lisayssivu();
 });
 
-$routes->post('/muokkaa_pvk/:id', 'check_logged_in', function($id) {
-    PvkController::muokkaa($id);
+$routes->post('/muokkaa_pvk/:id', 'check_logged_in', function($diary_id) {
+    PvkController::muokkaa($diary_id);
 });
 
-$routes->get('/muokkaa_paivakirja/:id', 'check_logged_in', function($id) {
-    PvkController::nayta_muokkaussivu($id);
+$routes->get('/muokkaa_paivakirja/:id', 'check_logged_in', function($diary_id) {
+    PvkController::nayta_muokkaussivu($diary_id);
 });
 
-$routes->get('/poista_paivakirja/:id', 'check_logged_in', function($id) {
-    PvkController::poista($id);
+$routes->get('/poista_paivakirja/:id', 'check_logged_in', function($diary_id) {
+    PvkController::poista($diary_id);
 });
 
 $routes->get('/', function() {
