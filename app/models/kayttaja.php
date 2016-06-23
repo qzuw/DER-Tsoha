@@ -10,18 +10,10 @@ class Kayttaja extends BaseModel {
     }
 
     public static function all($options) {
-        if (isset($options['sivu'])) {
-            $sivu = $options['sivu'];
-        } else {
-            $sivu = 1;
-        }
-        if (isset($options['maara'])) {
-            $limit = $options['maara'];
-        } else {
-            $limit = 10;
-        }
+        $page = self::page_from_options($options);
+        $limit = self::limit_from_options($options);
 
-        $offset = $limit * ($sivu - 1);
+        $offset = $limit * ($page - 1);
 
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja ORDER BY tunnus LIMIT :limit OFFSET :offset');
         $query->execute(array('limit' => $limit, 'offset' => $offset));

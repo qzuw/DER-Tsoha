@@ -10,16 +10,8 @@ class Partahoyla extends BaseModel {
     }
 
     public static function all($options) {
-        if (isset($options['sivu'])) {
-            $page = $options['sivu'];
-        } else {
-            $page = 1;
-        }
-        if (isset($options['maara'])) {
-            $limit = $options['maara'];
-        } else {
-            $limit = 10;
-        }
+        $page = self::page_from_options($options);
+        $limit = self::limit_from_options($options);
 
         $offset = $limit * ($page - 1);
 
@@ -46,18 +38,10 @@ class Partahoyla extends BaseModel {
 
     public static function owned($options) {
         $user_id = $_SESSION['tunnus'];
-        if (isset($options['sivu'])) {
-            $sivu = $options['sivu'];
-        } else {
-            $sivu = 1;
-        }
-        if (isset($options['maara'])) {
-            $limit = $options['maara'];
-        } else {
-            $limit = 0;
-        }
+        $page = self::page_from_options($options);
+        $limit = self::limit_from_options($options);
 
-        $offset = $limit * ($sivu - 1);
+        $offset = $limit * ($page - 1);
 
         if ($limit == 0) {
             $query = DB::connection()->prepare('SELECT * FROM Hoylanakyma hn JOIN Kayttajanhoylat AS kh ON kh.partahoyla_id = hn.id WHERE kh.kayttaja_id = :id ORDER BY viittauksia DESC');

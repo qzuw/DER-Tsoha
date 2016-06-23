@@ -63,4 +63,22 @@ class BaseModel {
         return $errors;
     }
 
+    public function page_from_options($options) {
+        if (isset($options['sivu'])) {
+            $page = $options['sivu'];
+        } else {
+            $page = 1;
+        }
+        return $page;
+    }
+
+    public function limit_from_options($options) {
+        if (isset($options['maara'])) {
+            $limit = $options['maara'];
+        } else {
+            $limit = 10;
+        }
+        return $limit;
+    }
+
 }

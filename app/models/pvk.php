@@ -10,25 +10,17 @@ class Pvk extends BaseModel {
     }
 
     public static function all($options) {
-        if (isset($options['sivu'])) {
-            $sivu = $options['sivu'];
-        } else {
-            $sivu = 1;
-        }
-        if (isset($options['maara'])) {
-            $limit = $options['maara'];
-        } else {
-            $limit = 10;
-        }
-        $offset = $limit * ($sivu - 1);
+        $page = self::page_from_options($options);
+        $limit = self::limit_from_options($options);
+        $offset = $limit * ($page - 1);
 
         $query = DB::connection()->prepare('SELECT * FROM Paivakirja WHERE julkisuus = true ORDER BY pvm DESC LIMIT :limit OFFSET :offset');
         $query->execute(array('limit' => $limit, 'offset' => $offset));
         $rows = $query->fetchAll();
-        $pvkt = array();
+        $diaries = array();
         foreach ($rows as $row) {
-            $aika = explode(" ", $row['pvm']);
-            $pvkt[] = new Pvk(array(
+            $date_time = explode(" ", $row['pvm']);
+            $diaries[] = new Pvk(array(
                 'id' => $row['id'],
                 'kayttaja' => Kayttaja::find($row['kayttaja_id']),
                 'hoyla' => Partahoyla::find($row['partahoyla_id']),
@@ -36,14 +28,14 @@ class Pvk extends BaseModel {
                 'tera' => Tera::find($row['tera_id']),
                 'teravyys' => $row['teravyys'],
                 'pehmeys' => $row['pehmeys'],
-                'pvm' => $aika[0],
-                'klo' => $aika[1],
+                'pvm' => $date_time[0],
+                'klo' => $date_time[1],
                 'saippua' => $row['saippua'],
                 'kommentit' => $row['kommentit'],
                 'julkisuus' => $row['julkisuus']
             ));
         }
-        return $pvkt;
+        return $diaries;
     }
 
     public static function count() {
@@ -52,26 +44,18 @@ class Pvk extends BaseModel {
         $row = $query->fetch();
 
         if ($row) {
-            $maara = $row['maara'];
-            return $maara;
+            $amount = $row['maara'];
+            return $amount;
         }
         return null;
     }
 
     public static function all_user($options) {
-        if (isset($options['sivu'])) {
-            $sivu = $options['sivu'];
-        } else {
-            $sivu = 1;
-        }
-        if (isset($options['maara'])) {
-            $limit = $options['maara'];
-        } else {
-            $limit = 10;
-        }
-        $offset = $limit * ($sivu - 1);
+        $page = self::page_from_options($options);
+        $limit = self::limit_from_options($options);
+        $offset = $limit * ($page - 1);
 
-        $kayttaja = $options['kayttaja'];
+        $user = $options['kayttaja'];
 
         if (isset($options['julkinen'])) {
             $query = DB::connection()->prepare('SELECT * FROM Paivakirja WHERE kayttaja_id = :kayttaja AND julkisuus = TRUE ORDER BY pvm DESC LIMIT :limit OFFSET :offset');
@@ -79,12 +63,12 @@ class Pvk extends BaseModel {
             $query = DB::connection()->prepare('SELECT * FROM Paivakirja WHERE kayttaja_id = :kayttaja ORDER BY pvm DESC LIMIT :limit OFFSET :offset');
         }
 
-        $query->execute(array('limit' => $limit, 'offset' => $offset, 'kayttaja' => $kayttaja));
+        $query->execute(array('limit' => $limit, 'offset' => $offset, 'kayttaja' => $user));
         $rows = $query->fetchAll();
-        $pvkt = array();
+        $diaries = array();
         foreach ($rows as $row) {
-            $aika = explode(" ", $row['pvm']);
-            $pvkt[] = new Pvk(array(
+            $date_time = explode(" ", $row['pvm']);
+            $diaries[] = new Pvk(array(
                 'id' => $row['id'],
                 'kayttaja' => Kayttaja::find($row['kayttaja_id']),
                 'hoyla' => Partahoyla::find($row['partahoyla_id']),
@@ -92,14 +76,14 @@ class Pvk extends BaseModel {
                 'tera' => Tera::find($row['tera_id']),
                 'teravyys' => $row['teravyys'],
                 'pehmeys' => $row['pehmeys'],
-                'pvm' => $aika[0],
-                'klo' => $aika[1],
+                'pvm' => $date_time[0],
+                'klo' => $date_time[1],
                 'saippua' => $row['saippua'],
                 'kommentit' => $row['kommentit'],
                 'julkisuus' => $row['julkisuus']
             ));
         }
-        return $pvkt;
+        return $diaries;
     }
 
     public static function count_user($id) {
@@ -108,8 +92,8 @@ class Pvk extends BaseModel {
         $row = $query->fetch();
 
         if ($row) {
-            $maara = $row['maara'];
-            return $maara;
+            $amount = $row['maara'];
+            return $amount;
         }
         return null;
     }
@@ -120,8 +104,8 @@ class Pvk extends BaseModel {
         $row = $query->fetch();
 
         if ($row) {
-            $aika = explode(" ", $row['pvm']);
-            $pvk = new Pvk(array(
+            $date_time = explode(" ", $row['pvm']);
+            $diary = new Pvk(array(
                 'id' => $row['id'],
                 'kayttaja' => Kayttaja::find($row['kayttaja_id']),
                 'hoyla' => Partahoyla::find($row['partahoyla_id']),
@@ -129,13 +113,13 @@ class Pvk extends BaseModel {
                 'tera' => Tera::find($row['tera_id']),
                 'teravyys' => $row['teravyys'],
                 'pehmeys' => $row['pehmeys'],
-                'pvm' => $aika[0],
-                'klo' => $aika[1],
+                'pvm' => $date_time[0],
+                'klo' => $date_time[1],
                 'saippua' => $row['saippua'],
                 'kommentit' => $row['kommentit'],
                 'julkisuus' => $row['julkisuus']
             ));
-            return $pvk;
+            return $diary;
         }
         return null;
     }
@@ -164,10 +148,8 @@ class Pvk extends BaseModel {
 
     public function update() {
         $query = DB::connection()->prepare('UPDATE Paivakirja SET kommentit = :kommentit, partahoyla_id = :hoyla, tera_id = :tera, pvm = :pvm, saippua = :saippua, julkisuus = :julkisuus, aggressiivisuus = :aggressiivisuus, teravyys = :teravyys, pehmeys = :pehmeys WHERE id = :id');
-//        $query = DB::connection()->prepare('UPDATE Paivakirja SET kommentit = :kommentit, saippua = :saippua, julkisuus = :julkisuus WHERE id = :id');
         try {
             $query->execute(array('id' => $this->id, 'kommentit' => $this->kommentit, 'hoyla' => $this->hoyla->id, 'tera' => $this->tera->id, 'pvm' => $this->pvm . ' ' . $this->klo, 'saippua' => $this->saippua, 'julkisuus' => $this->julkisuus, 'aggressiivisuus' => $this->aggressiivisuus, 'teravyys' => $this->teravyys, 'pehmeys' => $this->pehmeys));
-//            $query->execute(array('id' => $this->id, 'kommentit' => $this->kommentit, 'saippua' => $this->saippua, 'julkisuus' => $this->julkisuus));
             return true;
         } catch (Exception $e) {
             return false;

@@ -10,17 +10,9 @@ class Tera extends BaseModel {
     }
 
     public static function all($options) {
-        if (isset($options['sivu'])) {
-            $sivu = $options['sivu'];
-        } else {
-            $sivu = 1;
-        }
-        if (isset($options['maara'])) {
-            $limit = $options['maara'];
-        } else {
-            $limit = 10;
-        }
-        $offset = $limit * ($sivu - 1);
+        $page = self::page_from_options($options);
+        $limit = self::limit_from_options($options);
+        $offset = $limit * ($page - 1);
 
         if ($limit == 0) {
             $query = DB::connection()->prepare('SELECT * FROM Teranakyma ORDER BY viittauksia DESC');
@@ -30,9 +22,9 @@ class Tera extends BaseModel {
             $query->execute(array('limit' => $limit, 'offset' => $offset));
         }
         $rows = $query->fetchAll();
-        $terat = array();
+        $blades = array();
         foreach ($rows as $row) {
-            $terat[] = new Tera(array(
+            $blades[] = new Tera(array(
                 'id' => $row['id'],
                 'valmistaja' => $row['valmistaja'],
                 'malli' => $row['malli'],
@@ -41,7 +33,7 @@ class Tera extends BaseModel {
                 'viittauksia' => $row['viittauksia']
             ));
         }
-        return $terat;
+        return $blades;
     }
 
     public static function count() {
@@ -50,23 +42,23 @@ class Tera extends BaseModel {
         $row = $query->fetch();
 
         if ($row) {
-            $maara = $row['maara'];
-            return $maara;
+            $amount = $row['maara'];
+            return $amount;
         }
         return null;
     }
 
-    public static function find($id) {
+    public static function find($blade_id) {
         try {
             $query = DB::connection()->prepare('SELECT * FROM Teranakyma WHERE id = :id');
-            $query->execute(array('id' => $id));
+            $query->execute(array('id' => $blade_id));
             $row = $query->fetch();
         } catch (Exception $e) {
             return null;
         }
 
         if ($row) {
-            $tera = new Tera(array(
+            $blade = new Tera(array(
                 'id' => $row['id'],
                 'valmistaja' => $row['valmistaja'],
                 'malli' => $row['malli'],
@@ -74,7 +66,7 @@ class Tera extends BaseModel {
                 'pehmeys' => $row['pehmeys'],
                 'viittauksia' => $row['viittauksia']
             ));
-            return $tera;
+            return $blade;
         }
         return null;
     }
