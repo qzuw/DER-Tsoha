@@ -2,38 +2,38 @@
 
 class HoylaController extends BaseController {
 
-    public static function index($sivu) {
-        $hoylamaara = Partahoyla::count();
-        $sivukoko = 10;
-        $sivuja = ceil($hoylamaara / $sivukoko);
+    public static function index($page_number) {
+        $razor_amount = Partahoyla::count();
+        $pagesize = 10;
+        $num_pages = ceil($razor_amount / $pagesize);
 
-        if (isset($sivu)) {
-            $hoylat = Partahoyla::all(array('sivu' => $sivu));
+        if (isset($page_number)) {
+            $razors = Partahoyla::all(array('sivu' => $page_number));
         } else {
-            $hoylat = Partahoyla::all(array());
-            $sivu = 1;
+            $razors = Partahoyla::all(array());
+            $page_number = 1;
         }
 
-        $data = array('hoylat' => $hoylat);
-        $data = array_merge($data, self::sivutus($sivu, $sivuja));
+        $data = array('hoylat' => $razors);
+        $data = array_merge($data, self::sivutus($page_number, $num_pages));
 
         View::make('hoyla/listaa_hoylat.html', $data);
     }
 
-    public static function nayta($id) {
-        $kaytt_id = null;
+    public static function nayta($razor_id) {
+        $user_id = null;
         if ($_SESSION && $_SESSION['tunnus']) {
-            $kaytt_id = $_SESSION['tunnus'];
-            $kayttaja = Kayttaja::find($kaytt_id);
+            $user_id = $_SESSION['tunnus'];
+            $user = Kayttaja::find($user_id);
         }
 
         $omistaa = false;
         //tanne $omistaa true jos kayttaja omistaa hoylan
-        if ($kaytt_id) {
-            $omistaa = $kayttaja->omistaako($id);
+        if ($user_id) {
+            $omistaa = $user->omistaako($razor_id);
         }
 
-        $hoyla = Partahoyla::find($id);
+        $hoyla = Partahoyla::find($razor_id);
         View::make('hoyla/nayta_hoyla.html', array('hoyla' => $hoyla, 'omistaa' => $omistaa));
     }
 
@@ -51,27 +51,27 @@ class HoylaController extends BaseController {
             'malli' => $params['malli'],
             'aggressiivisuus' => 0
         );
-        $hoyla = new Partahoyla($attributes);
-        $errors = $hoyla->errors();
+        $razor = new Partahoyla($attributes);
+        $errors = $razor->errors();
         if (count($errors) == 0) {
-            $onnistui = $hoyla->add();
-            if ($onnistui) {
-                Redirect::to('/nayta_hoyla/' . $hoyla->id, array('message' => 'Partahöylä on nyt lisätty tietokantaan'));
+            $success = $razor->add();
+            if ($success) {
+                Redirect::to('/nayta_hoyla/' . $razor->id, array('message' => 'Partahöylä on nyt lisätty tietokantaan'));
             } else {
                 Redirect::to('/listaa_hoylat', array('error' => 'Partahöylän lisääminen tietokantaan epäonnistui, tarkista onko se listassa jo ennestään'));
             }
         } else {
-            Redirect::to('/uusi_hoyla' . $hoyla->id, array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
+            Redirect::to('/uusi_hoyla' . $razor->id, array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
         }
     }
 
-    public static function muokkaussivu($id) {
+    public static function muokkaussivu($razor_id) {
         self::check_logged_in();
-        $hoyla = Partahoyla::find($id);
-        View::make('hoyla/muokkaa_hoyla.html', array('attributes' => $hoyla));
+        $razor = Partahoyla::find($razor_id);
+        View::make('hoyla/muokkaa_hoyla.html', array('attributes' => $razor));
     }
 
-    public static function paivita($id) {
+    public static function paivita($razor_id) {
         self::check_logged_in();
         $params = $_POST;
 
@@ -80,29 +80,29 @@ class HoylaController extends BaseController {
             'malli' => $params['malli'],
             'aggressiivisuus' => 0
         );
-        $hoyla = Partahoyla::find($id);
-        $hoyla->malli = $params['malli'];
-        $hoyla->valmistaja = $params['valmistaja'];
-        $errors = $hoyla->errors();
+        $razor = Partahoyla::find($razor_id);
+        $razor->malli = $params['malli'];
+        $razor->valmistaja = $params['valmistaja'];
+        $errors = $razor->errors();
         if (count($errors) == 0) {
-            $onnistui = $hoyla->update();
+            $onnistui = $razor->update();
             if ($onnistui) {
-                Redirect::to('/nayta_hoyla/' . $hoyla->id, array('message' => 'Partahöylän tiedot on nyt päivitetty'));
+                Redirect::to('/nayta_hoyla/' . $razor->id, array('message' => 'Partahöylän tiedot on nyt päivitetty'));
             } else {
-                Redirect::to('/nayta_hoyla/' . $hoyla->id, array('error' => 'Partahöylän muokkaaminen epäonnistui, se saattaa olla käytössä'));
+                Redirect::to('/nayta_hoyla/' . $razor->id, array('error' => 'Partahöylän muokkaaminen epäonnistui, se saattaa olla käytössä tai omistetuksi merkitty'));
             }
         } else {
-            Redirect::to('/muokkaa_hoyla' . $hoyla->id, array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
+            Redirect::to('/muokkaa_hoyla' . $razor->id, array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
         }
     }
 
     public static function poista($id) {
         self::check_logged_in();
-        $hoyla = Partahoyla::find($id);
-        $hoyla_nimi = $hoyla->valmistaja . " " . $hoyla->malli;
-        $onnistui = $hoyla->delete();
-        if ($onnistui) {
-            Redirect::to('/listaa_hoylat', array('success' => 'Partahöylä ' . $hoyla_nimi . ' on nyt poistettu tietokannasta'));
+        $razor = Partahoyla::find($id);
+        $razor_name = $razor->valmistaja . " " . $razor->malli;
+        $success = $razor->delete();
+        if ($success) {
+            Redirect::to('/listaa_hoylat', array('success' => 'Partahöylä ' . $razor_name . ' on nyt poistettu tietokannasta'));
         } else {
             Redirect::to('/nayta_hoyla/' . $id, array('error' => 'Partahöylän poistaminen epäonnistui, se on käytössä'));
         }

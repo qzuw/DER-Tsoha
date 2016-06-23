@@ -94,6 +94,18 @@ class Partahoyla extends BaseModel {
         return null;
     }
 
+        public static function count_owners($razor_id) {
+        $query = DB::connection()->prepare('SELECT count(*) AS maara FROM Kayttajanhoylat WHERE partahoyla_id = :razor_id');
+        $query->execute(array('razor_id' => $razor_id));
+        $row = $query->fetch();
+
+        if ($row) {
+            $maara = $row['maara'];
+            return $maara;
+        }
+        return null;
+    }
+
     public static function find($id) {
         try {
             $query = DB::connection()->prepare('SELECT * FROM Hoylanakyma WHERE id = :id');
@@ -145,7 +157,7 @@ class Partahoyla extends BaseModel {
     }
 
     public function update() {
-        if ($this->viittauksia == 0) {
+        if ($this->viittauksia == 0 && self::count_owners($this->id) == 0) {
             $query = DB::connection()->prepare('UPDATE Partahoyla SET valmistaja = :valmistaja, malli = :malli WHERE id = :id');
             try {
                 $query->execute(array('id' => $this->id, 'valmistaja' => $this->valmistaja, 'malli' => $this->malli));
