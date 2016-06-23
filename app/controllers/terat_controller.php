@@ -3,20 +3,20 @@
 class TeraController extends BaseController {
 
     public static function index($page) {
-        $teramaara = Tera::count();
-        $sivukoko = 10;
-        $sivuja = ceil($teramaara / $sivukoko);
+        $blade_amount = Tera::count();
+        $page_size = 10;
+        $num_pages = ceil($blade_amount / $page_size);
 
         if (isset($page)) {
-            $terat = Tera::all(array('sivu' => $page));
+            $blades = Tera::all(array('sivu' => $page));
         } else {
-            $terat = Tera::all(array());
+            $blades = Tera::all(array());
             $page = 1;
         }
 
-        $data = array('terat' => $terat);
+        $data = array('terat' => $blades);
 
-        $data = array_merge($data, self::sivutus($page, $sivuja));
+        $data = array_merge($data, self::sivutus($page, $num_pages));
 
         View::make('tera/listaa_terat.html', $data);
     }
