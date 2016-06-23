@@ -96,15 +96,15 @@ class HoylaController extends BaseController {
         }
     }
 
-    public static function poista($id) {
+    public static function poista($razor_id) {
         self::check_logged_in();
-        $razor = Partahoyla::find($id);
+        $razor = Partahoyla::find($razor_id);
         $razor_name = $razor->valmistaja . " " . $razor->malli;
         $success = $razor->delete();
         if ($success) {
             Redirect::to('/listaa_hoylat', array('success' => 'Partahöylä ' . $razor_name . ' on nyt poistettu tietokannasta'));
         } else {
-            Redirect::to('/nayta_hoyla/' . $id, array('error' => 'Partahöylän poistaminen epäonnistui, se on käytössä'));
+            Redirect::to('/nayta_hoyla/' . $razor_id, array('error' => 'Partahöylän poistaminen epäonnistui, se on käytössä'));
         }
     }
 
