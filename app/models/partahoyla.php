@@ -11,9 +11,9 @@ class Partahoyla extends BaseModel {
 
     public static function all($options) {
         if (isset($options['sivu'])) {
-            $sivu = $options['sivu'];
+            $page = $options['sivu'];
         } else {
-            $sivu = 1;
+            $page = 1;
         }
         if (isset($options['maara'])) {
             $limit = $options['maara'];
@@ -21,7 +21,7 @@ class Partahoyla extends BaseModel {
             $limit = 10;
         }
 
-        $offset = $limit * ($sivu - 1);
+        $offset = $limit * ($page - 1);
 
         if ($limit == 0) {
             $query = DB::connection()->prepare('SELECT * FROM Hoylanakyma ORDER BY viittauksia DESC');
