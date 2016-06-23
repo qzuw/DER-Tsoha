@@ -45,7 +45,7 @@ class Partahoyla extends BaseModel {
     }
 
     public static function owned($options) {
-        $id = $_SESSION['tunnus'];
+        $user_id = $_SESSION['tunnus'];
         if (isset($options['sivu'])) {
             $sivu = $options['sivu'];
         } else {
@@ -61,15 +61,15 @@ class Partahoyla extends BaseModel {
 
         if ($limit == 0) {
             $query = DB::connection()->prepare('SELECT * FROM Hoylanakyma hn JOIN Kayttajanhoylat AS kh ON kh.partahoyla_id = hn.id WHERE kh.kayttaja_id = :id ORDER BY viittauksia DESC');
-            $query->execute(array('id' => $id));
+            $query->execute(array('id' => $user_id));
         } else {
             $query = DB::connection()->prepare('SELECT * FROM Hoylanakyma hn JOIN Kayttajanhoylat AS kh ON kh.partahoyla_id = hn.id WHERE kh.kayttaja_id = :id ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
-            $query->execute(array('id' => $id, 'limit' => $limit, 'offset' => $offset));
+            $query->execute(array('id' => $user_id, 'limit' => $limit, 'offset' => $offset));
         }
         $rows = $query->fetchAll();
-        $hoylat = array();
+        $razors = array();
         foreach ($rows as $row) {
-            $hoylat[] = new Partahoyla(array(
+            $razors[] = new Partahoyla(array(
                 'id' => $row['id'],
                 'valmistaja' => $row['valmistaja'],
                 'malli' => $row['malli'],
@@ -77,7 +77,7 @@ class Partahoyla extends BaseModel {
                 'viittauksia' => $row['viittauksia']
             ));
         }
-        return $hoylat;
+        return $razors;
     }
 
     public static function count() {
@@ -86,8 +86,8 @@ class Partahoyla extends BaseModel {
         $row = $query->fetch();
 
         if ($row) {
-            $maara = $row['maara'];
-            return $maara;
+            $amount = $row['maara'];
+            return $amount;
         }
         return null;
     }
@@ -98,8 +98,8 @@ class Partahoyla extends BaseModel {
         $row = $query->fetch();
 
         if ($row) {
-            $maara = $row['maara'];
-            return $maara;
+            $amount = $row['maara'];
+            return $amount;
         }
         return null;
     }
@@ -114,14 +114,14 @@ class Partahoyla extends BaseModel {
         }
 
         if ($row) {
-            $hoyla = new Partahoyla(array(
+            $razor = new Partahoyla(array(
                 'id' => $row['id'],
                 'valmistaja' => $row['valmistaja'],
                 'malli' => $row['malli'],
                 'aggressiivisuus' => $row['aggressiivisuus'],
                 'viittauksia' => $row['viittauksia']
             ));
-            return $hoyla;
+            return $razor;
         }
         return null;
     }
