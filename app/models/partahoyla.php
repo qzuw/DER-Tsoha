@@ -45,9 +45,7 @@ class Partahoyla extends BaseModel {
     }
 
     public static function owned($options) {
-        if (isset($options['id'])) {
-            $id = $options['id'];
-        }
+        $id = $_SESSION['tunnus'];
         if (isset($options['sivu'])) {
             $sivu = $options['sivu'];
         } else {
@@ -94,7 +92,7 @@ class Partahoyla extends BaseModel {
         return null;
     }
 
-        public static function count_owners($razor_id) {
+    public static function count_owners($razor_id) {
         $query = DB::connection()->prepare('SELECT count(*) AS maara FROM Kayttajanhoylat WHERE partahoyla_id = :razor_id');
         $query->execute(array('razor_id' => $razor_id));
         $row = $query->fetch();
