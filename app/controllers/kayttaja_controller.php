@@ -2,45 +2,45 @@
 
 class KayttajaController extends BaseController {
 
-    public static function index($sivu) {
-        $kayttajamaara = Kayttaja::count();
-        $sivukoko = 10;
-        $sivuja = ceil($kayttajamaara / $sivukoko);
+    public static function index($page) {
+        $user_amount = Kayttaja::count();
+        $page_size = 10;
+        $num_pages = ceil($user_amount / $page_size);
 
-        if (isset($sivu)) {
-            $kayttajat = Kayttaja::all(array('sivu' => $sivu));
+        if (isset($page)) {
+            $users = Kayttaja::all(array('sivu' => $page));
         } else {
-            $kayttajat = Kayttaja::all();
-            $sivu = 1;
+            $users = Kayttaja::all();
+            $page = 1;
         }
 
-        $data = array('kayttajat' => $kayttajat);
+        $data = array('kayttajat' => $users);
 
-        $data = array_merge($data, self::sivutus($sivu, $sivuja));
+        $data = array_merge($data, self::sivutus($page, $num_pages));
 
         View::make('kayttaja/listaa_kayttajat.html', $data);
     }
 
     public static function omat_tiedot() {
         self::check_logged_in();
-        $id = $_SESSION['tunnus'];
-        $kayttaja = Kayttaja::find($id);
+        $user_id = $_SESSION['tunnus'];
+        $user = Kayttaja::find($user_id);
 
-        $data = array('kayttaja' => $kayttaja);
+        $data = array('kayttaja' => $user);
 
-        $data['hoylat'] = Partahoyla::owned(array('id' => $id));
-        $data['pvk'] = Pvk::all_user(array('kayttaja' => $id, 'maara' => 5));
+        $data['hoylat'] = Partahoyla::owned(array('id' => $user_id));
+        $data['pvk'] = Pvk::all_user(array('kayttaja' => $user_id, 'maara' => 5));
 
         View::make('kayttaja/omat_tiedot.html', $data);
     }
 
-    public static function nayta($id) {
+    public static function nayta($user_id) {
         self::check_logged_in();
-        $kayttaja = Kayttaja::find($id);
+        $user = Kayttaja::find($user_id);
 
-        $data = array('kayttaja' => $kayttaja);
+        $data = array('kayttaja' => $user);
 
-        $data['pvk'] = Pvk::all_user(array('kayttaja' => $id, 'julkinen' => true));
+        $data['pvk'] = Pvk::all_user(array('kayttaja' => $user_id, 'julkinen' => true));
 
         View::make('kayttaja/nayta_kayttaja.html', $data);
     }
@@ -48,34 +48,34 @@ class KayttajaController extends BaseController {
     public static function lisaa_hoyla() {
         self::check_logged_in();
         $params = $_POST;
-        $hid = $params['hoyla'];
+        $razor_id = $params['hoyla'];
 
-        $kayttaja = Kayttaja::find($_SESSION['tunnus']);
-        $hoyla = Partahoyla::find($hid);
+        $user = Kayttaja::find($_SESSION['tunnus']);
+        $razor = Partahoyla::find($razor_id);
 
-        $lisays_ok = $kayttaja->lisaa_hoyla($hid);
+        $success = $user->lisaa_hoyla($razor_id);
 
-        if ($lisays_ok) {
-            Redirect::to('/nayta_hoyla/' . $hid, array('success' => $hoyla->valmistaja . ' ' . $hoyla->malli . ' merkittiin omistamaksesi.', 'hoyla' => $hoyla));
+        if ($success) {
+            Redirect::to('/nayta_hoyla/' . $razor_id, array('success' => $razor->valmistaja . ' ' . $razor->malli . ' merkittiin omistamaksesi.', 'hoyla' => $razor));
         } else {
-            Redirect::to('/nayta_hoyla/' . $hid, array('error' => 'Tämän höylän merkitseminen omistamaksesi epäonnistui.', 'hoyla' => $hoyla));
+            Redirect::to('/nayta_hoyla/' . $razor_id, array('error' => 'Tämän höylän merkitseminen omistamaksesi epäonnistui.', 'hoyla' => $razor));
         }
     }
 
     public static function poista_hoyla() {
         self::check_logged_in();
         $params = $_POST;
-        $hid = $params['hoyla'];
+        $razor_id = $params['hoyla'];
 
-        $kayttaja = Kayttaja::find($_SESSION['tunnus']);
-        $hoyla = Partahoyla::find($hid);
+        $user = Kayttaja::find($_SESSION['tunnus']);
+        $razor = Partahoyla::find($razor_id);
 
-        $poisto_ok = $kayttaja->poista_hoyla($hid);
+        $success = $user->poista_hoyla($razor_id);
 
-        if ($poisto_ok) {
-            Redirect::to('/nayta_hoyla/' . $hid, array('success' => $hoyla->valmistaja . ' ' . $hoyla->malli . ' poistettiin partahöylistäsi.', 'hoyla' => $hoyla));
+        if ($success) {
+            Redirect::to('/nayta_hoyla/' . $razor_id, array('success' => $razor->valmistaja . ' ' . $razor->malli . ' poistettiin partahöylistäsi.', 'hoyla' => $razor));
         } else {
-            Redirect::to('/nayta_hoyla/' . $hid, array('error' => 'Tämän höylän poistaminen omistamistasi partahöylistä epäonnistui.', 'hoyla' => $hoyla));
+            Redirect::to('/nayta_hoyla/' . $razor_id, array('error' => 'Tämän höylän poistaminen omistamistasi partahöylistä epäonnistui.', 'hoyla' => $razor));
         }
     }
 
@@ -90,14 +90,14 @@ class KayttajaController extends BaseController {
     public static function kirjautuminen() {
         $params = $_POST;
 
-        $kayttaja = Kayttaja::tarkista_salasana($params['tunnus'], base64_encode($params['salasana']));
+        $user = Kayttaja::tarkista_salasana($params['tunnus'], base64_encode($params['salasana']));
 
-        if (!$kayttaja) {
+        if (!$user) {
             View::make('kayttaja/kirjaudu_rekisteroidy.html', array('error' => 'Väärä käyttäjätunnus tai salasana!', 'tunnus' => $params['tunnus']));
         } else {
-            $_SESSION['tunnus'] = $kayttaja->id;
+            $_SESSION['tunnus'] = $user->id;
 
-            Redirect::to('/', array('message' => 'Kirjauduit sisään tunnuksella ' . $kayttaja->tunnus . '!'));
+            Redirect::to('/', array('message' => 'Kirjauduit sisään tunnuksella ' . $user->tunnus . '!'));
         }
     }
 
@@ -105,19 +105,19 @@ class KayttajaController extends BaseController {
         self::check_logged_in();
         $params = $_POST;
 
-        $kayttaja1 = Kayttaja::find($_SESSION['tunnus']);
-        $kayttaja = Kayttaja::tarkista_salasana($kayttaja1->tunnus, base64_encode($params['salasana']));
+        $user_curr = Kayttaja::find($_SESSION['tunnus']);
+        $user_upd = Kayttaja::tarkista_salasana($user_curr->tunnus, base64_encode($params['salasana']));
 
-        if (!$kayttaja) {
+        if (!$user_upd) {
             Redirect::to('/omat_tiedot', array('error' => 'Virheellinen salasana!'));
         } else {
             $salt = self::generate_salt();
-            $kayttaja->salasana = $params['usalasana'];
-            $kayttaja->pw2 = $params['usalasana2'];
-            $kayttaja->cpw = crypt(base64_encode($params['usalasana']), $salt);
-            $errors = $kayttaja->validate_new_passwd();
+            $user_upd->salasana = $params['usalasana'];
+            $user_upd->pw2 = $params['usalasana2'];
+            $user_upd->cpw = crypt(base64_encode($params['usalasana']), $salt);
+            $errors = $user_upd->validate_new_passwd();
             if (!$errors) {
-                $kayttaja->update();
+                $user_upd->update();
                 Redirect::to('/omat_tiedot', array('message' => 'Salasanasi on muutettu.'));
             } else {
                 Redirect::to('/omat_tiedot', array('error' => 'Virheellinen salasana!', 'errors' => $errors));
@@ -135,14 +135,14 @@ class KayttajaController extends BaseController {
             'cpw' => crypt(base64_encode($params['salasana']), $salt)
         );
 
-        $kayttaja = new Kayttaja($attributes);
-        $errors = $kayttaja->errors();
+        $user = new Kayttaja($attributes);
+        $errors = $user->errors();
 
         if (count($errors) == 0) {
-            $onnistui = $kayttaja->add();
-            if ($onnistui) {
-                $_SESSION['tunnus'] = $kayttaja->id;
-                Redirect::to('/', array('message' => 'Tunnus ' . $kayttaja->tunnus . ' on nyt lisätty tietokantaan ja kirjauduit sillä sisään.', 'kayttaja' => $kayttaja));
+            $success = $user->add();
+            if ($success) {
+                $_SESSION['tunnus'] = $user->id;
+                Redirect::to('/', array('message' => 'Tunnus ' . $user->tunnus . ' on nyt lisätty tietokantaan ja kirjauduit sillä sisään.', 'kayttaja' => $user));
             } else {
                 Redirect::to('/kirjaudu', array('error' => 'Tunnuksen lisääminen tietokantaan epäonnistui, tämä tunnus saattaa olla jo olemassa.', 'attributes' => $attributes));
             }
@@ -160,26 +160,26 @@ class KayttajaController extends BaseController {
     public static function poista() {
         self::check_logged_in();
         $params = $_POST;
-        $kayttaja = Kayttaja::find($_SESSION['tunnus']);
-        $kayttaja2 = Kayttaja::tarkista_salasana($params['tunnus'], base64_encode($params['salasana']));
-        if ($kayttaja2 && $kayttaja->id == $kayttaja2->id) {
-            $onnistui = $kayttaja->delete();
+        $user_curr = Kayttaja::find($_SESSION['tunnus']);
+        $user_check = Kayttaja::tarkista_salasana($params['tunnus'], base64_encode($params['salasana']));
+        if ($user_check && $user_curr->id == $user_check->id) {
+            $onnistui = $user_curr->delete();
             if ($onnistui) {
                 $_SESSION['tunnus'] = null;
                 Redirect::to('/', array('success' => 'Käyttäjätunnuksesi on nyt poistettu tietokannasta'));
             } else {
-                Redirect::to('/omat_tiedot', array('error' => 'Tunnuksen poistaminen epäonnistui', 'kayttaja' => $kayttaja));
+                Redirect::to('/omat_tiedot', array('error' => 'Tunnuksen poistaminen epäonnistui', 'kayttaja' => $user_curr));
             }
         } else {
-            Redirect::to('/omat_tiedot', array('error' => 'Tunnuksen poistaminen epäonnistui', 'kayttaja' => $kayttaja));
+            Redirect::to('/omat_tiedot', array('error' => 'Tunnuksen poistaminen epäonnistui', 'kayttaja' => $user_curr));
         }
     }
 
     private static function generate_salt() {
         $salt = '$6$';
-        $merkit = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         for ($i = 0; $i < 16; $i++) {
-            $salt .= $merkit[mt_rand(0, strlen($merkit) - 1)];
+            $salt .= $chars[mt_rand(0, strlen($chars) - 1)];
         }
         return $salt;
     }
