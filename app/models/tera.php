@@ -14,26 +14,30 @@ class Tera extends BaseModel {
         $limit = self::limit_from_options($options);
         $offset = $limit * ($page - 1);
 
-        if ($limit == 0) {
-            $query = DB::connection()->prepare('SELECT * FROM Teranakyma ORDER BY viittauksia DESC');
-            $query->execute(array());
-        } else {
-            $query = DB::connection()->prepare('SELECT * FROM Teranakyma ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
-            $query->execute(array('limit' => $limit, 'offset' => $offset));
+        try {
+            if ($limit == 0) {
+                $query = DB::connection()->prepare('SELECT * FROM Teranakyma ORDER BY viittauksia DESC');
+                $query->execute(array());
+            } else {
+                $query = DB::connection()->prepare('SELECT * FROM Teranakyma ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
+                $query->execute(array('limit' => $limit, 'offset' => $offset));
+            }
+            $rows = $query->fetchAll();
+            $blades = array();
+            foreach ($rows as $row) {
+                $blades[] = new Tera(array(
+                    'id' => $row['id'],
+                    'valmistaja' => $row['valmistaja'],
+                    'malli' => $row['malli'],
+                    'teravyys' => $row['teravyys'],
+                    'pehmeys' => $row['pehmeys'],
+                    'viittauksia' => $row['viittauksia']
+                ));
+            }
+            return $blades;
+        } catch (Exception $e) {
+            return null;
         }
-        $rows = $query->fetchAll();
-        $blades = array();
-        foreach ($rows as $row) {
-            $blades[] = new Tera(array(
-                'id' => $row['id'],
-                'valmistaja' => $row['valmistaja'],
-                'malli' => $row['malli'],
-                'teravyys' => $row['teravyys'],
-                'pehmeys' => $row['pehmeys'],
-                'viittauksia' => $row['viittauksia']
-            ));
-        }
-        return $blades;
     }
 
     public static function count() {

@@ -15,25 +15,29 @@ class Partahoyla extends BaseModel {
 
         $offset = $limit * ($page - 1);
 
-        if ($limit == 0) {
-            $query = DB::connection()->prepare('SELECT * FROM Hoylanakyma ORDER BY viittauksia DESC');
-            $query->execute(array());
-        } else {
-            $query = DB::connection()->prepare('SELECT * FROM Hoylanakyma ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
-            $query->execute(array('limit' => $limit, 'offset' => $offset));
+        try {
+            if ($limit == 0) {
+                $query = DB::connection()->prepare('SELECT * FROM Hoylanakyma ORDER BY viittauksia DESC');
+                $query->execute(array());
+            } else {
+                $query = DB::connection()->prepare('SELECT * FROM Hoylanakyma ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
+                $query->execute(array('limit' => $limit, 'offset' => $offset));
+            }
+            $rows = $query->fetchAll();
+            $hoylat = array();
+            foreach ($rows as $row) {
+                $hoylat[] = new Partahoyla(array(
+                    'id' => $row['id'],
+                    'valmistaja' => $row['valmistaja'],
+                    'malli' => $row['malli'],
+                    'aggressiivisuus' => $row['aggressiivisuus'],
+                    'viittauksia' => $row['viittauksia']
+                ));
+            }
+            return $hoylat;
+        } catch (Exception $e) {
+            return null;
         }
-        $rows = $query->fetchAll();
-        $hoylat = array();
-        foreach ($rows as $row) {
-            $hoylat[] = new Partahoyla(array(
-                'id' => $row['id'],
-                'valmistaja' => $row['valmistaja'],
-                'malli' => $row['malli'],
-                'aggressiivisuus' => $row['aggressiivisuus'],
-                'viittauksia' => $row['viittauksia']
-            ));
-        }
-        return $hoylat;
     }
 
     public static function owned($options) {
@@ -43,25 +47,29 @@ class Partahoyla extends BaseModel {
 
         $offset = $limit * ($page - 1);
 
-        if ($limit == 0) {
-            $query = DB::connection()->prepare('SELECT * FROM Hoylanakyma hn JOIN Kayttajanhoylat AS kh ON kh.partahoyla_id = hn.id WHERE kh.kayttaja_id = :id ORDER BY viittauksia DESC');
-            $query->execute(array('id' => $user_id));
-        } else {
-            $query = DB::connection()->prepare('SELECT * FROM Hoylanakyma hn JOIN Kayttajanhoylat AS kh ON kh.partahoyla_id = hn.id WHERE kh.kayttaja_id = :id ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
-            $query->execute(array('id' => $user_id, 'limit' => $limit, 'offset' => $offset));
+        try {
+            if ($limit == 0) {
+                $query = DB::connection()->prepare('SELECT * FROM Hoylanakyma hn JOIN Kayttajanhoylat AS kh ON kh.partahoyla_id = hn.id WHERE kh.kayttaja_id = :id ORDER BY viittauksia DESC');
+                $query->execute(array('id' => $user_id));
+            } else {
+                $query = DB::connection()->prepare('SELECT * FROM Hoylanakyma hn JOIN Kayttajanhoylat AS kh ON kh.partahoyla_id = hn.id WHERE kh.kayttaja_id = :id ORDER BY viittauksia DESC LIMIT :limit OFFSET :offset');
+                $query->execute(array('id' => $user_id, 'limit' => $limit, 'offset' => $offset));
+            }
+            $rows = $query->fetchAll();
+            $razors = array();
+            foreach ($rows as $row) {
+                $razors[] = new Partahoyla(array(
+                    'id' => $row['id'],
+                    'valmistaja' => $row['valmistaja'],
+                    'malli' => $row['malli'],
+                    'aggressiivisuus' => $row['aggressiivisuus'],
+                    'viittauksia' => $row['viittauksia']
+                ));
+            }
+            return $razors;
+        } catch (Exception $e) {
+            return null;
         }
-        $rows = $query->fetchAll();
-        $razors = array();
-        foreach ($rows as $row) {
-            $razors[] = new Partahoyla(array(
-                'id' => $row['id'],
-                'valmistaja' => $row['valmistaja'],
-                'malli' => $row['malli'],
-                'aggressiivisuus' => $row['aggressiivisuus'],
-                'viittauksia' => $row['viittauksia']
-            ));
-        }
-        return $razors;
     }
 
     public static function count() {
@@ -78,14 +86,18 @@ class Partahoyla extends BaseModel {
 
     public static function count_owners($razor_id) {
         $query = DB::connection()->prepare('SELECT count(*) AS maara FROM Kayttajanhoylat WHERE partahoyla_id = :razor_id');
-        $query->execute(array('razor_id' => $razor_id));
-        $row = $query->fetch();
+        try {
+            $query->execute(array('razor_id' => $razor_id));
+            $row = $query->fetch();
 
-        if ($row) {
-            $amount = $row['maara'];
-            return $amount;
+            if ($row) {
+                $amount = $row['maara'];
+                return $amount;
+            }
+            return null;
+        } catch (Exception $e) {
+            return null;
         }
-        return null;
     }
 
     public static function find($id) {

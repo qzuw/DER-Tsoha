@@ -16,17 +16,21 @@ class Kayttaja extends BaseModel {
         $offset = $limit * ($page - 1);
 
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja ORDER BY tunnus LIMIT :limit OFFSET :offset');
-        $query->execute(array('limit' => $limit, 'offset' => $offset));
-        $rows = $query->fetchAll();
-        $kayttajat = array();
-        foreach ($rows as $row) {
-            $kayttajat[] = new Kayttaja(array(
-                'id' => $row['id'],
-                'tunnus' => $row['tunnus'],
-                'cpw' => $row['salasana']
-            ));
+        try {
+            $query->execute(array('limit' => $limit, 'offset' => $offset));
+            $rows = $query->fetchAll();
+            $kayttajat = array();
+            foreach ($rows as $row) {
+                $kayttajat[] = new Kayttaja(array(
+                    'id' => $row['id'],
+                    'tunnus' => $row['tunnus'],
+                    'cpw' => $row['salasana']
+                ));
+            }
+            return $kayttajat;
+        } catch (Exception $e) {
+            return null;
         }
-        return $kayttajat;
     }
 
     public static function count() {
@@ -44,15 +48,19 @@ class Kayttaja extends BaseModel {
     public static function omistaako($hid) {
         $kid = $_SESSION['tunnus'];
         $query = DB::connection()->prepare('SELECT count(*) AS maara FROM Kayttajanhoylat WHERE kayttaja_id = :kid AND partahoyla_id = :hid');
-        $query->execute(array('hid' => $hid, 'kid' => $kid));
-        $row = $query->fetch();
+        try {
+            $query->execute(array('hid' => $hid, 'kid' => $kid));
+            $row = $query->fetch();
 
-        if ($row) {
-            if ($row['maara'] > 0) {
-                return true;
+            if ($row) {
+                if ($row['maara'] > 0) {
+                    return true;
+                }
             }
+            return false;
+        } catch (Exception $e) {
+            return false;
         }
-        return false;
     }
 
     public static function lisaa_hoyla($razor_id) {
@@ -80,18 +88,22 @@ class Kayttaja extends BaseModel {
 
     public static function find($id) {
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja WHERE id = :id');
-        $query->execute(array('id' => $id));
-        $row = $query->fetch();
+        try {
+            $query->execute(array('id' => $id));
+            $row = $query->fetch();
 
-        if ($row) {
-            $kayttaja = new Kayttaja(array(
-                'id' => $row['id'],
-                'tunnus' => $row['tunnus'],
-                'cpw' => $row['salasana']
-            ));
-            return $kayttaja;
+            if ($row) {
+                $kayttaja = new Kayttaja(array(
+                    'id' => $row['id'],
+                    'tunnus' => $row['tunnus'],
+                    'cpw' => $row['salasana']
+                ));
+                return $kayttaja;
+            }
+            return null;
+        } catch (Exception $e) {
+            return null;
         }
-        return null;
     }
 
     public function add() {
@@ -128,21 +140,25 @@ class Kayttaja extends BaseModel {
 
     public function check_password($tunnus, $salasana) {
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja WHERE tunnus = :tunnus');
-        $query->execute(array('tunnus' => $tunnus));
-        $row = $query->fetch();
+        try {
+            $query->execute(array('tunnus' => $tunnus));
+            $row = $query->fetch();
 
-        if ($row) {
-            // myohemmin if (crypt($user_input, $digest) == $digest)
-            if ($row['salasana'] == crypt($salasana, $row['salasana'])) {
-                $kayttaja = new Kayttaja(array(
-                    'id' => $row['id'],
-                    'tunnus' => $row['tunnus'],
-                    'cpw' => $row['salasana']
-                ));
-                return $kayttaja;
+            if ($row) {
+                // myohemmin if (crypt($user_input, $digest) == $digest)
+                if ($row['salasana'] == crypt($salasana, $row['salasana'])) {
+                    $kayttaja = new Kayttaja(array(
+                        'id' => $row['id'],
+                        'tunnus' => $row['tunnus'],
+                        'cpw' => $row['salasana']
+                    ));
+                    return $kayttaja;
+                }
             }
+            return null;
+        } catch (Exception $e) {
+            return null;
         }
-        return null;
     }
 
     public function validate_new_passwd() {
