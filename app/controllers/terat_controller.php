@@ -7,7 +7,7 @@ class TeraController extends BaseController {
         $page_size = 10;
         $num_pages = ceil($blade_amount / $page_size);
 
-        if (isset($page)) {
+        if (isset($page) && is_numeric($page)) {
             $blades = Tera::all(array('sivu' => $page));
         } else {
             $blades = Tera::all(array());
@@ -22,8 +22,12 @@ class TeraController extends BaseController {
     }
 
     public static function show($blade_id) {
-        $tera = Tera::find($blade_id);
-        View::make('tera/nayta_tera.html', array('tera' => $tera));
+        if (is_numeric($blade_id)) {
+            $tera = Tera::find($blade_id);
+            View::make('tera/nayta_tera.html', array('tera' => $tera));
+        } else {
+            Redirect::to('/', array('error' => 'Virheellinen id'));
+        }
     }
 
     public static function create_page() {
@@ -58,8 +62,12 @@ class TeraController extends BaseController {
 
     public static function edit_page($blade_id) {
         self::check_logged_in();
-        $blade = Tera::find($blade_id);
-        View::make('tera/muokkaa_tera.html', array('attributes' => $blade));
+        if (is_numeric($blade_id)) {
+            $blade = Tera::find($blade_id);
+            View::make('tera/muokkaa_tera.html', array('attributes' => $blade));
+        } else {
+            Redirect::to('/', array('error' => 'Virheellinen id'));
+        }
     }
 
     public static function update($blade_id) {
@@ -72,32 +80,40 @@ class TeraController extends BaseController {
             'teravyys' => 0
         );
 
-        $blade = Tera::find($blade_id);
-        $blade->malli = $params['malli'];
-        $blade->valmistaja = $params['valmistaja'];
-        $errors = $blade->errors();
+        if (is_numeric($blade_id)) {
+            $blade = Tera::find($blade_id);
+            $blade->malli = $params['malli'];
+            $blade->valmistaja = $params['valmistaja'];
+            $errors = $blade->errors();
 
-        if (count($errors) == 0) {
-            $success = $blade->add();
-            if ($success) {
-                Redirect::to('/nayta_tera/' . $blade->id, array('message' => 'Terä on nyt päivitetty'));
+            if (count($errors) == 0) {
+                $success = $blade->add();
+                if ($success) {
+                    Redirect::to('/nayta_tera/' . $blade->id, array('message' => 'Terä on nyt päivitetty'));
+                } else {
+                    Redirect::to('/nayta_tera/' . $blade->id, array('error' => 'Terän muokkaaminen epäonnistui, se saattaa jo olla käytössä'));
+                }
             } else {
-                Redirect::to('/nayta_tera/' . $blade->id, array('error' => 'Terän muokkaaminen epäonnistui, se saattaa jo olla käytössä'));
+                Redirect::to('/muokkaa_tera' . $blade->id, array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
             }
         } else {
-            Redirect::to('/muokkaa_tera' . $blade->id, array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
+            Redirect::to('/', array('error' => 'Virheellinen id'));
         }
     }
 
     public static function remove($blade_id) {
         self::check_logged_in();
-        $blade = Tera::find($blade_id);
-        $blade_name = $blade->valmistaja . " " . $blade->malli;
-        $success = $blade->delete();
-        if ($success) {
-            Redirect::to('/listaa_terat', array('success' => 'Terä ' . $blade_name . ' on nyt poistettu tietokannasta'));
+        if (is_numeric($blade_id)) {
+            $blade = Tera::find($blade_id);
+            $blade_name = $blade->valmistaja . " " . $blade->malli;
+            $success = $blade->delete();
+            if ($success) {
+                Redirect::to('/listaa_terat', array('success' => 'Terä ' . $blade_name . ' on nyt poistettu tietokannasta'));
+            } else {
+                Redirect::to('/nayta_tera/' . $blade_id, array('error' => 'Terän poistaminen epäonnistui, se on käytössä'));
+            }
         } else {
-            Redirect::to('/nayta_tera/' . $blade_id, array('error' => 'Terän poistaminen epäonnistui, se on käytössä'));
+            Redirect::to('/', array('error' => 'Virheellinen id'));
         }
     }
 

@@ -7,7 +7,7 @@ class KayttajaController extends BaseController {
         $page_size = 10;
         $num_pages = ceil($user_amount / $page_size);
 
-        if (isset($page)) {
+        if (isset($page) && is_numeric($page)) {
             $users = Kayttaja::all(array('sivu' => $page));
         } else {
             $users = Kayttaja::all();
@@ -36,13 +36,17 @@ class KayttajaController extends BaseController {
 
     public static function show($user_id) {
         self::check_logged_in();
-        $user = Kayttaja::find($user_id);
+        if (is_numeric($user_id)) {
+            $user = Kayttaja::find($user_id);
 
-        $data = array('kayttaja' => $user);
+            $data = array('kayttaja' => $user);
 
-        $data['pvk'] = Pvk::all_user(array('kayttaja' => $user_id, 'julkinen' => true));
+            $data['pvk'] = Pvk::all_user(array('kayttaja' => $user_id, 'julkinen' => true));
 
-        View::make('kayttaja/nayta_kayttaja.html', $data);
+            View::make('kayttaja/nayta_kayttaja.html', $data);
+        } else {
+            Redirect::to('/', array('error' => 'Virheellinen id'));
+        }
     }
 
     public static function add_owned_razor() {
@@ -50,15 +54,19 @@ class KayttajaController extends BaseController {
         $params = $_POST;
         $razor_id = $params['hoyla'];
 
-        $user = Kayttaja::find($_SESSION['tunnus']);
-        $razor = Partahoyla::find($razor_id);
+        if (is_numeric($razor_id)) {
+            $user = Kayttaja::find($_SESSION['tunnus']);
+            $razor = Partahoyla::find($razor_id);
 
-        $success = $user->lisaa_hoyla($razor_id);
+            $success = $user->lisaa_hoyla($razor_id);
 
-        if ($success) {
-            Redirect::to('/nayta_hoyla/' . $razor_id, array('success' => $razor->valmistaja . ' ' . $razor->malli . ' merkittiin omistamaksesi.', 'hoyla' => $razor));
+            if ($success) {
+                Redirect::to('/nayta_hoyla/' . $razor_id, array('success' => $razor->valmistaja . ' ' . $razor->malli . ' merkittiin omistamaksesi.', 'hoyla' => $razor));
+            } else {
+                Redirect::to('/nayta_hoyla/' . $razor_id, array('error' => 'Tämän höylän merkitseminen omistamaksesi epäonnistui.', 'hoyla' => $razor));
+            }
         } else {
-            Redirect::to('/nayta_hoyla/' . $razor_id, array('error' => 'Tämän höylän merkitseminen omistamaksesi epäonnistui.', 'hoyla' => $razor));
+            Redirect::to('/', array('error' => 'Virheellinen id'));
         }
     }
 
@@ -67,15 +75,19 @@ class KayttajaController extends BaseController {
         $params = $_POST;
         $razor_id = $params['hoyla'];
 
-        $user = Kayttaja::find($_SESSION['tunnus']);
-        $razor = Partahoyla::find($razor_id);
+        if (is_numeric($razor_id)) {
+            $user = Kayttaja::find($_SESSION['tunnus']);
+            $razor = Partahoyla::find($razor_id);
 
-        $success = $user->poista_hoyla($razor_id);
+            $success = $user->poista_hoyla($razor_id);
 
-        if ($success) {
-            Redirect::to('/nayta_hoyla/' . $razor_id, array('success' => $razor->valmistaja . ' ' . $razor->malli . ' poistettiin partahöylistäsi.', 'hoyla' => $razor));
+            if ($success) {
+                Redirect::to('/nayta_hoyla/' . $razor_id, array('success' => $razor->valmistaja . ' ' . $razor->malli . ' poistettiin partahöylistäsi.', 'hoyla' => $razor));
+            } else {
+                Redirect::to('/nayta_hoyla/' . $razor_id, array('error' => 'Tämän höylän poistaminen omistamistasi partahöylistä epäonnistui.', 'hoyla' => $razor));
+            }
         } else {
-            Redirect::to('/nayta_hoyla/' . $razor_id, array('error' => 'Tämän höylän poistaminen omistamistasi partahöylistä epäonnistui.', 'hoyla' => $razor));
+            Redirect::to('/', array('error' => 'Virheellinen id'));
         }
     }
 

@@ -8,7 +8,7 @@ class PvkController extends BaseController {
         $page_size = 10;
         $num_pages = ceil($diary_amount / $page_size);
 
-        if (isset($page_number)) {
+        if (isset($page_number) && is_numeric($page)) {
             $diaries = Pvk::all(array('sivu' => $page_number));
         } else {
             $diaries = Pvk::all(array());
@@ -29,7 +29,7 @@ class PvkController extends BaseController {
         $page_size = 10;
         $num_pages = ceil($diary_amount / $page_size);
 
-        if (isset($page)) {
+        if (isset($page) && is_numeric($page)) {
             $diaries = Pvk::all_user(array('sivu' => $page, 'kayttaja' => $user_id));
         } else {
             $diaries = Pvk::all(array('kayttaja' => $user_id));
@@ -46,15 +46,19 @@ class PvkController extends BaseController {
     public static function show($diary_id) {
         self::check_logged_in();
         $user_id = $_SESSION['tunnus'];
-        $diary = Pvk::find($diary_id);
-        if (!$diary->julkisuus && $user_id != $diary->kayttaja->id) {
-            $diary = null;
+        if (is_numeric($diary_id)) {
+            $diary = Pvk::find($diary_id);
+            if (!$diary->julkisuus && $user_id != $diary->kayttaja->id) {
+                $diary = null;
+            }
+            $data = array('pvk' => $diary);
+            if (isset($diary) && $user_id == $diary->kayttaja->id) {
+                $data['oma'] = true;
+            }
+            View::make('paivakirja/nayta_pvk.html', $data);
+        } else {
+            Redirect::to('/', array('error' => 'Virheellinen id'));
         }
-        $data = array('pvk' => $diary);
-        if (isset($diary) && $user_id == $diary->kayttaja->id) {
-            $data['oma'] = true;
-        }
-        View::make('paivakirja/nayta_pvk.html', $data);
     }
 
     public static function create_page() {
@@ -113,91 +117,103 @@ class PvkController extends BaseController {
     public static function edit_page($diary_id) {
         self::check_logged_in();
         $user_id = $_SESSION['tunnus'];
-        $diary = Pvk::find($diary_id);
-        if ($user_id != $diary->kayttaja->id) {
-            Redirect::to('/nayta_paivakirja/' . $diary_id, array('error' => 'Tämä ajopäiväkirjamerkintä ei ole omasi vaan jonkun muun!'));
-        }
-        $data = array();
-        $data['omat_hoylat'] = Partahoyla::owned(array('id' => $user_id, 'maara' => 0));
-        $data['hoylat'] = Partahoyla::all(array('maara' => 0));
-        $data['terat'] = Tera::all(array('maara' => 0));
-        $data['pvk'] = Pvk::find($diary_id);
+        if (is_numeric($diary_id)) {
+            $diary = Pvk::find($diary_id);
+            if ($user_id != $diary->kayttaja->id) {
+                Redirect::to('/nayta_paivakirja/' . $diary_id, array('error' => 'Tämä ajopäiväkirjamerkintä ei ole omasi vaan jonkun muun!'));
+            }
+            $data = array();
+            $data['omat_hoylat'] = Partahoyla::owned(array('id' => $user_id, 'maara' => 0));
+            $data['hoylat'] = Partahoyla::all(array('maara' => 0));
+            $data['terat'] = Tera::all(array('maara' => 0));
+            $data['pvk'] = Pvk::find($diary_id);
 
-        View::make('paivakirja/muokkaa_pvk.html', $data);
+            View::make('paivakirja/muokkaa_pvk.html', $data);
+        } else {
+            Redirect::to('/', array('error' => 'Virheellinen id'));
+        }
     }
 
     public static function update($diary_id) {
         self::check_logged_in();
         $user_id = $_SESSION['tunnus'];
-        $diary = Pvk::find($diary_id);
-        if ($user_id != $diary->kayttaja->id) {
-            Redirect::to('/nayta_paivakirja/' . $diary_id, array('error' => 'Tämä ajopäiväkirjamerkintä ei ole omasi vaan jonkun muun!'));
-        }
-        $params = $_POST;
-        $razor_id = $params['hoyla'];
-        $blade_id = $params['tera'];
+        if (is_numeric($diary_id)) {
+            $diary = Pvk::find($diary_id);
+            if ($user_id != $diary->kayttaja->id) {
+                Redirect::to('/nayta_paivakirja/' . $diary_id, array('error' => 'Tämä ajopäiväkirjamerkintä ei ole omasi vaan jonkun muun!'));
+            }
+            $params = $_POST;
+            $razor_id = $params['hoyla'];
+            $blade_id = $params['tera'];
 
-        $diary = Pvk::find($diary_id);
-
-
-        if (isset($params['julkisuus']) && $params['julkisuus'] == "on") {
-            $diary->julkisuus = true;
-        } else {
-            $diary->julkisuus = 0;
-        }
-        $diary->kayttaja = Kayttaja::find($user_id);
-        $diary->hoyla = Partahoyla::find($razor_id);
-        $diary->tera = Tera::find($blade_id);
-        $diary->aggressiivisuus = $params['aggressiivisuus'];
-        $diary->teravyys = $params['teravyys'];
-        $diary->pehmeys = $params['pehmeys'];
-        $diary->pvm = $params['pvm'];
-        $diary->klo = $params['klo'];
-        $diary->saippua = $params['saippua'];
-        $diary->kommentit = $params['ajopvkirja'];
-
-        $attributes = array(
-            'kayttaja' => Kayttaja::find($user_id),
-            'hoyla' => Partahoyla::find($razor_id),
-            'tera' => Tera::find($blade_id),
-            'aggressiivisuus' => $params['aggressiivisuus'],
-            'teravyys' => $params['teravyys'],
-            'pehmeys' => $params['pehmeys'],
-            'pvm' => $params['pvm'],
-            'klo' => $params['klo'],
-            'saippua' => $params['saippua'],
-            'kommentit' => $params['ajopvkirja'],
-            'julkisuus' => $diary->julkisuus
-        );
+            $diary = Pvk::find($diary_id);
 
 
-        $errors = $diary->errors();
-
-        if (count($errors) == 0) {
-            $success = $diary->update();
-            if ($success) {
-                Redirect::to('/nayta_paivakirja/' . $diary_id, array('message' => 'Ajopäiväkirjamerkintä on nyt päivitetty tietokantaan'));
+            if (isset($params['julkisuus']) && $params['julkisuus'] == "on") {
+                $diary->julkisuus = true;
             } else {
-                Redirect::to('/muokkaa_paivakirja/' . $diary_id, array('error' => 'Päiväkirjamerkinnän muokkaaminen epäonnistui', 'attributes' => $attributes));
+                $diary->julkisuus = 0;
+            }
+            $diary->kayttaja = Kayttaja::find($user_id);
+            $diary->hoyla = Partahoyla::find($razor_id);
+            $diary->tera = Tera::find($blade_id);
+            $diary->aggressiivisuus = $params['aggressiivisuus'];
+            $diary->teravyys = $params['teravyys'];
+            $diary->pehmeys = $params['pehmeys'];
+            $diary->pvm = $params['pvm'];
+            $diary->klo = $params['klo'];
+            $diary->saippua = $params['saippua'];
+            $diary->kommentit = $params['ajopvkirja'];
+
+            $attributes = array(
+                'kayttaja' => Kayttaja::find($user_id),
+                'hoyla' => Partahoyla::find($razor_id),
+                'tera' => Tera::find($blade_id),
+                'aggressiivisuus' => $params['aggressiivisuus'],
+                'teravyys' => $params['teravyys'],
+                'pehmeys' => $params['pehmeys'],
+                'pvm' => $params['pvm'],
+                'klo' => $params['klo'],
+                'saippua' => $params['saippua'],
+                'kommentit' => $params['ajopvkirja'],
+                'julkisuus' => $diary->julkisuus
+            );
+
+
+            $errors = $diary->errors();
+
+            if (count($errors) == 0) {
+                $success = $diary->update();
+                if ($success) {
+                    Redirect::to('/nayta_paivakirja/' . $diary_id, array('message' => 'Ajopäiväkirjamerkintä on nyt päivitetty tietokantaan'));
+                } else {
+                    Redirect::to('/muokkaa_paivakirja/' . $diary_id, array('error' => 'Päiväkirjamerkinnän muokkaaminen epäonnistui', 'attributes' => $attributes));
+                }
+            } else {
+                Redirect::to('/muokkaa_paivakirja/' . $diary_id, array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
             }
         } else {
-            Redirect::to('/muokkaa_paivakirja/' . $diary_id, array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
+            Redirect::to('/', array('error' => 'Virheellinen id'));
         }
     }
 
     public static function remove($diary_id) {
         self::check_logged_in();
         $user_id = $_SESSION['tunnus'];
-        $diary = Pvk::find($diary_id);
-        if ($user_id != $diary->kayttaja->id) {
-            Redirect::to('/nayta_paivakirja/' . $diary_id, array('error' => 'Tämä ajopäiväkirjamerkintä ei ole omasi vaan jonkun muun!'));
-        }
-        $date_time = $diary->pvm . " " . $diary->klo;
-        $success = $diary->delete();
-        if ($success) {
-            Redirect::to('/listaa_omat_paivakirjat', array('success' => 'Ajopäiväkirjan merkintä ' . $date_time . ' on nyt poistettu tietokannasta'));
+        if (is_numeric($diary_id)) {
+            $diary = Pvk::find($diary_id);
+            if ($user_id != $diary->kayttaja->id) {
+                Redirect::to('/nayta_paivakirja/' . $diary_id, array('error' => 'Tämä ajopäiväkirjamerkintä ei ole omasi vaan jonkun muun!'));
+            }
+            $date_time = $diary->pvm . " " . $diary->klo;
+            $success = $diary->delete();
+            if ($success) {
+                Redirect::to('/listaa_omat_paivakirjat', array('success' => 'Ajopäiväkirjan merkintä ' . $date_time . ' on nyt poistettu tietokannasta'));
+            } else {
+                Redirect::to('/nayta_paivakirja/' . $diary_id, array('error' => 'Ajopäiväkirjamerkinnän poistaminen epäonnistui'));
+            }
         } else {
-            Redirect::to('/nayta_paivakirja/' . $diary_id, array('error' => 'Ajopäiväkirjamerkinnän poistaminen epäonnistui'));
+            Redirect::to('/', array('error' => 'Virheellinen id'));
         }
     }
 

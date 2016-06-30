@@ -7,7 +7,7 @@ class HoylaController extends BaseController {
         $pagesize = 10;
         $num_pages = ceil($razor_amount / $pagesize);
 
-        if (isset($page_number)) {
+        if (isset($page_number) && is_numeric($page_number)) {
             $razors = Partahoyla::all(array('sivu' => $page_number));
         } else {
             $razors = Partahoyla::all(array());
@@ -29,12 +29,16 @@ class HoylaController extends BaseController {
 
         $omistaa = false;
         //tanne $omistaa true jos kayttaja omistaa hoylan
-        if ($user_id) {
-            $omistaa = $user->omistaako($razor_id);
-        }
+        if (is_numeric($razor_id)) {
+            if ($user_id) {
+                $omistaa = $user->omistaako($razor_id);
+            }
 
-        $hoyla = Partahoyla::find($razor_id);
-        View::make('hoyla/nayta_hoyla.html', array('hoyla' => $hoyla, 'omistaa' => $omistaa));
+            $hoyla = Partahoyla::find($razor_id);
+            View::make('hoyla/nayta_hoyla.html', array('hoyla' => $hoyla, 'omistaa' => $omistaa));
+        } else {
+            Redirect::to('/', array('error' => 'Virheellinen id'));
+        }
     }
 
     public static function create_page() {
@@ -67,8 +71,12 @@ class HoylaController extends BaseController {
 
     public static function edit_page($razor_id) {
         self::check_logged_in();
-        $razor = Partahoyla::find($razor_id);
-        View::make('hoyla/muokkaa_hoyla.html', array('attributes' => $razor));
+        if (is_numeric($razor_id)) {
+            $razor = Partahoyla::find($razor_id);
+            View::make('hoyla/muokkaa_hoyla.html', array('attributes' => $razor));
+        } else {
+            Redirect::to('/', array('error' => 'Virheellinen id'));
+        }
     }
 
     public static function update($razor_id) {
@@ -80,31 +88,40 @@ class HoylaController extends BaseController {
             'malli' => $params['malli'],
             'aggressiivisuus' => 0
         );
-        $razor = Partahoyla::find($razor_id);
-        $razor->malli = $params['malli'];
-        $razor->valmistaja = $params['valmistaja'];
-        $errors = $razor->errors();
-        if (count($errors) == 0) {
-            $onnistui = $razor->update();
-            if ($onnistui) {
-                Redirect::to('/nayta_hoyla/' . $razor->id, array('message' => 'Partahöylän tiedot on nyt päivitetty'));
+
+        if (is_numeric($razor_id)) {
+            $razor = Partahoyla::find($razor_id);
+            $razor->malli = $params['malli'];
+            $razor->valmistaja = $params['valmistaja'];
+            $errors = $razor->errors();
+            if (count($errors) == 0) {
+                $onnistui = $razor->update();
+                if ($onnistui) {
+                    Redirect::to('/nayta_hoyla/' . $razor->id, array('message' => 'Partahöylän tiedot on nyt päivitetty'));
+                } else {
+                    Redirect::to('/nayta_hoyla/' . $razor->id, array('error' => 'Partahöylän muokkaaminen epäonnistui, se saattaa olla käytössä tai omistetuksi merkitty'));
+                }
             } else {
-                Redirect::to('/nayta_hoyla/' . $razor->id, array('error' => 'Partahöylän muokkaaminen epäonnistui, se saattaa olla käytössä tai omistetuksi merkitty'));
+                Redirect::to('/muokkaa_hoyla' . $razor->id, array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
             }
         } else {
-            Redirect::to('/muokkaa_hoyla' . $razor->id, array('error' => 'Tiedot eivät ole oikein', 'errors' => $errors, 'attributes' => $attributes));
+            Redirect::to('/', array('error' => 'Virheellinen id'));
         }
     }
 
     public static function remove($razor_id) {
         self::check_logged_in();
-        $razor = Partahoyla::find($razor_id);
-        $razor_name = $razor->valmistaja . " " . $razor->malli;
-        $success = $razor->delete();
-        if ($success) {
-            Redirect::to('/listaa_hoylat', array('success' => 'Partahöylä ' . $razor_name . ' on nyt poistettu tietokannasta'));
+        if (is_numeric($razor_id)) {
+            $razor = Partahoyla::find($razor_id);
+            $razor_name = $razor->valmistaja . " " . $razor->malli;
+            $success = $razor->delete();
+            if ($success) {
+                Redirect::to('/listaa_hoylat', array('success' => 'Partahöylä ' . $razor_name . ' on nyt poistettu tietokannasta'));
+            } else {
+                Redirect::to('/nayta_hoyla/' . $razor_id, array('error' => 'Partahöylän poistaminen epäonnistui, se on käytössä'));
+            }
         } else {
-            Redirect::to('/nayta_hoyla/' . $razor_id, array('error' => 'Partahöylän poistaminen epäonnistui, se on käytössä'));
+            Redirect::to('/', array('error' => 'Virheellinen id'));
         }
     }
 
