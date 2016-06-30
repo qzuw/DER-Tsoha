@@ -87,7 +87,7 @@ class TeraController extends BaseController {
             $errors = $blade->errors();
 
             if (count($errors) == 0) {
-                $success = $blade->add();
+                $success = $blade->update();
                 if ($success) {
                     Redirect::to('/nayta_tera/' . $blade->id, array('message' => 'Terä on nyt päivitetty'));
                 } else {
